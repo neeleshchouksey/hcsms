@@ -8,8 +8,7 @@ use App\Service;
 class Patient extends Model
 {
     //
-    public function getServices()
-    {
-    	  return Service::whereIn('id', explode(',',$this->patient->services))->pluck('name')->toArray();
+    public function reminderService(){
+    	return $this->hasMany('App\PatientService','patient_id');
     }
 }

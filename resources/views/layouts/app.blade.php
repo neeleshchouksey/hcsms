@@ -86,6 +86,8 @@
    
     @stack('scripts')
     @yield('jsscript')
-   
+    @if(request()->is('patient')!=1 && request()->is('staff')!=1)
+   <script src="{{ asset('js/a1pp.js') }}"></script>
+   @endif
 </body>
 </html>

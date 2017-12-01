@@ -75,32 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('service') ? ' has-error' : '' }}">
-                            <label for="" class="col-md-3  ">Services</label>
-
-                            <div class="col-md-6">
-                                @foreach(Helper::Service() as $service)
-                                    @php
-                                        $getService     =   explode(',',$patient->services);
-                                        $checked= "";
-                                        if(in_array($service->id,$getService)):
-                                        
-                                            $checked= "checked";
-                                        
-                                        endif;
-                                    @endphp
-                                    <label class="checkbox">  
-                                        <input id="" type="checkbox"  name="service[]" value="{{ $service->id  }}" {{$checked}}  >
-                                        {{$service->name}}
-                                    </label>
-                                @endforeach
-                                @if ($errors->has('service'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('service') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                  
                         <div class="form-group">
                             <div class="col-md-12 ">
                                 <label class="checkbox-inline">  
@@ -128,16 +103,9 @@
 
                     </div>
                      @foreach(Helper::Service() as $service)
-                     <div class="col-md-6 custom-border">
-                            <div class="col-md-7">
-                                <h4>{{$service->name}}</h4>
-                                Remindar set for mon,wed  & fri at 8am and 7 pm
-                            </div>
-                            <div class="col-md-offset-2 col-md-3">
-                                <input type="checkbox"  data-toggle="toggle"><br><br>
-                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">Edit</button>
-                            </div>
-
+                     <div class="col-md-6 service_{{$service->id}} custom-border">
+                            
+                        @include('partials.ajax.service')
                     </div>
                     @endforeach
                    
@@ -146,93 +114,33 @@
         </div>
     </div>
 </div>
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
+<!-- Modal HTML Markup -->
+<div id="ModalLoginForm" class="modal  fade">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-
+                <h4 class="modal-title text-xs-center">Set Reminder</h4>
             </div>
             <div class="modal-body">
-
-                <div class="form-group">
-                    <label>When show we ask for BP readings?</label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        On what days should we request a reading?
-                        <br>
-                        Simply press to select or unselect
-                    </label>
-          
-                </div>
-                <div class="form-group">
-                    @foreach(Helper::ReminderDays() as $day)
-                        @php
-                            $activeClass="";
-                            if($day->isdefault==1):
-                                $activeClass = "btn-success";
-                   
-                            endif;
-                        @endphp
-                        <button class="btn days col-md-4 {{$activeClass}}">{{strtoupper($day->abbr)}}</button>
-                    @endforeach
-                </div>  
-                <div class="form-group">
-                    <label>
-                         What Time should we send reminder?
-                        <br>
-                        We suggest asking the patient what works best for them.
-                    </label>
-                </div>  
-                <div class="form-group">
-                    @foreach(Helper::ReminderTimes() as $time)
-                        @php
-                            $activeClass="";
-                            if($time->isdefault==1):
-                                $activeClass = "btn-success";
-                            endif;
-                        @endphp
-                        <button class="btn time col-md-4 {{$activeClass}}">{{strtoupper($time->abbr)}}</button>
-                    @endforeach
-                </div> 
-                <div class="form-group">
-                    <label>
-                         How long you want to monitor for?
-                     
-                    </label>
-                </div>  
                 
-                <div class="form-group">
-                   <div class="col-md-6"><button class="btn btn-default"><h1>Ongoing</h1></button></div>
-                   <div class="col-md-6"></div>
-                </div>  
             </div>
-         
-        </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    </div>
-</div>
-<script type="text/javascript">
-    $('#toggle-demo').bootstrapToggle('off');
-    $(document).on('click','.days',function(){
-        if($(this).hasClass('btn-success')){
-           $(this).removeClass('btn-success');
-        }
-        else{
-            $(this).addClass('btn-success');
-        }
-    });
-     $(document).on('click','.time',function(){
-        if($(this).hasClass('btn-success')){
-           $(this).removeClass('btn-success');
-        }
-        else{
-            $(this).addClass('btn-success');
-        }
-    });
-</script>
+@push('scripts')
+
+  <script type="text/javascript">
+    
+    var url  = "{{url('patient-service')}}";
+    var durl = "{{url('patient-service-days')}}";
+    var turl = "{{url('patient-service-time')}}";
+  </script>
+   
+
+    <script src="{{ asset('js/patient/patient-reminder.js') }}"></script>
+@endpush
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Patient;
 use App\Service;
 use Illuminate\Http\Request;
+use App\PatientService;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientEditRequest;
 
@@ -18,8 +19,7 @@ class PatientController extends Controller
     public function index()
     {
         //
-        $patient = Patient::find(3);
-
+      
         return view('patient.index');
     }
 
@@ -51,7 +51,6 @@ class PatientController extends Controller
         $patient->note      =   $request->note;
         $patient->user_id   =   \Auth::user()->id;
         $patient->agree     =   $request->agree;
-        // $patient->services  =   implode(',', $request->service);
         $patient->save();
         return redirect(route('patient.edit',$patient->id));
     }

@@ -9,6 +9,7 @@ use App\Permission;
 use App\Service;
 use App\ReminderDays;
 use App\RemiderTime;
+use App\RemindarDuration;
 class Helpers
 {
   public static function PracticeTypes(){
@@ -28,6 +29,9 @@ class Helpers
   }
   public static function ReminderTimes(){
     return RemiderTime::all();
+  }
+  public static function ReminderDuration(){
+    return RemindarDuration::all();
   }
    
 
