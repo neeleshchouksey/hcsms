@@ -1,4 +1,5 @@
 
+
 $('.service-toggle').bootstrapToggle();
   $.ajaxSetup({
         headers: {
@@ -231,4 +232,5 @@ $(document).on('click','.stop',function(){
           $('.service-toggle').bootstrapToggle();
         });
     
+
 });

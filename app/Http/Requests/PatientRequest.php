@@ -30,8 +30,10 @@ class PatientRequest extends FormRequest
             'name' => 'required|string|max:255',
             
             
+
             'mobile' => 'required|numeric|phone:AUTO',
            // 'service' => 'required',
+
             
        
         ];
