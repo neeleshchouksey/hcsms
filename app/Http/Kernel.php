@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Http\Middleware\StaffRedirectIfAuthenticated;
+use App\Http\Middleware\StaffRedirectIfNotAuthenticated;
 
 class Kernel extends HttpKernel
 {
@@ -57,5 +59,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'staff.auth' => StaffRedirectIfNotAuthenticated::class,
+        'staff.guest' => StaffRedirectIfAuthenticated::class,
     ];
 }

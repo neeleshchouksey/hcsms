@@ -8,14 +8,14 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ url('profile') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-3  ">Practice Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ Auth::user()->name }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -28,7 +28,7 @@
                             <label for="company" class="col-md-3  ">Company Name</label>
 
                             <div class="col-md-6">
-                                <input id="company" type="text" class="form-control" name="company" value="{{ Auth::user()->company }}" required >
+                                <input id="company" type="text" class="form-control" name="company" value="{{ old('company') }}" required >
 
                                 @if ($errors->has('company'))
                                     <span class="help-block">
@@ -44,7 +44,7 @@
                             <label for="email" class="col-md-3  ">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -54,13 +54,32 @@
                             </div>
                         </div>
 
-                       
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-3  ">Password</label>
 
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password-confirm" class="col-md-3  ">Confirm Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-3  ">Address</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" required >
+                                <input id="name" type="text" class="form-control" name="address" value="{{ old('address') }}" required >
 
                                 @if ($errors->has('address'))
                                     <span class="help-block">
@@ -73,7 +92,7 @@
                             <label for="phone" class="col-md-3  ">Contact Number</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ Auth::user()->contact }}" required >
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}" required >
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -89,9 +108,10 @@
                                 @foreach(Helper::PracticeTypes() as $practiceType)
                                     @php
                                         $checked= "";
-                                        $practice_ids    =   explode(',',Auth::user()->practice_id);
-                                        if ( in_array($practiceType->id,$practice_ids)) :
+                                        if(old('practice_type')!==null):
+                                        if (in_array($practiceType->id,old('practice_type'))) :
                                             $checked= "checked";
+                                        endif;
                                         endif;
                                     @endphp
                                     <label class="checkbox-inline">  
@@ -109,13 +129,13 @@
                         <div class="keycontacts">
                             <div class="form-group">
                                 
-                                <label for="" class="col-md-3  ">Key Contacts</label>
+                             <label for="" class="col-md-3  ">Key Contacts</label>
                             </div>
                             <div class="form-group">
 
                                     <label for="" class="col-md-3">Practice Manager</label>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.practice_manager.name') ? ' has-error' : '' }}">
-                                        <input id="" type="text" class="form-control" name="keycontacts[practice_manager][name]" placeholder="Name" value="{{ $practice_manager->name }}" required >
+                                        <input id="" type="text" class="form-control" name="keycontacts[practice_manager][name]" placeholder="Name" value="{{ old('keycontacts.practice_manager.name') }}" required >
                                         @if ($errors->has('keycontacts.practice_manager.name'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.practice_manager.name') }}</strong>
@@ -123,7 +143,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.practice_manager.phone') ? ' has-error' : '' }}">
-                                        <input id="" type="text" class="form-control" name="keycontacts[practice_manager][phone]" placeholder="Number" value="{{ $practice_manager->phone }}" required >
+                                        <input id="" type="text" class="form-control" name="keycontacts[practice_manager][phone]" placeholder="Number" value="{{ old('keycontacts.practice_manager.phone') }}" required >
                                         @if ($errors->has('keycontacts.practice_manager.phone'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.practice_manager.phone') }}</strong>
@@ -131,7 +151,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.practice_manager.email') ? ' has-error' : '' }}">
-                                        <input id="" type="email" class="form-control" name="keycontacts[practice_manager][email]" placeholder="email" value="{{ $practice_manager->email }}" required >
+                                        <input id="" type="email" class="form-control" name="keycontacts[practice_manager][email]" placeholder="email" value="{{ old('keycontacts.practice_manager.email') }}" required >
                                         @if ($errors->has('keycontacts.practice_manager.email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.practice_manager.email') }}</strong>
@@ -144,7 +164,7 @@
 
                                     <label for="" class="col-md-3">Billing Contact</label>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.billing_contact.name') ? ' has-error' : '' }}">
-                                        <input id="" type="text" class="form-control" name="keycontacts[billing_contact][name]" placeholder="Name" value="{{ $billing_contact->name }}" required >
+                                        <input id="" type="text" class="form-control" name="keycontacts[billing_contact][name]" placeholder="Name" value="{{ old('keycontacts.billing_contact.name') }}" required >
                                         @if ($errors->has('keycontacts.billing_contact.name'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.billing_contact.name') }}</strong>
@@ -152,7 +172,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.billing_contact.phone') ? ' has-error' : '' }}">
-                                        <input id="" type="text" class="form-control" name="keycontacts[billing_contact][phone]" placeholder="Number" value="{{ $billing_contact->phone }}" required >
+                                        <input id="" type="text" class="form-control" name="keycontacts[billing_contact][phone]" placeholder="Number" value="{{ old('keycontacts.billing_contact.phone') }}" required >
                                         @if ($errors->has('keycontacts.billing_contact.phone'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.billing_contact.phone') }}</strong>
@@ -160,7 +180,7 @@
                                         @endif
                                     </div>
                                     <div class="col-md-3 {{ $errors->has('keycontacts.billing_contact.email') ? ' has-error' : '' }}">
-                                        <input id="" type="email" class="form-control" name="keycontacts[billing_contact][email]" placeholder="email" value="{{ $billing_contact->email }}" required >
+                                        <input id="" type="email" class="form-control" name="keycontacts[billing_contact][email]" placeholder="email" value="{{ old('keycontacts.billing_contact.email') }}" required >
                                         @if ($errors->has('keycontacts.billing_contact.email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('keycontacts.billing_contact.email') }}</strong>
@@ -172,31 +192,30 @@
                              @php
                              $i=1;
                             @endphp
-                            
-                                @foreach($others as $other)
+                            @if(null !== old('keycontacts.others'))
+                                @foreach(old('keycontacts.others') as $others)
                                     @php
                                         $otherKey = 'otherkey'.$i;
                                     @endphp
                                    <div class="form-group otherKeyContact">
-                                        <input id="" type="hidden" name="keycontacts[others][{{$otherKey}}][keyid]" placeholder="Title" value='{{$other->id}}' required="required" class="form-control">
                                         <div for="" class="col-md-3">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][title]" placeholder="Title" value='{{$other->title}}' required="required" class="form-control">
+                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][title]" placeholder="Title" value='{{old("keycontacts.others.$otherKey.title")}}' required="required" class="form-control">
                                         </div> 
                                         <div class="col-md-3 ">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][name]" placeholder="Name" value='{{$other->name}}' required="required" class="form-control">
+                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][name]" placeholder="Name" value='{{old("keycontacts.others.$otherKey.name")}}' required="required" class="form-control">
                                         </div> 
                                         <div class="col-md-3 ">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][phone]" placeholder="Number" value='{{$other->phone}}' required="required" class="form-control">
+                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][phone]" placeholder="Number" value='{{old("keycontacts.others.$otherKey.phone")}}' required="required" class="form-control">
                                         </div> 
                                         <div class="col-md-3 ">
-                                            <input id="" type="email" name="keycontacts[others][{{$otherKey}}][email]" placeholder="email" value='{{$other->email}}' required="required" class="form-control">
+                                            <input id="" type="email" name="keycontacts[others][{{$otherKey}}][email]" placeholder="email" value='{{old("keycontacts.others.$otherKey.email")}}' required="required" class="form-control">
                                         </div>
                                     </div>
                                     @php
                                         $i++;
                                     @endphp
                                 @endforeach
-                           
+                            @endif
                         </div>
                         <div class="form-group">
                                 <a href="javascript:void(0);" class="btn btn-primary addMore pull-right"> Add More </a>
@@ -220,7 +239,7 @@
 var otherkeynumber = $('.otherKeyContact').length+1;
 $(document).on('click','.addMore',function(e){
     var otherKey = 'otherkey'+otherkeynumber;
-    $('.keycontacts').append('<div class="form-group otherKeyContact"><input id="" type="hidden" name="keycontacts[others]['+otherKey+'][keyid]" placeholder="Title" value="0" required="required" class="form-control"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control"></div></div>');
+    $('.keycontacts').append('<div class="form-group otherKeyContact"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control"></div></div>');
     otherkeynumber++;
 });
 </script>

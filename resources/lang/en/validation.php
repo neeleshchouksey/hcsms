@@ -14,6 +14,7 @@ return [
     */
 
     'accepted'             => 'The :attribute must be accepted.',
+    'phone'                => 'Please enter the number in the international format.  This will start with a + followed by county code and then the number.  eg UK 07777 654 321 would be +447777654321',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',
     'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',

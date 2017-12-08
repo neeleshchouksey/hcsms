@@ -19,12 +19,17 @@
                             endif;
                         @endphp
                         <div class="form-group">
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <input type="button" class="form-control days {{$activeClass}} input-lg" name="days" data-value="{{$day->id}}" value="{{strtoupper($day->abbr)}}">
                             </div>
                         </div>
                         
                     @endforeach
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <input type="button" class="form-control day-all  input-lg" name="days"  value="All">
+                        </div>
+                    </div>
                        
                     <div class="clearfix"></div>
                     <div class="form-group">

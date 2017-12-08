@@ -19,13 +19,36 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message');
+
 Route::group(['middleware' => 'auth'], function() {
+
 	Route::resource('profile','ProfileController');
+
 	Route::resource('staff','StaffController');
 	Route::get('staff/ajax/load','StaffController@ajaxLoad');
+
 	Route::resource('patient','PatientController');
 	Route::get('patient/ajax/load','PatientController@ajaxLoad');
+
 	Route::resource('patient-service','PatientServiceController');
+
 	Route::resource('patient-service-days','PatientReminderDaysController');
+
 	Route::resource('patient-service-time','PatientReminderTimeController');
+});
+
+Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {
+
+    Route::get('/', 'Auth\LoginController@showLoginForm')->name('staffs');
+    Route::post('login', 'Auth\LoginController@login')->name('staffs.login');
+
+    Route::get('logout', 'Auth\LoginController@logout')->name('staffs.logout');
+    Route::post('logout', 'Auth\LoginController@logout')->name('staffs.logout');
+
+    Route::group(['middleware' => 'staff.auth'], function() {
+
+    	Route::get('/home', 'HomeController@index')->name('staff.home');
+    	
+    	Route::resource('profile','ProfileController');
+    });
 });

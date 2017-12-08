@@ -80,6 +80,43 @@ $(document).on('click','.days',function(){
         });
     }
 });
+$(document).on('click','.day-all',function(){
+  var service = $('.service').val();
+    if($(this).hasClass('btn-success')){
+        $(this).removeClass('btn-success');
+        $('.days').removeClass('btn-success');
+
+        $.post({
+          type: 'post',
+          url:  durl
+        },{
+            service :   service,
+            patient :   $('.patient').val(),
+            day     :   $(this).attr('data-value'),
+            action  :   'edit'
+        }).done(function (data) {
+             $('.service_'+service).html(data);  
+             $('.service-toggle').bootstrapToggle();
+        });
+    }
+    else{
+        $(this).addClass('btn-success');
+        $('.days').addClass('btn-success');
+        //alert($('.service').val());
+        $.post({
+          type: 'post',
+          url:  durl
+        },{
+            service :   $('.service').val(),
+            patient :   $('.patient').val(),
+            day     :   $(this).attr('data-value'),
+            action  :   'add'
+        }).done(function (data) {
+          $('.service_'+service).html(data);   
+          $('.service-toggle').bootstrapToggle();   
+        });
+    }
+});
  $(document).on('click','.time',function(){
     var service  =   $('.service').val();
     if($(this).hasClass('btn-success')){

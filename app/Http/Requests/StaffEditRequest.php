@@ -32,8 +32,8 @@ class StaffEditRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:staff,email,'.$this->staff->id,
             'password' => 'nullable|string|min:6|confirmed',
             
-            'mobile' => 'required|digits_between:10,12',
-            'landline' => 'required|digits_between:10,12',
+            'mobile' => 'required|numeric|phone:AUTO',
+            'landline' => 'required|numeric|phone:AUTO',
             'status' => 'required',
         
         ];

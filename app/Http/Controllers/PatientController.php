@@ -88,6 +88,7 @@ class PatientController extends Controller
     public function update(PatientEditRequest $request, Patient $patient)
     {
         //
+        
         $patient->ref_code  =   $request->code;
         $patient->mobile    =   $request->mobile;
         $patient->name      =   $request->name;

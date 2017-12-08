@@ -88,7 +88,7 @@ class ProfileController extends Controller
                 
             }
         endif;
-        return redirect(route('profile.index'));
+        return redirect(url('profile'));
     }
 
     /**

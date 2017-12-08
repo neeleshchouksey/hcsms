@@ -30,8 +30,8 @@ class PatientEditRequest extends FormRequest
             'name' => 'required|string|max:255',
             
             
-            'mobile' => 'required|digits_between:10,12',
-            'service' => 'required',
+            'mobile' => 'required|numeric|phone:AUTO',
+            //'service' => 'required',
             
        
         ];
