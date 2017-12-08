@@ -31,7 +31,7 @@ class PatientRequest extends FormRequest
             
             
             'mobile' => 'required|digits_between:10,12',
-            'service' => 'required',
+            //'service' => 'required',
             
        
         ];

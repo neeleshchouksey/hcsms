@@ -115,7 +115,7 @@
                                         endif;
                                     @endphp
                                     <label class="checkbox-inline">  
-                                        <input id="" type="checkbox"  name="practice_type[]" value="{{ $practiceType->id  }}" {{$checked}} required >
+                                        <input id="" type="checkbox"  name="practice_type[]" value="{{ $practiceType->id  }}" {{$checked}}  >
                                         {{$practiceType->name}}
                                     </label>
                                 @endforeach
