@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('receive-sms','ReceiveSmsController');
+
 Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message');
 
 Route::group(['middleware' => 'auth'], function() {
@@ -33,6 +36,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('patient-service','PatientServiceController');
 
 	Route::resource('patient-service-days','PatientReminderDaysController');
+
+
 
 	Route::resource('patient-service-time','PatientReminderTimeController');
 });

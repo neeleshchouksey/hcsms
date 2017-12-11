@@ -90,17 +90,25 @@ class PatientServiceController extends Controller
             return \Response::view('partials.ajax.reminder',compact('patientService','patientGetServiceDays','patientGetServicetime'));
 
         elseif($request->action=='update'):
-   
+          //  echo "$request->start";
+        //echo date('Y-m-d H:i:s',strtotime($request->start));die;
             if(isset($request->duration)):
                 $patientService->duration       =   $request->duration;
             elseif(isset($request->period)):
                 $patientService->period         =   $request->period;
-            elseif(isset($request->status)):
-                $patientService->status         =   $request->status;
+            elseif(isset($request->perweek)):
+                $patientService->perweek        =   $request->perweek;
             elseif(isset($request->start)):
-                $patientService->start_date     =   date('Y-m-d H:i:s');
+                echo date('Y-m-d H:i:s',strtotime($request->start));
+                $patientService->start_date     =   date('Y-m-d H:i:s',strtotime($request->start));
             elseif(isset($request->stop)):
                 $patientService->start_date     =   null;
+            endif;
+            if(isset($request->status))
+                $patientService->status         =   $request->status;
+            if(isset($request->ongoing)):
+                
+                $patientService->ongoing         =   $request->ongoing;
             endif;
             $patientService->save(); 
             $patient =  $patientService->patient;

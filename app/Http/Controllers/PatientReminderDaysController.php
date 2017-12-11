@@ -38,22 +38,47 @@ class PatientReminderDaysController extends Controller
     public function store(Request $request)
     {
         //
+      
         $patient            =       Patient::find($request->patient);
         $service            =       Service::find($request->service);
 
         $where2             =       array('service_id'=>$request->service,'patient_id'=>$request->patient);
         $patientService     =       $patient->reminderService()->where($where2)->first();
         if($request->action=='add'):
-            $patientReminderDays                =   New PatientReminderDays;
-            $patientReminderDays->service_id    =   $request->service;
-            $patientReminderDays->patient_id    =   $request->patient;
-            $patientReminderDays->pat_ser_id    =   $patientService->id;
-            $patientReminderDays->day_id        =   $request->day;
-            $patientReminderDays->save();
+            if(is_array($request->day)):
+
+                foreach ($request->day as $day) {
+                    $where =    array('service_id'=>$request->service,'patient_id'=>$request->patient,'day_id'=>$day);
+                    $patientReminderDaysCheck    =   PatientReminderDays::where($where)->first();
+                    # code...
+                    if(empty($patientReminderDaysCheck)):
+                        $patientReminderDays                =   New PatientReminderDays;
+                        $patientReminderDays->service_id    =   $request->service;
+                        $patientReminderDays->patient_id    =   $request->patient;
+                        $patientReminderDays->pat_ser_id    =   $patientService->id;
+                        $patientReminderDays->day_id        =   $day;
+                        $patientReminderDays->save();
+                    endif;
+                }
+            else:
+                $patientReminderDays                =   New PatientReminderDays;
+                $patientReminderDays->service_id    =   $request->service;
+                $patientReminderDays->patient_id    =   $request->patient;
+                $patientReminderDays->pat_ser_id    =   $patientService->id;
+                $patientReminderDays->day_id        =   $request->day;
+                $patientReminderDays->save();
+            endif;
             //return $patientReminderDays->id;
         else:
-            $where =    array('service_id'=>$request->service,'patient_id'=>$request->patient,'day_id'=>$request->day);
-            $patientReminderDays    =   PatientReminderDays::where($where)->delete();
+            if(is_array($request->day)):
+                foreach ($request->day as $day) {
+                    $where =    array('service_id'=>$request->service,'patient_id'=>$request->patient,'day_id'=>$day);
+                    $patientReminderDays    =   PatientReminderDays::where($where)->delete();
+                }
+            else:
+                $where =    array('service_id'=>$request->service,'patient_id'=>$request->patient,'day_id'=>$request->day);
+                $patientReminderDays    =   PatientReminderDays::where($where)->delete();
+            endif;
         endif;   
         return \Response::view('partials.ajax.service',compact('patient','service'));
     }

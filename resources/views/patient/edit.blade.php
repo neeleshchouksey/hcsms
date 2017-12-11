@@ -6,6 +6,9 @@
     border: 1px solid grey;
     padding: 5px 0px;
 }
+.modal-footer{
+    border-top: none;
+}
 </style>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -119,6 +122,7 @@
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title text-xs-center">Set Reminder</h4>
             </div>
             <div class="modal-body">

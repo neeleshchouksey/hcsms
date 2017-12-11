@@ -74,7 +74,7 @@
                      <a href="{{ url('/staffs/home') }}">Home</a>
                     @else
                     
-                        <a href="{{ route('staffs') }}">Staff Login</a>
+                        <!-- <a href="{{ route('staffs') }}">Staff Login</a> -->
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
                     @endif

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail;
+use App\Mail\WelcomeMail;
 use App\User;
 use App\KeyContacts;
 use App\Http\Controllers\Controller;
@@ -135,6 +137,7 @@ class RegisterController extends Controller
                 
             }
         endif;
+        Mail::to($data['email'])->send(new WelcomeMail($user));
         return $user;
     }
 }

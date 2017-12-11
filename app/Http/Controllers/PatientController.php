@@ -19,7 +19,38 @@ class PatientController extends Controller
     public function index()
     {
         //
-      
+        
+        try {
+
+    // Prepare ClickSend client.
+   $client = new \ClickSendLib\ClickSendClient('hritesh0308', 'E674362F-ADAB-625D-476E-FF20E48A6EC2');
+
+    // Get SMS instance.
+    $sms = $client->getSMS();
+
+    // The payload.
+    $messages =  [
+        [
+            "source" => "php",
+            "from" => "sendmobile",
+            "body" => "Jelly liquorice marshmallow candy carrot cake 4Eyffjs1vL.",
+            "to" => "+919589054395",
+            "schedule" => 1536874701,
+            "custom_string" => "this is a test"
+        ]
+        
+    ];
+
+    // Send SMS.
+    $response = $sms->getSpecificInboundMessage('348132E0-4CBE-411A-AC3D-DDBAE789989E');
+    echo "<pre>";
+    print_r($response);die;
+
+} catch(\ClickSendLib\APIException $e) {
+
+    print_r($e->getResponseBody());
+
+}
         return view('patient.index');
     }
 

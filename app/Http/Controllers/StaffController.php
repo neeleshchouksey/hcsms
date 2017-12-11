@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Staff;
+use Mail;
+use App\Mail\WelcomeMailStaff;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\StaffRequest;
@@ -56,6 +58,7 @@ class StaffController extends Controller
 
         $staff->permission      =       implode(',', $request->permission);
         $staff->save();
+        Mail::to($request->email)->send(new WelcomeMailStaff($staff));
         return redirect(route('staff.index'));
     }
 

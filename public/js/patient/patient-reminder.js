@@ -29,7 +29,6 @@ $('.service-toggle').change(function() {
           });
 
 });
-
 $(document).on('click','.editService',function(){
     $.post({
       type: 'post',
@@ -43,7 +42,9 @@ $(document).on('click','.editService',function(){
     }).done(function (data) {
         $('#ModalLoginForm .modal-body').html(data);
         $('#ModalLoginForm').modal('show');
-      
+        $('#start_date').datepicker({format: 'mm/dd/yyyy'});
+        $("#start_date").datepicker("setDate", new Date());
+    
     });
 });
 $(document).on('click','.days',function(){
@@ -80,20 +81,33 @@ $(document).on('click','.days',function(){
           $('.service-toggle').bootstrapToggle();   
         });
     }
+    var selectedLength =  $('.days.btn-success').length;
+    console.log(selectedLength);
+    console.log($('.days').hasClass('btn-success').length);
+    var daysLength =  $('.days').length;
+    if(selectedLength==daysLength){
+      $('.day-all').addClass('btn-success');
+    }
+   else {
+      $('.day-all').removeClass('btn-success');
+    }
 });
 $(document).on('click','.day-all',function(){
   var service = $('.service').val();
+  var days= $(".days").map(function() {
+   return $(this).attr('data-value');
+}).get();
     if($(this).hasClass('btn-success')){
         $(this).removeClass('btn-success');
         $('.days').removeClass('btn-success');
-
+        
         $.post({
           type: 'post',
           url:  durl
         },{
             service :   service,
             patient :   $('.patient').val(),
-            day     :   $(this).attr('data-value'),
+            day     :   days,
             action  :   'edit'
         }).done(function (data) {
              $('.service_'+service).html(data);  
@@ -110,7 +124,7 @@ $(document).on('click','.day-all',function(){
         },{
             service :   $('.service').val(),
             patient :   $('.patient').val(),
-            day     :   $(this).attr('data-value'),
+            day     :   days,
             action  :   'add'
         }).done(function (data) {
           $('.service_'+service).html(data);   
@@ -175,10 +189,8 @@ $(document).on('click','.day-all',function(){
         });
     
  });
-  $(document).on('blur','.ongoing',function(){
-    
-    
-    
+ $(document).on('change','.perweek',function(){
+
         $.post({
           type: 'post',
           url: url
@@ -186,9 +198,29 @@ $(document).on('click','.day-all',function(){
         {
           service :   $('.service').val(),
           patient :   $('.patient').val(),
+          
+          perweek :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+         
+          
+        });
+    
+ });
+$(document).on('change','.period',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service :   $('.service').val(),
+          patient :   $('.patient').val(),
+          ongoing :   0,
           period  :   $(this).val(),
           action:'update'    
         }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
           
         });
     
@@ -203,11 +235,13 @@ $(document).on('click','.start',function(){
         {
           service :   service,
           patient :   $('.patient').val(),
-          start  :   $(this).val(),
+          start  :   $('#start_date').val(),
           status : 1,
           action:'update'    
         }).done(function (data) {
-          start.removeClass('start').addClass('stop').val('STOP');
+          $('.startParent').hide();
+          $('.stopParent').show();
+//          start.removeClass('start').addClass('stop').val('STOP');
           $('.service_'+service).html(data);   
           $('.service-toggle').bootstrapToggle();   
         });
@@ -227,7 +261,9 @@ $(document).on('click','.stop',function(){
           status  :   0,
           action  :   'update'    
         }).done(function (data) {
-          stop.removeClass('stop').addClass('start').val('START');
+          $('.startParent').show();
+          $('.stopParent').hide();
+          //stop.removeClass('stop').addClass('start').val('START');
           $('.service_'+service).html(data);   
           $('.service-toggle').bootstrapToggle();
         });
