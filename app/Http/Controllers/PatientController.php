@@ -23,7 +23,7 @@ class PatientController extends Controller
         try {
 
     // Prepare ClickSend client.
-   $client = new \ClickSendLib\ClickSendClient('hritesh0308', 'E674362F-ADAB-625D-476E-FF20E48A6EC2');
+   $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
 
     // Get SMS instance.
     $sms = $client->getSMS();
@@ -35,14 +35,15 @@ class PatientController extends Controller
             "from" => "sendmobile",
             "body" => "Jelly liquorice marshmallow candy carrot cake 4Eyffjs1vL.",
             "to" => "+919589054395",
-            "schedule" => 1536874701,
+            //"schedule" => 1536874701,
             "custom_string" => "this is a test"
         ]
         
     ];
 
     // Send SMS.
-    $response = $sms->getSpecificInboundMessage('348132E0-4CBE-411A-AC3D-DDBAE789989E');
+     $response = $sms->sendSms(['messages' => $messages]);
+    //$response = $sms->getSpecificInboundMessage('348132E0-4CBE-411A-AC3D-DDBAE789989E');
     echo "<pre>";
     print_r($response);die;
 

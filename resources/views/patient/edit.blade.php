@@ -139,9 +139,12 @@
 
   <script type="text/javascript">
     
-    var url  = "{{url('patient-service')}}";
-    var durl = "{{url('patient-service-days')}}";
-    var turl = "{{url('patient-service-time')}}";
+    var  url        =     "{{url('patient-service')}}";
+    var durl        =     "{{url('patient-service-days')}}";
+    var turl        =     "{{url('patient-service-time')}}";
+
+    var messageUrl  =     "{{url('reminder-sms')}}";
+
   </script>
    
 

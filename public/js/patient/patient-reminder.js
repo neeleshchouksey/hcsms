@@ -270,3 +270,16 @@ $(document).on('click','.stop',function(){
     
 
 });
+$(document).on('click','.send_test_message',function(){
+
+    var  patient_service_id   =   $('.patient_service').val();
+
+    $.post({
+      type  :   'post',
+      url   :   messageUrl
+    },
+    {
+      patient_service_id:patient_service_id
+    });
+
+});

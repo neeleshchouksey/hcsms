@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('patient-service-days','PatientReminderDaysController');
 
-
+    Route::resource('reminder-sms','ReminderSmsController');
 
 	Route::resource('patient-service-time','PatientReminderTimeController');
 });
