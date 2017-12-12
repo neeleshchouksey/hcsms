@@ -108,7 +108,7 @@
     @endphp
     <div class="form-group">
         <div class="col-xs-6 text-center" >
-          <button class="text-center btn  ongoing {{$ongoingactive}}" style="min-height:100px;border:1px solid black;font-size:24px;padding:5%;">Ongoing</button> 
+          <input type="button" class="text-center btn  ongoing {{$ongoingactive}}" style="min-height:100px;border:1px solid black;font-size:24px;padding:5%;" value="Ongoing">
         </div>
     </div>
     <div class="form-group">
