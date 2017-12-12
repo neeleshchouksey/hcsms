@@ -71,6 +71,7 @@ class ReminderSmsController extends Controller
             $reminderSms->to                     =       $message->to;
             $reminderSms->from                   =       $message->from;
             $reminderSms->body                   =       $message->body;
+            $reminderSms->message_id             =       $message->message_id;
             $reminderSms->custom_string          =       $message->custom_string;
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;

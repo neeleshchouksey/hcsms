@@ -89,8 +89,16 @@ class PatientServiceController extends Controller
 
             $receiveMessage = array();
            
+           if($patientService->reminderMessage()->exists()):
 
-            return \Response::view('partials.ajax.reminder',compact('patientService','patientGetServiceDays','patientGetServicetime'));
+                $remindMessage     = $patientService->reminderMessage()->where('islive',0)->whereHas('receiveMessage',function($q){ $q->whereNotNull('original_message_id');})->latest()->first();
+                if(!empty($remindMessage))
+                    $receiveMessage     =   $remindMessage->receiveMessage;
+            endif;
+            // echo "<pre>";
+            // print_r($receiveMessage);
+            
+            return \Response::view('partials.ajax.reminder',compact('patientService','patientGetServiceDays','patientGetServicetime','receiveMessage'));
 
         elseif($request->action=='update'):
           //  echo "$request->start";

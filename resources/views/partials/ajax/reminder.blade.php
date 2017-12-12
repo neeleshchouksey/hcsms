@@ -140,7 +140,11 @@
     <div class="clearfix"></div>
     <div class="form-group" style="margin:2% auto;">
         <input type="button" class="btn  send_test_message col-xs-6 btn-primary" style="margin:2% auto;" value="SEND TEST">
-        <div class="  col-xs-6 " style="margin:2% auto;" ></div>
+        <div class="  col-xs-6 " style="margin:2% auto;" >
+            @if(!empty($receiveMessage))
+                {{$receiveMessage->body}}
+            @endif
+        </div>
 
        
     </div>
