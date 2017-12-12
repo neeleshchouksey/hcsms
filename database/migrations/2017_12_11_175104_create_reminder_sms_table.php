@@ -18,6 +18,7 @@ class CreateReminderSmsTable extends Migration
             $table->string('sms_time');
             $table->string('to');
             $table->string('from');
+            $table->string('message_id');
             $table->string('body');
             $table->string('custom_string')->nullable();
             $table->string('user_id')->nullable();
