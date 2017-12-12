@@ -6,3 +6,10 @@
 [01-Dec-2017 12:40:05 UTC] PHP Fatal error:  require(): Failed opening required '/home/whitebrains/public_html/dev/hcsms/public/../vendor/autoload.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/whitebrains/public_html/dev/hcsms/public/index.php on line 24
 [01-Dec-2017 12:40:06 UTC] PHP Warning:  require(/home/whitebrains/public_html/dev/hcsms/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/whitebrains/public_html/dev/hcsms/public/index.php on line 24
 [01-Dec-2017 12:40:06 UTC] PHP Fatal error:  require(): Failed opening required '/home/whitebrains/public_html/dev/hcsms/public/../vendor/autoload.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/whitebrains/public_html/dev/hcsms/public/index.php on line 24
+[11-Dec-2017 15:14:00 UTC] PHP Fatal error:  Uncaught Error: Class 'Propaganistas\LaravelPhone\PhoneServiceProvider' not found in /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:635
+Stack trace:
+#0 /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(582): Illuminate\Foundation\Application->resolveProvider('Propaganistas\\L...')
+#1 /home/whitebrains/public_html/dev/hcsms/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Propaganistas\\L...')
+#2 /home/whitebrains/public_html/dev/hcsms/artisan(20): require_once('/home/whitebrai...')
+#3 {main}
+  thrown in /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 635

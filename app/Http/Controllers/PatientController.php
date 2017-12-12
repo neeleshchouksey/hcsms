@@ -20,7 +20,7 @@ class PatientController extends Controller
     {
         //
         
-        try {
+     /*   try {
 
     // Prepare ClickSend client.
    $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
@@ -51,7 +51,7 @@ class PatientController extends Controller
 
     print_r($e->getResponseBody());
 
-}
+}*/
         return view('patient.index');
     }
 

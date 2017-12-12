@@ -87,6 +87,9 @@ class PatientServiceController extends Controller
            
             $patientGetServicetime = PatientReminderTime::where($where)->pluck('time_id')->toArray();
 
+            $receiveMessage = array();
+           
+
             return \Response::view('partials.ajax.reminder',compact('patientService','patientGetServiceDays','patientGetServicetime'));
 
         elseif($request->action=='update'):

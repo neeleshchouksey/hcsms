@@ -140,7 +140,7 @@
     <div class="clearfix"></div>
     <div class="form-group" style="margin:2% auto;">
         <input type="button" class="btn  send_test_message col-xs-6 btn-primary" style="margin:2% auto;" value="SEND TEST">
-        <input type="button" class="btn  col-xs-6 btn-primary" style="margin:2% auto;" value="RESULT LIVE">
+        <div class="  col-xs-6 " style="margin:2% auto;" ></div>
 
        
     </div>
