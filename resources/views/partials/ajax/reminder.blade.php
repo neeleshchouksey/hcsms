@@ -59,9 +59,9 @@
     <div class="clearfix"></div>
     <div class="form-group">
         <h5>What time should we send reminders</h5>
-        <p>On what day we should request a reading
+       <!--  <p>On what day we should request a reading
         <br>
-        simply
+        simply -->
     </div>
     <div class="form-group">
         <div class="row custom-row">
@@ -139,8 +139,8 @@
 
     <div class="clearfix"></div>
     <div class="form-group" style="margin:2% auto;">
-        <input type="button" class="btn  send_test_message col-xs-6 btn-primary" style="margin:2% auto;" value="SEND TEST">
-        <div class="  col-xs-6 " style="margin:2% auto;" >
+        <input type="button" class="btn  send_test_message col-xs-6 col-xs-offset-1 btn-primary" style="margin:2% auto;" value="SEND TEST">
+        <div class="col-xs-6 btn " style="margin:2% auto;border: 1px solid black;" >
             @if(!empty($receiveMessage))
                 {{$receiveMessage->body}}
             @endif

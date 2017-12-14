@@ -50,11 +50,11 @@ class ReminderSmsController extends Controller
             print_r($patientService->patient->mobile);
             die;*/
             // The payload.
-            $textMessage = "Dear ".$patientService->patient->name.", welcome to Health Check SMS, you have been added to the Blood Pressure monitoring sytsem.  Please reply with your blood pressure.";
+            $textMessage = "Dear ".$patientService->patient->name.", this is a demonstration of how to send your Blood Pressure reading.  Please reply with your reading, simply enter First Number then a space then the Second Number.";
             $messages =  [
                 [
                     "source" => "php",
-                    "from" => "sendmobile",
+                    //"from" => "sendmobile",
                     "body" => $textMessage,
                     "to" => $patientService->patient->mobile,
                     //"schedule" => 1536874701,
