@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
+        'Webpatser\Countries\CountriesServiceProvider',
 
     ],
 
@@ -227,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helpers::class,
+        'Countries' => 'Webpatser\Countries\CountriesFacade',
 
     ],
 

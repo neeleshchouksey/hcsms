@@ -10,6 +10,8 @@ use App\Service;
 use App\ReminderDays;
 use App\RemiderTime;
 use App\RemindarDuration;
+use App\Country;
+
 class Helpers
 {
   public static function PracticeTypes(){
@@ -32,6 +34,9 @@ class Helpers
   }
   public static function ReminderDuration(){
     return RemindarDuration::all();
+  }
+  public static function Countries(){
+    return Country::all();
   }
    
 
