@@ -75,14 +75,15 @@ class PatientController extends Controller
     public function store(PatientRequest $request)
     {
         //
-        $patient            =   new Patient;
-        $patient->code      =   "HCS".rand();
-        $patient->ref_code  =   $request->code;
-        $patient->mobile    =   $request->mobile;
-        $patient->name      =   $request->name;
-        $patient->note      =   $request->note;
-        $patient->user_id   =   \Auth::user()->id;
-        $patient->agree     =   $request->agree;
+        $patient                =       new Patient;
+        $patient->code          =       "HCS".rand();
+        $patient->ref_code      =       $request->code;
+        $patient->mobile        =       $request->mobile;
+        $patient->name          =       $request->name;
+        $patient->language_id   =       $request->language;
+        $patient->note          =       $request->note;
+        $patient->user_id       =       \Auth::user()->id;
+        $patient->agree         =       $request->agree;
         $patient->save();
         return redirect(route('patient.edit',$patient->id));
     }
@@ -121,12 +122,13 @@ class PatientController extends Controller
     {
         //
         
-        $patient->ref_code  =   $request->code;
-        $patient->mobile    =   $request->mobile;
-        $patient->name      =   $request->name;
-        $patient->note      =   $request->note;
-        $patient->user_id   =   \Auth::user()->id;
-        $patient->agree     =   $request->agree;
+        $patient->ref_code      =       $request->code;
+        $patient->mobile        =       $request->mobile;
+        $patient->name          =       $request->name;
+        $patient->language_id   =       $request->language;
+        $patient->note          =       $request->note;
+        $patient->user_id       =       \Auth::user()->id;
+        $patient->agree         =       $request->agree;
         // $patient->services  =   implode(',', $request->service);
         $patient->save();
         return redirect(route('patient.edit',$patient->id));

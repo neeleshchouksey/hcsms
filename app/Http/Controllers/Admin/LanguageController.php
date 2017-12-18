@@ -124,21 +124,54 @@ class LanguageController extends Controller
             // Language title
             $records[$i]['title']    =      $language->title;
             
+
             // Number of patients under in language
-            $records[$i]['nop']      =      0;
+            $records[$i]['nop']      =      $language->patients()->count();
 
-            // Blood pressure monitoring sms set for this language or not default is no
-            $records[$i]['bpm']     =       '<a href="javascript:void(0)" class="setBpm">N</a>';
+            // Get all services
+            $service = \App\Service::all();
 
-            // Blood sugur Monitoring sms set for this language or not default is no
-            $records[$i]['bsm']     =       'N';
+            // Genereting columns for display values
+            foreach ($service as $key => $value) {
+
+                $smsType            =       $value->smsTypes->count();
+
+                $percentage         =       0;
+                
+                $smsTypesMessage    =       $value->smsTypes()->whereHas('languageMessage',function($q) use($language){ $q->where('language_id',$language->id);})->count();   
+
+                if(!empty($value->smsTypes) && $smsTypesMessage!=0):
+
+                    $smsType        =       $value->smsTypes->count();
+                    
+                    $percentage     =       ($smsTypesMessage/$smsType)*100;
+
+                endif;
+
+                $records[$i][$value->data]      =     "<a href='javascript:void(0);' class='setSmsMessage' data-language='$language->id' data-service='$value->id'>$percentage%</a>";
+
+            }     
+
+            // // Blood pressure monitoring sms set for this language or not default is no
+            // $records[$i]['bpm']     =       '<a href="javascript:void(0)" class="setBpm">N</a>';
+
+            // // Blood sugur Monitoring sms set for this language or not default is no
+            // $records[$i]['bsm']     =       'N';
 
             // Action to be performed for this language
             $records[$i]['action']  =       $action;
+
             $i++;
         }
 
-        $columns = array( array('data'=>'title'),array('data'=>'nop'),array('data'=>'bpm'),array('data'=>'bsm'),array('data'=>'action'));
+        $columns = array( array('data'=>'title'),array('data'=>'nop'));
+        $service = \App\Service::all();
+        foreach ($service as $key => $value) {
+            # code...
+            array_push($columns, array('data'=>$value->data));
+        }
+        array_push($columns, array('data'=>'action'));
+       // $columns = array('title','nop','bpm','bsm','action');
         return \Response::json(compact('records','columns'));
     }
 }

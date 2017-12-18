@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Helper;
+use App\ReminderSms;
 use App\ReminderDays;
 use App\RemiderTime;
 use App\RemindarDuration;
@@ -110,10 +112,14 @@ class PatientServiceController extends Controller
             elseif(isset($request->perweek)):
                 $patientService->perweek        =   $request->perweek;
             elseif(isset($request->start)):
-                echo date('Y-m-d H:i:s',strtotime($request->start));
-                $patientService->start_date     =   date('Y-m-d H:i:s',strtotime($request->start));
+                if($request->start==0)
+                    $patientService->start_date     =   date('Y-m-d H:i:s');
+                else    
+                    $patientService->start_date     =   date('Y-m-d H:i:s',strtotime($request->start));
+                $this->sendSmsMessage($patientService,'start');
             elseif(isset($request->stop)):
                 $patientService->start_date     =   null;
+                $this->sendSmsMessage($patientService,'end');
             endif;
             if(isset($request->status))
                 $patientService->status         =   $request->status;
@@ -181,5 +187,68 @@ class PatientServiceController extends Controller
     public function destroy(PatientService $patientService)
     {
         //
+    }
+    public function sendSmsMessage($patientService,$action){
+        if($patientService->serviceData->smsTypes()->exists()):
+        try {
+
+            // Prepare ClickSend client.
+            $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
+
+            // Get SMS instance.
+            $sms = $client->getSMS();
+
+            $language_id        =   $patientService->patient->language_id;
+
+            $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+            
+            if(empty($smsTypesMessage)){
+
+                $language_id  =1;
+                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+            
+            }
+            // The payload.
+            
+            $textMessage = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+            $textMessage = Helper::change_message_variables($textMessage->message,$patientService);
+
+            $messages =  [
+                [
+                    "source" => "php",
+                    //"from" => "sendmobile",
+                    "body" => $textMessage,
+                    "to" => $patientService->patient->mobile,
+                    //"schedule" => 1536874701,
+                    "custom_string" => "this is a test"
+                ]
+                
+            ];
+
+            // Send SMS.
+            $response   =   $sms->sendSms(['messages' => $messages]);
+
+            $message    =   $response->data->messages[0];
+
+            $reminderSms                         =       new ReminderSms;
+            $reminderSms->sms_time               =       $message->date;
+            $reminderSms->to                     =       $message->to;
+            $reminderSms->from                   =       $message->from;
+            $reminderSms->body                   =       $message->body;
+            $reminderSms->message_id             =       $message->message_id;
+            $reminderSms->custom_string          =       $message->custom_string;
+            $reminderSms->islive                 =       0;
+            $reminderSms->user_id                =       $message->user_id;
+            $reminderSms->patient_service_id     =       $patientService->id;
+
+            $reminderSms->save();
+            
+        } catch(\ClickSendLib\APIException $e) {
+
+            print_r($e->getResponseBody());
+
+        }
+        endif;
     }
 }

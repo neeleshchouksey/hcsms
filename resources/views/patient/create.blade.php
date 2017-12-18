@@ -52,6 +52,32 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('language') ? ' has-error' : '' }}">
+                            <label for="mobile" class="col-md-3">Language</label>
+
+                            <div class="col-md-6">
+
+                                <select name="language" class="form-control">
+                                    <option value="">Select Language</option>
+                                    @foreach(Helper::languages() as $language)
+                                        @php
+                                            $languageSelected='';
+                                            if($language->id==old('language'))
+                                                $languageSelected='selected';
+                                        @endphp
+                                        <option value="{{$language->id}}" {{$languageSelected}}>{{$language->title}}</option>
+
+                                    @endforeach
+                                    
+                                </select>
+
+                                @if($errors->has('language'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('language') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                          
                         <div class="form-group{{ $errors->has('note') ? ' has-error' : '' }}">
                             <label for="note" class="col-md-3">Notes</label>

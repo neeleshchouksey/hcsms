@@ -88,6 +88,35 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-3  ">Country</label>
+
+                            <div class="col-md-6">
+
+                                <select class="form-control" name="country" id="country">
+                                    <option value="">Select Country</option>
+                                    @foreach(Helper::Countries() as $country)
+                                        @php
+                                            $selectedCountry  = "";
+                                            if($country->id==old('country')):
+                                                $selectedCountry = "selected";
+                                            elseif($country->id==826):
+                                                $selectedCountry = "selected";
+                                            endif;
+
+
+                                        @endphp
+                                        <option value="{{$country->id}}" {{$selectedCountry}}>{{$country->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('country'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('country') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                             <label for="phone" class="col-md-3  ">Contact Number</label>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ReminderSms;
 use App\PatientService;
 use Illuminate\Http\Request;
+use Helper;
 
 class ReminderSmsController extends Controller
 {
@@ -46,11 +47,21 @@ class ReminderSmsController extends Controller
             $sms = $client->getSMS();
 
             $patientService     =   PatientService::find($request->patient_service_id);
-            /*echo "<pre>";
-            print_r($patientService->patient->mobile);
-            die;*/
+
+            $language_id        =   $patientService->patient->language_id;
+
+            $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name','test')->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+            
+            if(empty($smsTypesMessage)){
+                $language_id  =1;
+                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name','test')->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+            }
             // The payload.
-            $textMessage = "Dear ".$patientService->patient->name.", this is a demonstration of how to send your Blood Pressure reading.  Please reply with your reading, simply enter First Number then a space then the Second Number.";
+          
+            $textMessage = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+            $textMessage = Helper::change_message_variables($textMessage->message,$patientService);
+
             $messages =  [
                 [
                     "source" => "php",
@@ -79,6 +90,7 @@ class ReminderSmsController extends Controller
             $reminderSms->patient_service_id     =       $request->patient_service_id;
 
             $reminderSms->save();
+            
         } catch(\ClickSendLib\APIException $e) {
 
             print_r($e->getResponseBody());

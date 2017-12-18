@@ -63,6 +63,33 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('language') ? ' has-error' : '' }}">
+                            <label for="mobile" class="col-md-3">Language</label>
+
+                            <div class="col-md-6">
+
+                                <select name="language" class="form-control">
+                                    <option value="">Select Language</option>
+                                    @foreach(Helper::languages() as $language)
+                                        @php
+                                            $languageSelected='';
+                                            if($language->id==$patient->language_id)
+                                                $languageSelected='selected';
+                                        @endphp
+                                        <option value="{{$language->id}}" {{$languageSelected}}>{{$language->title}}</option>
+
+                                    @endforeach
+                                    
+                                </select>
+
+                                @if($errors->has('language'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('language') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
                          
                         <div class="form-group{{ $errors->has('note') ? ' has-error' : '' }}">
                             <label for="note" class="col-md-3">Notes</label>
@@ -105,11 +132,20 @@
                         <h3>Set remindars</h3>
 
                     </div>
+                     @php
+                        $j = 1
+                     @endphp
                      @foreach(Helper::Service() as $service)
                      <div class="col-md-6 service_{{$service->id}} custom-border">
                             
                         @include('partials.ajax.service')
                     </div>
+                    @if($j%2==0)
+                        <div class="clearfix"></div>
+                    @endif
+                    @php
+                     $j++
+                    @endphp
                     @endforeach
                    
                 </div>

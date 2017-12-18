@@ -28,15 +28,15 @@ class ProfileRequest extends FormRequest
             //
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.Auth::user()->id,
-            
+            'country'=>'required',
             'company' => 'required|string|max:255',
-            'phone' => 'required|digits_between:10,12',
+            'phone' => 'required|numeric|phone:AUTO',
             'practice_type' => 'required',
             'keycontacts.practice_manager.name' => 'required|string|max:255',
-            'keycontacts.practice_manager.phone' => 'required|digits_between:10,12',
+            'keycontacts.practice_manager.phone' => 'required|numeric|phone:AUTO',
             'keycontacts.practice_manager.email' => 'required|string|email|max:255',
             'keycontacts.billing_contact.name' => 'required|string|max:255',
-            'keycontacts.billing_contact.phone' => 'required|digits_between:10,12',
+            'keycontacts.billing_contact.phone' => 'required|numeric|phone:AUTO',
             'keycontacts.billing_contact.email' => 'required|string|email|max:255',
         ];
     }

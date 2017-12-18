@@ -32,4 +32,10 @@ class User extends Authenticatable
     public function staffs(){
         return $this->hasMany('App\Staff','user_id');
     }
+    public function patients(){
+        return $this->hasMany('App\Patient','user_id');
+    }
+    public function getCountry(){
+        return $this->belongsTo('App\Country','country');
+    }
 }

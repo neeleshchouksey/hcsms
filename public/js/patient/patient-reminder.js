@@ -9,20 +9,28 @@ $('.service-toggle').bootstrapToggle();
 $('.service-toggle').change(function() {
       //alert($(this).prop('checked'));
           var status  = 0;
+          var data    = {
+              service:$(this).attr('service'),
+              patient:$(this).attr('patient'),
+              status:status,
+              stop:0,
+              action:'update'    
+          };
           if($(this).prop('checked')==true){
             status =1;
-          }
-          $.post({
-            type: 'post',
-            url: url
-          },
-          {
+            data = {
               service:$(this).attr('service'),
               patient:$(this).attr('patient'),
               status:status,
               start:0,
               action:'update'    
-          }).done(function (data) {
+          };
+          }
+          $.post({
+            type: 'post',
+            url: url
+          },data
+          ).done(function (data) {
               //$('#ModalLoginForm .modal-body').html(data);
               //$('#ModalLoginForm').modal('show');
             

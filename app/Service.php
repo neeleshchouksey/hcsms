@@ -8,6 +8,13 @@ class Service extends Model
 {
     //
     public function patRemiService(){
-    	return $this->hasOne('App\PatientService','service_id');
+
+    	return $this->hasMany('App\PatientService','service_id');
+
+    }
+    public function smsTypes(){
+
+    	return $this->hasMany('App\ServiceSmsTypes','service_id');
+    	
     }
 }

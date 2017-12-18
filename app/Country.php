@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     //
+    public function getUser(){
+    	return $this->hasMany('App\User','country');
+    }
 }

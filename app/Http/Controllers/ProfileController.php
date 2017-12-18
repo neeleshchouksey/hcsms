@@ -41,12 +41,14 @@ class ProfileController extends Controller
     public function store(ProfileRequest $request)
     {
         //
+        
         $data   =   $request;
-        $user  = Auth::user();
+        $user   =   Auth::user();
         $user->name     = $data['name'];
         $user->email    = $data['email'];
         $user->company  = $data['company'];
         $user->address  = $data['address'];
+        $user->country  = $data['country'];
         $user->contact    = $data['phone'];
         $user->practice_id    = implode(',', $data['practice_type']);
         $user->save();

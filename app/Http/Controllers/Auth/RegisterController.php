@@ -66,6 +66,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'company' => 'required|string|max:255',
+            'country'=>'required',
             'phone' => 'required|numeric|phone:AUTO',
             'practice_type' => 'required',
             'keycontacts.practice_manager.name' => 'required|string|max:255',
@@ -93,7 +94,8 @@ class RegisterController extends Controller
         ]);
         $user->company  = $data['company'];
         $user->address  = $data['address'];
-        $user->contact    = $data['phone'];
+        $user->country  = $data['country'];
+        $user->contact  = $data['phone'];
         $user->practice_id    = implode(',', $data['practice_type']);
         $user->save();
         $practiceM  =   $data['keycontacts']['practice_manager'];
