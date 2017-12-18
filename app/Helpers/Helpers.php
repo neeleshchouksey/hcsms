@@ -57,7 +57,7 @@ class Helpers
     $message = str_replace('@DOCTORNAME', $patientService->patient->doctor->name, $message);
     $message = str_replace('@X', $patientService->perweek, $message);
     $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
-    $message = str_replace('@PRACTICENAME', $patientService->patient->name, $message);
+    $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@DAYS', $getDays, $message);
     $message = str_replace('@TIMES', $getTime, $message);

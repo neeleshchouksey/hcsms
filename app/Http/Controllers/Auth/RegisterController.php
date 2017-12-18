@@ -51,12 +51,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $messages = [
-                        'keycontacts.practice_manager.phone.digits_between' => 'The phone must be between 10 and 12 digits',
+                        'keycontacts.practice_manager.phone.numeric' => 'The phone must  be a number.',
                         'keycontacts.practice_manager.phone.required' => 'The phone field is required',
                         'keycontacts.practice_manager.email.email' => 'The email must be a valid email address.',
                         'keycontacts.practice_manager.email.required'=>'The email field is required.',
                         
-                        'keycontacts.billing_contact.phone.digits_between' => 'The phone must be between 10 and 12 digits',
+                        'keycontacts.billing_contact.phone.numeric' => 'The phone must  be a number.',
                         'keycontacts.billing_contact.phone.required' => 'The phone field is required',
                         'keycontacts.billing_contact.email.required'=>'The email field is required.',
                         'keycontacts.billing_contact.email.email' => 'The email must be a valid email address.',
@@ -67,13 +67,13 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'company' => 'required|string|max:255',
             'country'=>'required',
-            'phone' => 'required|numeric|phone:AUTO',
+            'phone' => 'required|numeric',
             'practice_type' => 'required',
             'keycontacts.practice_manager.name' => 'required|string|max:255',
-            'keycontacts.practice_manager.phone' => 'required|numeric|phone:AUTO',
+            'keycontacts.practice_manager.phone' => 'required|numeric',
             'keycontacts.practice_manager.email' => 'required|string|email|max:255',
             'keycontacts.billing_contact.name' => 'required|string|max:255',
-            'keycontacts.billing_contact.phone' => 'required|numeric|phone:AUTO',
+            'keycontacts.billing_contact.phone' => 'required|numeric',
             'keycontacts.billing_contact.email' => 'required|string|email|max:255',
         ],$messages);
     }
