@@ -320,7 +320,7 @@ patient();
   }
 $(document).on('click','.messageReply',function(){
     var messageId     =   $(this).attr('id');
-    alert(messageId);
+//    alert(messageId);
      $.post({
           type: 'post',
           url: replyUrl
