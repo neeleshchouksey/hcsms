@@ -92,4 +92,13 @@ class ReceiveSmsController extends Controller
     {
         //
     }
+    public function ajaxLoad(Request $request){
+
+        $id                 =       $request->message_id;
+
+        $replyMessages      =       ReceiveSms::where('original_message_id',$id)->get();
+
+        return \Response::view('partials.ajax.replyMessage',compact('replyMessages'));
+
+    }
 }

@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('reminder-sms/ajax/{id}','ReminderSmsController@ajaxLoad');
 
 	Route::resource('patient-service-time','PatientReminderTimeController');
+
+    Route::post('receive-sms/ajax','ReceiveSmsController@ajaxLoad');
+
 });
 
 Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {

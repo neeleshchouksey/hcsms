@@ -321,5 +321,18 @@ patient();
 $(document).on('click','.messageReply',function(){
     var messageId     =   $(this).attr('id');
     alert(messageId);
-    $('#replySmsModal').modal('show');
+     $.post({
+          type: 'post',
+          url: replyUrl
+        },
+        {
+          message_id :   messageId,
+
+        }).done(function (data) {
+          $('#replySmsModal tbody').html(data);
+          $('#replySmsModal').modal('show');
+          
+        });
+    
+    
 });

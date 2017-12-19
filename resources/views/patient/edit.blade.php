@@ -213,7 +213,7 @@
                                     <th>To</th>
                                     <th>From</th>
                                     <th>Message</th>
-                                    <th>Service</th>
+                                    
                                     
                              
                                 </tr>
@@ -240,6 +240,7 @@
     var turl        =     "{{url('patient-service-time')}}";
 
     var messageUrl  =     "{{url('reminder-sms')}}";
+    var replyUrl    =     "{{url('receive-sms/ajax')}}";
 
   </script>
    
