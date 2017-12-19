@@ -22,6 +22,7 @@
                     <form class="form-horizontal" method="POST" action="{{ route('patient.update',$patient->id) }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="put">
+                        <input type='hidden' class="messagePatientLog" name="messagePatientLog" value="{{$patient->id}}"/>
                         <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }}">
                             <label for="code" class="col-md-3">Patient Reference</label>
 
@@ -135,7 +136,8 @@
                      @php
                         $j = 1
                      @endphp
-                     @foreach(Helper::Service() as $service)
+
+                     @foreach(Helper::serviceBasedOnPracticeType() as $service)
                      <div class="col-md-6 service_{{$service->id}} custom-border">
                             
                         @include('partials.ajax.service')
@@ -147,6 +149,29 @@
                      $j++
                     @endphp
                     @endforeach
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-12">
+                        <h3>Sms Logs</h3>
+                        <table id="message_log_table" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date </th>
+                                    <th>Time</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>Message</th>
+                                    <th>Service</th>
+                                    <th>Action</th>
+                             
+                                </tr>
+                            </thead>
+                            <tbody>
+                              
+                            </tbody>
+                            
+                        </table>
+                    </div>
                    
                 </div>
             </div>
@@ -163,6 +188,41 @@
             </div>
             <div class="modal-body">
                 
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal HTML Markup -->
+<div id="replySmsModal" class="modal  fade">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">View Reply</h4>
+            </div>
+            <div class="modal-body">
+                
+                        <table id="" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date </th>
+                                    <th>Time</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>Message</th>
+                                    <th>Service</th>
+                                    
+                             
+                                </tr>
+                            </thead>
+                            <tbody>
+                              
+                            </tbody>
+                            
+                        </table>
             </div>
             <div class="modal-footer text-xs-center">
                

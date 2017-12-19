@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::resource('reminder-sms','ReminderSmsController');
 
+    Route::get('reminder-sms/ajax/{id}','ReminderSmsController@ajaxLoad');
+
 	Route::resource('patient-service-time','PatientReminderTimeController');
 });
 

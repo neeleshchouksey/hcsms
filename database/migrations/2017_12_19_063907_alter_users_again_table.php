@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterUsersTable extends Migration
+class AlterUsersAgainTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AlterUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->integer('country')->after('address')->default('826');
+            $table->string('sender_id')->after('address');
         });
     }
 
@@ -28,7 +28,7 @@ class AlterUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('country');
+            $table->dropColumn('sender_id');
         });
     }
 }

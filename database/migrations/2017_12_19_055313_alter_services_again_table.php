@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterUsersTable extends Migration
+class AlterServicesAgainTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AlterUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('services', function (Blueprint $table) {
             //
-            $table->integer('country')->after('address')->default('826');
+            $table->tinyInteger('practice_id')->after('data');
         });
     }
 
@@ -26,9 +26,9 @@ class AlterUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('services', function (Blueprint $table) {
             //
-            $table->dropColumn('country');
+            $table->dropColumn('practice_id');
         });
     }
 }

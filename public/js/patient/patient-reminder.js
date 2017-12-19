@@ -291,3 +291,35 @@ $(document).on('click','.send_test_message',function(){
     });
 
 });
+patient();
+  function patient() {
+    // body...
+   // alert('test123');
+   var patient_id = $('.messagePatientLog').val();
+    $("#message_log_table").DataTable({
+    destroy:true,
+    "ajax": {
+          "url":messageUrl+'/ajax/'+patient_id,
+          "dataSrc": "records",
+          "type": 'GET',
+      },
+      
+      "order": [[ 0, "desc" ]],
+      columns: [
+          { data: 'day' },
+          { data: 'time' },
+          { data: 'to' },
+          { data: 'from' },
+          { data: 'message' },
+          { data: 'service' },
+          { data: 'action'}
+         
+      ]
+      
+  });
+  }
+$(document).on('click','.messageReply',function(){
+    var messageId     =   $(this).attr('id');
+    alert(messageId);
+    $('#replySmsModal').modal('show');
+});

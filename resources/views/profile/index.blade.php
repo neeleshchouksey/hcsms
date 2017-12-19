@@ -37,6 +37,19 @@
                                 @endif
                             </div>
                         </div>
+                         <div class="form-group{{ $errors->has('sender_id') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-3  ">Sender Id</label>
+
+                            <div class="col-md-6">
+                                <input id="company" type="text" class="form-control" name="sender_id" value="{{ Auth::user()->sender_id }}" required >
+
+                                @if ($errors->has('sender_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('sender_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         
 
 
@@ -232,7 +245,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Register
+                                    Update
                                 </button>
                             </div>
                         </div>

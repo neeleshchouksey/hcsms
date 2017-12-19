@@ -28,6 +28,11 @@ class Helpers
   public static function Service(){
     return Service::all();
   }
+  public static function serviceBasedOnPracticeType(){
+    
+    $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->get();
+    return $services;
+  }
   public static function ReminderDays(){
     return ReminderDays::all();
   }

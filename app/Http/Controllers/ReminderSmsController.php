@@ -14,9 +14,10 @@ class ReminderSmsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         //
+        echo $id;
     }
 
     /**
@@ -141,5 +142,36 @@ class ReminderSmsController extends Controller
     public function destroy(ReminderSms $reminderSms)
     {
         //
+    }
+    public function ajaxLoad($id){
+        //echo $id;
+        $reminderSms        =       ReminderSms::whereHas('parentService',
+                                        function($q1) use($id){
+                                            $q1->whereHas('patient',
+                                                function($q2) use($id){
+                                                    $q2->where('id',$id);
+                                                });
+
+                                        }
+                                    )->get();
+
+        $records            =       array();
+
+        $i = 0;
+
+        foreach ($reminderSms as $sms) {
+            
+            // $records[$i]['day']         =       date('Y-m-d',strtotime($sms->sms_time));
+            // $records[$i]['time']        =       date('H:i:s',strtotime($sms->sms_time));
+            $records[$i]['day']         =       $sms->created_at->format('Y-m-d');
+            $records[$i]['time']        =       $sms->created_at->format('H:i:s');
+            $records[$i]['to']          =       $sms->to;
+            $records[$i]['from']        =       $sms->from;
+            $records[$i]['message']     =       $sms->body;
+            $records[$i]['service']     =       $sms->parentService->serviceData->name;
+            $records[$i]['action']      =       '<a href="javascript:void(0);" class="messageReply" id="'.$sms->message_id.'">View Reply</a>';
+            $i++;
+        }
+        return \Response::json(compact('records','columns'));
     }
 }
