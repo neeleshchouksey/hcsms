@@ -23,6 +23,8 @@ Route::resource('receive-sms','ReceiveSmsController');
 
 Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message');
 
+Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('send-message-test');
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('profile','ProfileController');
