@@ -33,6 +33,7 @@ $('.service-toggle').change(function() {
           ).done(function (data) {
               //$('#ModalLoginForm .modal-body').html(data);
               //$('#ModalLoginForm').modal('show');
+              patient();
             
           });
 
@@ -252,6 +253,7 @@ $(document).on('click','.start',function(){
 //          start.removeClass('start').addClass('stop').val('STOP');
           $('.service_'+service).html(data);   
           $('.service-toggle').bootstrapToggle();   
+          patient();
         });
     
 });
@@ -274,6 +276,7 @@ $(document).on('click','.stop',function(){
           //stop.removeClass('stop').addClass('start').val('START');
           $('.service_'+service).html(data);   
           $('.service-toggle').bootstrapToggle();
+          patient();
         });
     
 
@@ -288,7 +291,9 @@ $(document).on('click','.send_test_message',function(){
     },
     {
       patient_service_id:patient_service_id
-    });
+    }).done(function (data) {
+      patient();
+      });
 
 });
 patient();
