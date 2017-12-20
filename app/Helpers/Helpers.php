@@ -46,7 +46,7 @@ class Helpers
     return Country::all();
   }
   public static function languages(){
-    return Language::all();
+    return Language::where('status',1)->get();
   }
   public static function change_message_variables($message,$patientService){
     //echo "<pre>";

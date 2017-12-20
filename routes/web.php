@@ -91,6 +91,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::resource('sms-language-message','LanguageSmsMessageController');
 
+        Route::resource('customers','CustomerController');
 
     });
 });

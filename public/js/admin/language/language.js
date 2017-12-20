@@ -10,16 +10,16 @@ $(document).on('click', 'a.delete_language', function(e) {
     e.preventDefault(); // does not go through with the link.
 
     var $this = $(this);
-    if(confirm('Are you sure want to delete this ??')){
+    //if(confirm('Are you sure want to delete this ??')){
       $.post({
           type: $this.data('method'),
           url: $this.attr('href')
       }).done(function (data) {
-          alert('Record Deleted Successfully');
-          language();
+         // alert('Record Deleted Successfully');
+          showLanguage();
           console.log(data);
       });
-    }
+    //}
 });
 $(document).on('click','.setSmsMessage',function(){
   var service   =   $(this).attr('data-service');

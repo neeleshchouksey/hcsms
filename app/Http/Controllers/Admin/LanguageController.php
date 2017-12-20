@@ -55,6 +55,11 @@ class LanguageController extends Controller
     public function show(Language $language)
     {
         //
+        if($language->status==1)
+            $language->status   =   2;
+        else
+            $language->status   =   1;
+        $language->save();
     }
 
     /**
@@ -118,9 +123,11 @@ class LanguageController extends Controller
             // Edit action button
             $action     .=  "<a href='".url("admin/languages/$language->id/edit")."' class='btn btn-info'><i class='fa fa-eye'></i></a> ";
 
-            //Delete action button
-            $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='delete' class='btn btn-danger delete_language' value='".$language->id."'><i class='fa  fa-trash'></i></a>";
-                       
+            if($language->status==1)
+            //deactive action button
+                $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='get' class='btn btn-danger delete_language' value='".$language->id."'><i class='fa  fa-times'></i></a>";
+            else
+                $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='get' class='btn btn-success delete_language' value='".$language->id."'><i class='fa  fa-check'></i></a>";              
             // Language title
             $records[$i]['title']    =      $language->title;
             
@@ -144,7 +151,7 @@ class LanguageController extends Controller
 
                     $smsType        =       $value->smsTypes->count();
                     
-                    $percentage     =       ($smsTypesMessage/$smsType)*100;
+                    $percentage     =       round(($smsTypesMessage/$smsType)*100,2);
 
                 endif;
 
