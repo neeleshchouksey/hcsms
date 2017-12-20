@@ -121,15 +121,17 @@ class ReminderSmsController extends Controller
 
         foreach ($reminderSms as $sms) {
             
-            // $records[$i]['day']         =       date('Y-m-d',strtotime($sms->sms_time));
-            // $records[$i]['time']        =       date('H:i:s',strtotime($sms->sms_time));
+            $message                    =       \Helper::getOriginalMessage($sms->message_id);
+            $smsLabel   =   '';
+            if($message->parentSmsType()->exists())
+                $smsLabel   = $message->parentSmsType->label;
             $records[$i]['day']         =       $sms->created_at->format('H:i d/m/Y').' '. $sms->created_at->format('D');;
-                 
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
-            $records[$i]['service']     =       $sms->message_id;//$sms->parentService->serviceData->name;
+            $records[$i]['service']     =       $message->parentService->serviceData->data.' '.$smsLabel;
             $i++;
+
         }
         return \Response::json(compact('records','columns'));
     }

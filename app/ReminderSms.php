@@ -13,4 +13,7 @@ class ReminderSms extends Model
     public function parentService(){
     	return $this->belongsTo('App\PatientService','patient_service_id');
     }
+    public function parentSmsType() {
+    	return $this->belongsTo('App\ServiceSmsTypes','sms_type_id');
+	}
 }

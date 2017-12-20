@@ -100,9 +100,9 @@ class Helpers
             }
             // The payload.
             
-            $textMessage = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+            $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
 
-            $textMessage = self::change_message_variables($textMessage->message,$patientService);
+            $textMessage = self::change_message_variables($smsMessage->message,$patientService);
 
             $senderId    = $patientService->patient->doctor->sender_id;
             
@@ -135,6 +135,7 @@ class Helpers
             $reminderSms->from                   =       $message->from;
             $reminderSms->body                   =       $message->body;
             $reminderSms->message_id             =       $message->message_id;
+            $reminderSms->sms_type_id            =       $smsMessage->id;
             $reminderSms->custom_string          =       $message->custom_string;
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;
@@ -148,6 +149,9 @@ class Helpers
 
         }
         endif;
+    }
+    public static function getOriginalMessage($message_id){
+      return ReminderSms::where('message_id',$message_id)->first();
     }
 
 }

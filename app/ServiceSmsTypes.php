@@ -13,6 +13,9 @@ class ServiceSmsTypes extends Model
 	 public function parentService() {
     	return $this->belongsTo('App\Service','service_id');
 	}
+	public function remindMessage() {
+    	return $this->hasMany('App\ReminderSms','sms_type_id');
+	}
 
 
 }
