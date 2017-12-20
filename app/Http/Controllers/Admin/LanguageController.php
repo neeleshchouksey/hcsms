@@ -123,7 +123,7 @@ class LanguageController extends Controller
             // Edit action button
             $action     .=  "<a href='".url("admin/languages/$language->id/edit")."' class='btn btn-info'><i class='fa fa-eye'></i></a> ";
 
-            if($language->status==1)
+            if($language->status==2)
             //deactive action button
                 $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='get' class='btn btn-danger delete_language' value='".$language->id."'><i class='fa  fa-times'></i></a>";
             else

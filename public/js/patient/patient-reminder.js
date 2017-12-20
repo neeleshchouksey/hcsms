@@ -307,12 +307,11 @@ patient();
       "order": [],
       columns: [
           { data: 'day' },
-          { data: 'time' },
           { data: 'to' },
           { data: 'from' },
           { data: 'message' },
           { data: 'service' },
-          { data: 'action'}
+         
          
       ]
       
