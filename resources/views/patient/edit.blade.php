@@ -152,7 +152,15 @@
                     <div class="clearfix"></div>
 
                     <div class="col-md-12">
-                        <h3>Sms Logs</h3>
+                        <h3 >Sms Logs</h3>
+                        <span class="filter1 pull-right">
+                            Show 
+                            <input type="radio" id="showSentMessage"     name="showSentMessage" value="1">
+                            Sent
+                            <input type="radio" id="showReceivedMessage" name="showSentMessage" value="1">
+                            Received
+                        </span>
+                        <div class="clearfix"></div>
                         <table id="message_log_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
