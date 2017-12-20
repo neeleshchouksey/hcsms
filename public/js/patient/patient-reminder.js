@@ -297,14 +297,14 @@ $(document).on('click','.send_test_message',function(){
 
 });
 patient();
-  function patient() {
+  function patient(queryString='') {
     // body...
    // alert('test123');
    var patient_id = $('.messagePatientLog').val();
     $("#message_log_table").DataTable({
     destroy:true,
     "ajax": {
-          "url":messageUrl+'/ajax/'+patient_id,
+          "url":messageUrl+'/ajax/'+patient_id+queryString,
           "dataSrc": "records",
           "type": 'GET',
       },
@@ -339,4 +339,20 @@ $(document).on('click','.messageReply',function(){
         });
     
     
+});
+$(document).on('click','#showSentMessage,#showReceivedMessage',function(){
+  var params = {};
+
+  if($('#showSentMessage').prop('checked')==true){
+      params['sent']= 1;
+  }
+  if($('#showReceivedMessage').prop('checked')==true){
+      //params.push({received : 1});
+      params['received']= 1;
+  }
+  if(params!=''){
+ var str = '?'+$.param( params );
+ patient(str);
+}
+console.log(params.length);
 });
