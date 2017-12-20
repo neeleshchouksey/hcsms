@@ -39,64 +39,9 @@ class ReminderSmsController extends Controller
     public function store(Request $request)
     {
         //
-        try {
+         $patientService     =   PatientService::find($request->patient_service_id);
 
-            // Prepare ClickSend client.
-            $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
-
-            // Get SMS instance.
-            $sms = $client->getSMS();
-
-            $patientService     =   PatientService::find($request->patient_service_id);
-
-            $language_id        =   $patientService->patient->language_id;
-
-            $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name','test')->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-            
-            if(empty($smsTypesMessage)){
-                $language_id  =1;
-                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name','test')->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-            }
-            // The payload.
-          
-            $textMessage = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
-
-            $textMessage = Helper::change_message_variables($textMessage->message,$patientService);
-
-            $messages =  [
-                [
-                    "source" => "php",
-                    //"from" => "sendmobile",
-                    "body" => $textMessage,
-                    "to" => $patientService->patient->mobile,
-                    //"schedule" => 1536874701,
-                    "custom_string" => "this is a test"
-                ]
-                
-            ];
-
-
-            // Send SMS.
-            $response   =   $sms->sendSms(['messages' => $messages]);
-            $message    =   $response->data->messages[0];
-            $reminderSms                         =       new ReminderSms;
-            $reminderSms->sms_time               =       $message->date;
-            $reminderSms->to                     =       $message->to;
-            $reminderSms->from                   =       $message->from;
-            $reminderSms->body                   =       $message->body;
-            $reminderSms->message_id             =       $message->message_id;
-            $reminderSms->custom_string          =       $message->custom_string;
-            $reminderSms->islive                 =       0;
-            $reminderSms->user_id                =       $message->user_id;
-            $reminderSms->patient_service_id     =       $request->patient_service_id;
-
-            $reminderSms->save();
-            
-        } catch(\ClickSendLib\APIException $e) {
-
-            print_r($e->getResponseBody());
-
-        }
+       \Helper::sendSmsMessage($patientService,'test');
     }
 
     /**
@@ -145,7 +90,18 @@ class ReminderSmsController extends Controller
     }
     public function ajaxLoad($id){
         //echo $id;
-        $reminderSms        =       ReminderSms::whereHas('parentService',
+        $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id')->whereHas('remindMessage',function($q) use($id){
+                                        $q->whereHas('parentService',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+                                            });
+
+                                        }
+                                    )->with('remiderMessage.parentService.serviceData');
+        $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id')->whereHas('parentService',
                                         function($q1) use($id){
                                             $q1->whereHas('patient',
                                                 function($q2) use($id){
@@ -153,7 +109,11 @@ class ReminderSmsController extends Controller
                                                 });
 
                                         }
-                                    )->orderBy('created_at', 'DESC')->get();
+                                    )->with('parentService.serviceData')
+                                    ->union($ReceiveSms)
+                                    ->orderBy('created_at', 'DESC')->get();
+       /* echo "<pre>";
+        print_r($reminderSms);die;*/
 
         $records            =       array();
 
@@ -168,7 +128,7 @@ class ReminderSmsController extends Controller
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
-            $records[$i]['service']     =       $sms->parentService->serviceData->name;
+            $records[$i]['service']     =       $sms->message_id;//$sms->parentService->serviceData->name;
             $records[$i]['action']      =       '<a href="javascript:void(0);" class="messageReply" id="'.$sms->message_id.'">View Reply</a>';
             $i++;
         }

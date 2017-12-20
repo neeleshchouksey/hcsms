@@ -116,10 +116,10 @@ class PatientServiceController extends Controller
                     $patientService->start_date     =   date('Y-m-d H:i:s');
                 else    
                     $patientService->start_date     =   date('Y-m-d H:i:s',strtotime($request->start));
-                $this->sendSmsMessage($patientService,'start');
+                \Helper::sendSmsMessage($patientService,'start');
             elseif(isset($request->stop)):
                 $patientService->start_date     =   null;
-                $this->sendSmsMessage($patientService,'end');
+                \Helper::sendSmsMessage($patientService,'end');
             endif;
             if(isset($request->status))
                 $patientService->status         =   $request->status;
