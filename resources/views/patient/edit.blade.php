@@ -156,8 +156,8 @@
                         <table id="message_log_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Date </th>
-                                    <th>Time</th>
+                                    <th>Sent </th>
+                                    <th>Day</th>
                                     <th>To</th>
                                     <th>From</th>
                                     <th>Message</th>

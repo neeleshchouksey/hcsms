@@ -104,10 +104,18 @@ class Helpers
 
             $textMessage = self::change_message_variables($textMessage->message,$patientService);
 
+            $senderId    = $patientService->patient->doctor->sender_id;
+            
+            if (empty($senderId)) {
+                
+                $senderId   =   '+447520619101';
+
+            }
+
             $messages =  [
                 [
                     "source" => "php",
-                    //"from" => "sendmobile",
+                    "from" => $senderId,
                     "body" => $textMessage,
                     "to" => $patientService->patient->mobile,
                     //"schedule" => 1536874701,

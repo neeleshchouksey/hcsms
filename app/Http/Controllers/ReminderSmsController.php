@@ -153,7 +153,7 @@ class ReminderSmsController extends Controller
                                                 });
 
                                         }
-                                    )->get();
+                                    )->orderBy('created_at', 'DESC')->get();
 
         $records            =       array();
 
@@ -163,8 +163,8 @@ class ReminderSmsController extends Controller
             
             // $records[$i]['day']         =       date('Y-m-d',strtotime($sms->sms_time));
             // $records[$i]['time']        =       date('H:i:s',strtotime($sms->sms_time));
-            $records[$i]['day']         =       $sms->created_at->format('Y-m-d');
-            $records[$i]['time']        =       $sms->created_at->format('H:i:s');
+            $records[$i]['day']         =       $sms->created_at->format('H:i d-m-Y');
+            $records[$i]['time']        =       $sms->created_at->format('D');
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;

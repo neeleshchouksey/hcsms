@@ -304,7 +304,7 @@ patient();
           "type": 'GET',
       },
       
-      "order": [[ 0, "desc" ]],
+      "order": [],
       columns: [
           { data: 'day' },
           { data: 'time' },

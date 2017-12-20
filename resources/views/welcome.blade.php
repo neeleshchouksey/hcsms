@@ -83,7 +83,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    HCSMS
+                    HCSMS Beta
                 </div>
 
                <!--  <div class="links">
