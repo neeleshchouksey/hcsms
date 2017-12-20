@@ -156,13 +156,13 @@
                         <table id="message_log_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Sent </th>
-                                    <th>Day</th>
+                                    <th width="12%">Sent </th>
+                                    <!-- <th>Day</th> -->
                                     <th>To</th>
                                     <th>From</th>
                                     <th>Message</th>
                                     <th>Service</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                              
                                 </tr>
                             </thead>
