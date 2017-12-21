@@ -155,9 +155,9 @@
                         <h3 >Sms Logs</h3>
                         <span class="filter1 pull-right">
                             Show 
-                            <input type="radio" id="showSentMessage"     name="showSentMessage" value="1">
+                            <input type="checkbox" id="showSentMessage"     name="showSentMessage" value="1">
                             Sent
-                            <input type="radio" id="showReceivedMessage" name="showSentMessage" value="1">
+                            <input type="checkbox" id="showReceivedMessage" name="showReceivedMessage" value="1">
                             Received
                         </span>
                         <div class="clearfix"></div>
