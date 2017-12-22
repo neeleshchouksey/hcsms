@@ -150,10 +150,12 @@ class Helpers
             $reminderSms->body                   =       $message->body;
             $reminderSms->message_id             =       $message->message_id;
             $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+
             if($smsTypesMessage->is_reminder==1):
               $reminderSms->day_id               =       $day_id;
               $reminderSms->time_id              =       $time_id;
             endif;
+
             $reminderSms->custom_string          =       $message->custom_string;
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;

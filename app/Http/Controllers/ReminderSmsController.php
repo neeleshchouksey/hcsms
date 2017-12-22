@@ -91,7 +91,30 @@ class ReminderSmsController extends Controller
     public function ajaxLoad($id){
         //echo $id;
        // echo request()->query('received');
-        if(request()->query('received')!=null):
+        if(request()->query('received')!=null && request()->query('sent')!=null || request()->query('received')==null && request()->query('sent')==null):
+             $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id')->whereHas('remindMessage',function($q) use($id){
+                                        $q->whereHas('parentService',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+                                            });
+
+                                        }
+                                    );
+            $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id')->whereHas('parentService',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+
+                                            }
+                                        )
+                                        ->union($ReceiveSms)
+                                        ->orderBy('created_at', 'DESC')->get();
+        elseif(request()->query('received')!=null):
                     $reminderSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id')->whereHas('remindMessage',function($q) use($id){
                                         $q->whereHas('parentService',
                                             function($q1) use($id){
@@ -116,29 +139,8 @@ class ReminderSmsController extends Controller
                                     )
 
                                     ->orderBy('created_at', 'DESC')->get();
-        else:
-        $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id')->whereHas('remindMessage',function($q) use($id){
-                                        $q->whereHas('parentService',
-                                            function($q1) use($id){
-                                                $q1->whereHas('patient',
-                                                    function($q2) use($id){
-                                                        $q2->where('id',$id);
-                                                    });
-                                            });
-
-                                        }
-                                    );
-        $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id')->whereHas('parentService',
-                                        function($q1) use($id){
-                                            $q1->whereHas('patient',
-                                                function($q2) use($id){
-                                                    $q2->where('id',$id);
-                                                });
-
-                                        }
-                                    )
-                                    ->union($ReceiveSms)
-                                    ->orderBy('created_at', 'DESC')->get();
+        
+       
         endif;
        /* echo "<pre>";
         print_r($reminderSms);die;*/

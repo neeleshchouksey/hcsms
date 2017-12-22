@@ -28,7 +28,7 @@ class AlterReminderSmsTable extends Migration
     {
         Schema::table('reminder_sms', function (Blueprint $table) {
             //
-            $table->dropColumn('sms_type_id')
+            $table->dropColumn('sms_type_id');
         });
     }
 }
