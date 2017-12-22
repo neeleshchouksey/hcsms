@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\ReceiveSms;
+use App\ReminderSms;
+use Helper;
 use Illuminate\Http\Request;
 
 class ReceiveSmsController extends Controller
@@ -15,6 +17,12 @@ class ReceiveSmsController extends Controller
     public function index()
     {
         //
+        $originalMessage                    =       ReceiveSms::where('original_message_id','8FE46E1D-A2C1-4D36-9F01-33068B0522D2')->first();
+        echo "<pre>";
+        print_r($originalMessage->remindMessage->parentService);
+        if($originalMessage->remindMessage->parentService->service_id==1)
+           \Helper::sendSmsMessage($originalMessage->remindMessage->parentService,'reading-received',$originalMessage);
+
     }
 
     /**
@@ -46,6 +54,12 @@ class ReceiveSmsController extends Controller
         $receiveSms->custom_string          =       $request->custom_string;
         $receiveSms->user_id                =       $request->user_id;
         $receiveSms->save();
+        
+        $originalMessage                    =       ReminderSms::where('message_id',$request->original_message_id)->first();
+        if($originalMessage->parentService->serviceData->is_remindar==2)
+            echo 'test';
+
+
     }
 
     /**

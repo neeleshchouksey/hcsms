@@ -16,4 +16,10 @@ class ReminderSms extends Model
     public function parentSmsType() {
     	return $this->belongsTo('App\ServiceSmsTypes','sms_type_id');
 	}
+    public function parentDay() {
+        return $this->belongsTo('App\ReminderDays','day_id');
+    }
+    public function parentTime() {
+        return $this->belongsTo('App\RemiderTime','time_id');
+    }
 }

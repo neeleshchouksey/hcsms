@@ -46,26 +46,37 @@ class Helpers
     return Country::all();
   }
   public static function languages(){
-    return Language::where('status',1)->get();
+    return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
   }
-  public static function change_message_variables($message,$patientService){
-    //echo "<pre>";
+  public static function change_message_variables($message,$patientService,$receiveMessage=''){
+    
     $getDays   =    $patientService->reminderDays()->with('dayData')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
-    // $getDays  =   array_column($getDays->toArray(),'day_data');
-    // $getDays  =   array_column($getDays,'abbr');
-   
+      
     $getTime   =   $patientService->reminderTime()->with('timeData')->get()->toArray();
     $getTime   =    self::customArrayMap(array('time_data','title'),$getTime);
    
     $message = str_replace('@NAME', $patientService->patient->name, $message);
     $message = str_replace('@DOCTORNAME', $patientService->patient->doctor->name, $message);
-    $message = str_replace('@X', $patientService->perweek, $message);
+    
     $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@DAYS', $getDays, $message);
     $message = str_replace('@TIMES', $getTime, $message);
+
+    if(!empty($receiveMessage)):
+
+      $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
+      $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+      $timezone   = $timezone[0];
+
+      $message = str_replace('@XXX/YY', str_replace(' ', '/', $receiveMessage->body), $message);
+      $message = str_replace('@DATE', str_replace(' ', '/', $receiveMessage->created_at->timezone($timezone)->format('d-m-Y')), $message);
+      $message = str_replace('@TIME', str_replace(' ', '/', $receiveMessage->created_at->timezone($timezone)->format('H:i')), $message);
+      
+    endif;
+    $message = str_replace('@X', $patientService->perweek, $message);
     return $message;
 
   }
@@ -78,7 +89,7 @@ class Helpers
         
 
   }
-  public static function  sendSmsMessage($patientService,$action){
+  public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id=''){
         if($patientService->serviceData->smsTypes()->exists()):
         try {
 
@@ -101,8 +112,11 @@ class Helpers
             // The payload.
             
             $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
-
-            $textMessage = self::change_message_variables($smsMessage->message,$patientService);
+            if($smsTypesMessage->is_reminder==2):
+              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id);
+            else:
+              $textMessage = self::change_message_variables($smsMessage->message,$patientService);
+            endif;
 
             $senderId    = $patientService->patient->doctor->sender_id;
             
@@ -123,7 +137,7 @@ class Helpers
                 ]
                 
             ];
-
+            
             // Send SMS.
             $response   =   $sms->sendSms(['messages' => $messages]);
 
@@ -135,7 +149,11 @@ class Helpers
             $reminderSms->from                   =       $message->from;
             $reminderSms->body                   =       $message->body;
             $reminderSms->message_id             =       $message->message_id;
-            $reminderSms->sms_type_id            =       $smsMessage->id;
+            $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+            if($smsTypesMessage->is_reminder==1):
+              $reminderSms->day_id               =       $day_id;
+              $reminderSms->time_id              =       $time_id;
+            endif;
             $reminderSms->custom_string          =       $message->custom_string;
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;

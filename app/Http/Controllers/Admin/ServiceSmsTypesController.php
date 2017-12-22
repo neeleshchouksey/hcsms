@@ -39,7 +39,7 @@ class ServiceSmsTypesController extends Controller
         //
         $serviceSmsTypes    =       ServiceSmsTypes::where('service_id',$request->service)->get();
         
-        $language           =       $request->language;
+        $language           =       \App\Language::find($request->language);
 
         $service            =       $request->service;
 

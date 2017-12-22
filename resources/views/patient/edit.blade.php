@@ -9,6 +9,11 @@
 .modal-footer{
     border-top: none;
 }
+option.separator {
+    margin-top:8px;
+    border-top:1px solid #666;
+    padding:0;
+}
 </style>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -82,6 +87,7 @@
                                     @endforeach
                                     
                                 </select>
+    
 
                                 @if($errors->has('language'))
                                     <span class="help-block">

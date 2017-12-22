@@ -55,6 +55,7 @@ class LanguageController extends Controller
     public function show(Language $language)
     {
         //
+        
         if($language->status==1)
             $language->status   =   2;
         else
@@ -127,7 +128,15 @@ class LanguageController extends Controller
             //deactive action button
                 $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='get' class='btn btn-danger delete_language' value='".$language->id."'><i class='fa  fa-times'></i></a>";
             else
+                //activate action button
                 $action     .=  " <a href='".route("languages.destroy",['id'=>$language->id])."' data-method='get' class='btn btn-success delete_language' value='".$language->id."'><i class='fa  fa-check'></i></a>";              
+            
+            //show on top checkbox action button
+            $selected   =   '';
+            if($language->on_top==2)
+                $selected   =   'checked';
+            $action         .=  " <input type='checkbox' name='showOnTop' class='showOnTop' $selected value='".$language->id."'>";
+            
             // Language title
             $records[$i]['title']    =      $language->title;
             
@@ -178,7 +187,16 @@ class LanguageController extends Controller
             array_push($columns, array('data'=>$value->data));
         }
         array_push($columns, array('data'=>'action'));
+
        // $columns = array('title','nop','bpm','bsm','action');
         return \Response::json(compact('records','columns'));
+    }
+    public function showOnTop(Request $request, Language $language){
+
+        if($language->on_top==1)
+            $language->on_top   =   2;
+        else
+            $language->on_top   =   1;
+        $language->save();
     }
 }

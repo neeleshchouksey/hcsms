@@ -81,25 +81,20 @@ function showLanguage() {
             });
         }
     });
-//});
-  //   $("#language_list_table").DataTable({
-  //   destroy:true,
-  //   "ajax": {
-  //         "url":url,
-  //         "dataSrc": "records",
-  //         "type": 'GET',
-  //     },
-      
-  //     "order": [[ 0, "desc" ]],
-  //     columns: [
-  //         { data: 'title' },
-  //         { data: 'nop' },
-  //         { data: 'bpm' },
-  //         { data: 'bsm' },
-          
-  //         { data: 'action'}
-         
-  //     ]
-      
-  // });
-  }
+
+}
+$(document).on('click','.showOnTop',function(){
+    var language_id   =   $(this).val();
+    //alert(language_id);
+   $.post({
+        type:'put',
+        url: curl+'/'+language_id
+    },
+    {
+       action:'showOnTop'
+    }).done(function (data) {
+       // alert('Record Deleted Successfully');
+        showLanguage();
+        console.log(data);
+    });
+});

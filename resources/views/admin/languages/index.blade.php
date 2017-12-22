@@ -60,6 +60,7 @@
   <script type="text/javascript">
     
     var url         =    "{{url('admin/language/ajax/load')}}";
+    var curl        =    "{{url('admin/language/show-on-top')}}";
     var smsTypeUrl  =    "{{url('admin/sms-message-types')}}"
     var messageUrl  =    "{{url('admin/sms-language-message')}}"
   </script>
