@@ -135,7 +135,7 @@ class Helpers
             $reminderSms->from                   =       $message->from;
             $reminderSms->body                   =       $message->body;
             $reminderSms->message_id             =       $message->message_id;
-            $reminderSms->sms_type_id            =       $smsMessage->id;
+            $reminderSms->sms_type_id            =       $smsTypesMessage->id;
             $reminderSms->custom_string          =       $message->custom_string;
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;
