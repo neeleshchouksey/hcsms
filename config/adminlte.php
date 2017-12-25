@@ -95,6 +95,8 @@ return [
 
     'register_url' => 'admin/register',
 
+    'password_reset_url'=>'admin/password/reset',
+
     /*
     |--------------------------------------------------------------------------
     | Menu Items

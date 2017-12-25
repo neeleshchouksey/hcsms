@@ -44,21 +44,36 @@ class ReceiveSmsController extends Controller
     public function store(Request $request)
     {
         //
+        $originalMessage                    =       ReminderSms::where('message_id',$request->original_message_id)->first();
         $receiveSms                         =       new ReceiveSms;
         $receiveSms->sms_time               =       $request->timestamp;
         $receiveSms->to                     =       $request->to;
         $receiveSms->from                   =       $request->from;
         $receiveSms->body                   =       $request->body;
+        if($originalMessage->parentService->service_id==1):
+
+            $reading     =  $request->body;
+            $readingData =  array();
+            
+            if(strpos($reading, ' ')!='')
+                $readingData = explode(' ', $reading);
+            elseif(strpos($reading,'/')!='')
+                $readingData = explode('/', $reading);
+
+            $receiveSms->bg_number          =   $readingData[0];
+            $receiveSms->sm_number          =   end($readingData);
+
+        endif;
+
         $receiveSms->original_body          =       $request->original_body;
         $receiveSms->original_message_id    =       $request->original_message_id;
         $receiveSms->custom_string          =       $request->custom_string;
         $receiveSms->user_id                =       $request->user_id;
         $receiveSms->save();
         
-        $originalMessage                    =       ReminderSms::where('message_id',$request->original_message_id)->first();
-        if($originalMessage->parentService->serviceData->is_remindar==2)
-            echo 'test';
-
+        
+        if($originalMessage->parentService->service_id==1)
+            \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
 
     }
 
