@@ -70,7 +70,7 @@ class ReceiveSmsController extends Controller
             $receiveSms->to                     =       $request->to;
             $receiveSms->from                   =       $request->from;
             $receiveSms->body                   =       $request->body;
-            $receiveSms->patient_service_id     =       $parentService->id;
+            
             $receiveSms->original_body          =       $request->original_body;
             $receiveSms->original_message_id    =       $parentMessage->message_id;
             $receiveSms->message_id             =       $request->message_id;
@@ -101,6 +101,7 @@ class ReceiveSmsController extends Controller
 
                 $receiveSms->bg_number          =   $readingData[0];
                 $receiveSms->sm_number          =   end($readingData);
+                $receiveSms->patient_service_id =   $originalMessage->parentService->id;
 
             endif;
 
