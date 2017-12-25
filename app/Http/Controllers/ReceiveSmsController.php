@@ -17,7 +17,7 @@ class ReceiveSmsController extends Controller
     public function index()
     {
         //
-        $originalMessage                    =       ReceiveSms::where('original_message_id','8FE46E1D-A2C1-4D36-9F01-33068B0522D2')->first();
+        $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
         echo "<pre>";
         //print_r($originalMessage->remindMessage->parentService);
         $history         =    'history';
@@ -26,8 +26,8 @@ class ReceiveSmsController extends Controller
         else
             $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
         
-       // \Helper::sendSmsMessage($parentService,$history,$originalMessage);
-        print_r($parentService->reminderMessage()->latest()->first());
+        \Helper::sendSmsMessage($parentService,$history);
+        //print_r($parentService->reminderMessage()->latest()->first());
 
     }
 

@@ -49,6 +49,8 @@ class Helpers
     return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
   }
   public static function change_message_variables($message,$patientService,$receiveMessage='',$action=''){
+    // echo $action;
+    // die('checkhisory');
     
     $getDays   =    $patientService->reminderDays()->with('dayData')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
@@ -75,7 +77,7 @@ class Helpers
         $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
         $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
 
-        $readings  .= \r\n.$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+        $readings  .= "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
       }
       $message = str_replace('@last-ten-reading', $readings, $message);
     endif;
@@ -133,7 +135,7 @@ class Helpers
             if($smsTypesMessage->is_reminder==2):
               $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
             else:
-              $textMessage = self::change_message_variables($smsMessage->message,$patientService);
+              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
             endif;
 
             $senderId    = $patientService->patient->doctor->sender_id;
