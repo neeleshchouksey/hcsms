@@ -17,15 +17,15 @@ class ReceiveSmsController extends Controller
     public function index()
     {
         //
-        $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
+        //$originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
         echo "<pre>";
         //print_r($originalMessage->remindMessage->parentService);
-        $history         =    'history';
-        if($originalMessage->remindMessage->parentService->service_id==1)
-          $parentService = $originalMessage->remindMessage->parentService;
-        else
-            $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
-        
+        $history         =    'average';
+        // if($originalMessage->remindMessage->parentService->service_id==1)
+        //   $parentService = $originalMessage->remindMessage->parentService;
+        // else
+        //     $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
+        $parentService = \App\PatientService::find(5);
         \Helper::sendSmsMessage($parentService,$history);
         //print_r($parentService->reminderMessage()->latest()->first());
 
@@ -52,35 +52,42 @@ class ReceiveSmsController extends Controller
         //
 
         $originalMessage    =       ReminderSms::where('message_id',$request->original_message_id)->first();
-        $history            =       'history';
+        $action            =       trim(strtolower($request->body));
         $service_id         =       1;
+        switch ($action) {
+            case 'history':
+            case 'help':
+            case 'help':
+            case 'share':
+              
 
-        if(trim(strtolower($request->body))==$history):
 
-            if($originalMessage->parentService->service_id==$service_id)
-                $parentService = $originalMessage->parentService;
-            else
-                $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
+                if($originalMessage->parentService->service_id==$service_id)
+                    $parentService = $originalMessage->parentService;
+                else
+                    $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
+
+                
+                \Helper::sendSmsMessage($parentService,$action);
+                $parentMessage = $parentService->reminderMessage()->latest()->first();
+                $receiveSms                         =       new ReceiveSms;
+                $receiveSms->sms_time               =       $request->timestamp;
+                $receiveSms->to                     =       $request->to;
+                $receiveSms->from                   =       $request->from;
+                $receiveSms->body                   =       $request->body;
+                
+                $receiveSms->original_body          =       $request->original_body;
+                $receiveSms->original_message_id    =       $parentMessage->message_id;
+                $receiveSms->message_id             =       $request->message_id;
+                $receiveSms->custom_string          =       $request->custom_string;
+                $receiveSms->user_id                =       $request->user_id;
+                $receiveSms->save();
 
             
-            \Helper::sendSmsMessage($parentService,$history);
-            $parentMessage = $parentService->reminderMessage()->latest()->first();
-            $receiveSms                         =       new ReceiveSms;
-            $receiveSms->sms_time               =       $request->timestamp;
-            $receiveSms->to                     =       $request->to;
-            $receiveSms->from                   =       $request->from;
-            $receiveSms->body                   =       $request->body;
-            
-            $receiveSms->original_body          =       $request->original_body;
-            $receiveSms->original_message_id    =       $parentMessage->message_id;
-            $receiveSms->message_id             =       $request->message_id;
-            $receiveSms->custom_string          =       $request->custom_string;
-            $receiveSms->user_id                =       $request->user_id;
-            $receiveSms->save();
 
+            break;
             
-       // die;
-        else:    
+        default: 
 
             
             $receiveSms                         =       new ReceiveSms;
@@ -114,7 +121,8 @@ class ReceiveSmsController extends Controller
             if($originalMessage->parentService->service_id==$service_id)
             \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
 
-        endif;
+            break;
+        }
         
         
 
