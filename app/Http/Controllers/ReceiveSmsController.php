@@ -57,7 +57,7 @@ class ReceiveSmsController extends Controller
 
         if(trim(strtolower($request->body))==$history):
 
-            if($originalMessage->remindMessage->parentService->service_id==$service_id)
+            if($originalMessage->parentService->service_id==$service_id)
                 $parentService = $originalMessage->parentService;
             else
                 $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
