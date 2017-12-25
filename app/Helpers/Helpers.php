@@ -85,7 +85,7 @@ class Helpers
     if($patientService->service_id==1 && $action=='average'):
 
       $readings = '';
-    
+
       $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
       $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
       $timezone   = $timezone[0];
@@ -97,9 +97,9 @@ class Helpers
 
       $thirtyDayBg   =  $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number');
       $thirtyDaySm   =  $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number');
-      $readings     .= "\r\n Last 10 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
+      $readings     .= "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
 
-      $message      =   str_replace('@aveage-reading', $readings, $message);
+      $message      =   str_replace('@average-reading', $readings, $message);
 
     endif;
 
