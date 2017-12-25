@@ -15,7 +15,9 @@ class AlterReplyMessagesTable extends Migration
     {
         Schema::table('receive_sms', function (Blueprint $table) {
             //
-            $table->integer('message_id')->after('original_message_id')->default(0);
+            $table->string('message_id')->after('original_message_id')->nullable();
+            $table->string('original_body')->nullable()->change();
+            $table->string('original_message_id')->nullable()->change();
         });
     }
 

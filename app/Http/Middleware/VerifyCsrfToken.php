@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-    	'receive-sms'
+    	'receive-sms','receive-bpm-history'
     ];
 }

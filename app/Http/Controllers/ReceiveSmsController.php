@@ -130,7 +130,8 @@ class ReceiveSmsController extends Controller
         return \Response::view('partials.ajax.replyMessage',compact('replyMessages'));
 
     }
-    public function replyBpmHistory(){
+    public function replyBpmHistory(Request $request){
+        $receiveSms                         =       new ReceiveSms;
         $receiveSms->sms_time               =       $request->timestamp;
         $receiveSms->to                     =       $request->to;
         $receiveSms->from                   =       $request->from;
