@@ -62,7 +62,7 @@ class ReceiveSmsController extends Controller
             else
                 $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
 
-            $parentMessage = $parentService->reminderMessage()->latest()->first()
+            $parentMessage = $parentService->reminderMessage()->latest()->first();
             \Helper::sendSmsMessage($parentService,$history);
             $receiveSms                         =       new ReceiveSms;
             $receiveSms->sms_time               =       $request->timestamp;
