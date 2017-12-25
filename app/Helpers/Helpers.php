@@ -48,7 +48,7 @@ class Helpers
   public static function languages(){
     return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
   }
-  public static function change_message_variables($message,$patientService,$receiveMessage=''){
+  public static function change_message_variables($message,$patientService,$receiveMessage='',$action=''){
     
     $getDays   =    $patientService->reminderDays()->with('dayData')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
@@ -62,6 +62,11 @@ class Helpers
     $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
+
+    if($patientService->service_id==1 && $action=='history'):
+      
+    endif;
+
     $message = str_replace('@DAYS', $getDays, $message);
     $message = str_replace('@TIMES', $getTime, $message);
 
@@ -113,7 +118,7 @@ class Helpers
             
             $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
             if($smsTypesMessage->is_reminder==2):
-              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id);
+              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
             else:
               $textMessage = self::change_message_variables($smsMessage->message,$patientService);
             endif;

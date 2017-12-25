@@ -19,9 +19,15 @@ class ReceiveSmsController extends Controller
         //
         $originalMessage                    =       ReceiveSms::where('original_message_id','8FE46E1D-A2C1-4D36-9F01-33068B0522D2')->first();
         echo "<pre>";
-        print_r($originalMessage->remindMessage->parentService);
+        //print_r($originalMessage->remindMessage->parentService);
+        $history         =    'history';
         if($originalMessage->remindMessage->parentService->service_id==1)
-           \Helper::sendSmsMessage($originalMessage->remindMessage->parentService,'reading-received',$originalMessage);
+          $parentService = $originalMessage->remindMessage->parentService;
+        else
+            $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
+        
+       // \Helper::sendSmsMessage($parentService,$history,$originalMessage);
+        print_r($parentService->reminderMessage()->latest()->first());
 
     }
 
@@ -44,35 +50,68 @@ class ReceiveSmsController extends Controller
     public function store(Request $request)
     {
         //
-        $originalMessage                    =       ReminderSms::where('message_id',$request->original_message_id)->first();
-        $receiveSms                         =       new ReceiveSms;
-        $receiveSms->sms_time               =       $request->timestamp;
-        $receiveSms->to                     =       $request->to;
-        $receiveSms->from                   =       $request->from;
-        $receiveSms->body                   =       $request->body;
-        if($originalMessage->parentService->service_id==1):
 
-            $reading     =  $request->body;
-            $readingData =  array();
+        $originalMessage    =       ReminderSms::where('message_id',$request->original_message_id)->first();
+        $history            =       'history';
+        $service_id         =       1;
+
+        if(trim(strtolower($request->body))==$history):
+
+            if($originalMessage->remindMessage->parentService->service_id==$service_id)
+                $parentService = $originalMessage->parentService;
+            else
+                $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
+
+            $parentMessage = $parentService->reminderMessage()->latest()->first()
+            \Helper::sendSmsMessage($parentService,$history);
+            $receiveSms                         =       new ReceiveSms;
+            $receiveSms->sms_time               =       $request->timestamp;
+            $receiveSms->to                     =       $request->to;
+            $receiveSms->from                   =       $request->from;
+            $receiveSms->body                   =       $request->body;
+            $receiveSms->patient_service_id     =       $parentService->id;
+            $receiveSms->original_body          =       $request->original_body;
+            $receiveSms->original_message_id    =       $parentMessage->message_id;
+            $receiveSms->message_id             =       $request->message_id;
+            $receiveSms->custom_string          =       $request->custom_string;
+            $receiveSms->user_id                =       $request->user_id;
+            $receiveSms->save();
+
             
-            if(strpos($reading, ' ')!='')
-                $readingData = explode(' ', $reading);
-            elseif(strpos($reading,'/')!='')
-                $readingData = explode('/', $reading);
+        die;
+        else:    
 
-            $receiveSms->bg_number          =   $readingData[0];
-            $receiveSms->sm_number          =   end($readingData);
+            
+            $receiveSms                         =       new ReceiveSms;
+            $receiveSms->sms_time               =       $request->timestamp;
+            $receiveSms->to                     =       $request->to;
+            $receiveSms->from                   =       $request->from;
+            $receiveSms->body                   =       $request->body;
+
+            if($originalMessage->parentService->service_id==1):
+
+                $reading     =  $request->body;
+                $readingData =  array();
+                
+                if(strpos($reading, ' ')!='')
+                    $readingData = explode(' ', $reading);
+                elseif(strpos($reading,'/')!='')
+                    $readingData = explode('/', $reading);
+
+                $receiveSms->bg_number          =   $readingData[0];
+                $receiveSms->sm_number          =   end($readingData);
+
+            endif;
+
+            $receiveSms->original_body          =       $request->original_body;
+            $receiveSms->original_message_id    =       $request->original_message_id;
+            $receiveSms->custom_string          =       $request->custom_string;
+            $receiveSms->user_id                =       $request->user_id;
+            $receiveSms->save();
 
         endif;
-
-        $receiveSms->original_body          =       $request->original_body;
-        $receiveSms->original_message_id    =       $request->original_message_id;
-        $receiveSms->custom_string          =       $request->custom_string;
-        $receiveSms->user_id                =       $request->user_id;
-        $receiveSms->save();
         
-        
-        if($originalMessage->parentService->service_id==1)
+        if($originalMessage->parentService->service_id==$service_id)
             \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
 
     }
