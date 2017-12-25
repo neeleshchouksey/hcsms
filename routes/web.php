@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('receive-sms','ReceiveSmsController');
 
+Route::post('receive-bpm-history','ReceiveSmsController@replyBpmHistory');
+
 Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message');
 
 Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('send-message-test');
