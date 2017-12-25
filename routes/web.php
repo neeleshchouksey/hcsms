@@ -25,6 +25,8 @@ Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message
 
 Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('send-message-test');
 
+Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->name('end-reminder');
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('profile','ProfileController');

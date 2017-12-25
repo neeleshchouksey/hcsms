@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Patient;
 use App\User;
+use App\PatientService;
+
 class CronJobController extends Controller
 {
     //
@@ -208,5 +210,17 @@ class CronJobController extends Controller
             // echo "<pre>";
             // print_r($patients);
         endforeach;
+    }
+    public function endServiceReminder(){
+
+        $patientServices         =       PatientService::where(function($q){$q->where('ongoing',0);})->get();
+        foreach ($patientServices as $patientService) {
+            echo \Carbon\Carbon::parse($patientService->start_date)->addMonth('3')->format('d-m-Y');
+
+        }
+        echo "<pre>";
+        print_r($patientServices);
+        die;
+
     }
 }
