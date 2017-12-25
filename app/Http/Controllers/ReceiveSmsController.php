@@ -62,8 +62,9 @@ class ReceiveSmsController extends Controller
             else
                 $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
 
-            $parentMessage = $parentService->reminderMessage()->latest()->first();
+            
             \Helper::sendSmsMessage($parentService,$history);
+            $parentMessage = $parentService->reminderMessage()->latest()->first();
             $receiveSms                         =       new ReceiveSms;
             $receiveSms->sms_time               =       $request->timestamp;
             $receiveSms->to                     =       $request->to;
@@ -78,7 +79,7 @@ class ReceiveSmsController extends Controller
             $receiveSms->save();
 
             
-        die;
+       // die;
         else:    
 
             
@@ -88,7 +89,7 @@ class ReceiveSmsController extends Controller
             $receiveSms->from                   =       $request->from;
             $receiveSms->body                   =       $request->body;
 
-            if($originalMessage->parentService->service_id==1):
+            if($originalMessage->parentService->service_id==$service_id):
 
                 $reading     =  $request->body;
                 $readingData =  array();
@@ -108,11 +109,12 @@ class ReceiveSmsController extends Controller
             $receiveSms->custom_string          =       $request->custom_string;
             $receiveSms->user_id                =       $request->user_id;
             $receiveSms->save();
+            if($originalMessage->parentService->service_id==$service_id)
+            \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
 
         endif;
         
-        if($originalMessage->parentService->service_id==$service_id)
-            \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
+        
 
     }
 
@@ -182,5 +184,6 @@ class ReceiveSmsController extends Controller
         $receiveSms->custom_string          =       $request->custom_string;
         $receiveSms->user_id                =       $request->user_id;
         $receiveSms->save();
+        die;
     }
 }
