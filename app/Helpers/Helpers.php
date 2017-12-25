@@ -64,7 +64,20 @@ class Helpers
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
 
     if($patientService->service_id==1 && $action=='history'):
-      
+      $readings = '';
+      $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
+      $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+      $timezone   = $timezone[0];
+
+      foreach ($patientService->receiveMessage as $receiveM) {
+        # code...
+        $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
+        $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
+        $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
+
+        $readings  .= \r\n.$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+      }
+      $message = str_replace('@last-ten-reading', $readings, $message);
     endif;
 
     $message = str_replace('@DAYS', $getDays, $message);

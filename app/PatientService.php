@@ -23,4 +23,7 @@ class PatientService extends Model
     public function reminderMessage(){
         return $this->hasMany('App\ReminderSms','patient_service_id');
     }
+    public function receiveMessage(){
+        return $this->hasMany('App\ReceiveSms','patient_service_id');
+    }
 }
