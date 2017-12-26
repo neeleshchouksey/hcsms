@@ -50,13 +50,7 @@
                 <input type="text" class="form-control input-sm veryhighalert" name="veryhighalert" placeholder="eg:10" value="{{$patientService->very_high_alert}}">
             </div>
         </div>
-        <div class="form-group">
 
-            <label class="col-xs-7"> High Alert %</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control input-sm highalert" name="highalert" placeholder="eg:10" value="{{$patientService->alert_high}}">
-            </div>
-        </div>
     @endif
             <!-- </div> -->
     <div class="form-group">
