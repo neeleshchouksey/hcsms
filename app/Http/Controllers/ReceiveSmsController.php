@@ -17,7 +17,7 @@ class ReceiveSmsController extends Controller
     public function index()
     {
         //
-        //$originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
+        $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
         echo "<pre>";
         //print_r($originalMessage->remindMessage->parentService);
         $history         =    'average';
@@ -25,9 +25,23 @@ class ReceiveSmsController extends Controller
         //   $parentService = $originalMessage->remindMessage->parentService;
         // else
         //     $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
-        $parentService = \App\PatientService::find(5);
-        \Helper::sendSmsMessage($parentService,$history);
+       // $parentService = \App\PatientService::find(5);
+       // \Helper::sendSmsMessage($parentService,$history);
         //print_r($parentService->reminderMessage()->latest()->first());
+       $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
+       $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
+      echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
+      echo "<br>";
+      echo  $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
+        
+        $parentService          =$originalMessage->remindMessage->parentService;
+        if($bpSmPercentage>$parentService->alert_high || $bpBigPercentage>$parentService->alert_high){
+            echo "alert high";
+        }
+        if($bpSmPercentage<(-$parentService->alert_low) || $bpBigPercentage<(-$parentService->alert_low)){
+            echo "alert low";
+        }
+
 
     }
 
@@ -120,8 +134,8 @@ class ReceiveSmsController extends Controller
             $receiveSms->save();
             if($originalMessage->parentService->service_id==$service_id):
                 \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
-                $bpBigPercentage        =   ($receiveSms->bg_number/$originalMessage->parentService->bg_number)*100;
-                $bpSmPercentage        =   ($receiveSms->sm_number/$originalMessage->parentService->sm_number)*100;
+                // $bpBigPercentage        =   ($receiveSms->bg_number/$originalMessage->parentService->bg_number)*100;
+                // $bpSmPercentage        =   ($receiveSms->sm_number/$originalMessage->parentService->sm_number)*100;
             endif;
             break;
         }
