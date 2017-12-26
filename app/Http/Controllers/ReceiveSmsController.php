@@ -118,9 +118,11 @@ class ReceiveSmsController extends Controller
             $receiveSms->custom_string          =       $request->custom_string;
             $receiveSms->user_id                =       $request->user_id;
             $receiveSms->save();
-            if($originalMessage->parentService->service_id==$service_id)
-            \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
-
+            if($originalMessage->parentService->service_id==$service_id):
+                \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
+                $bpBigPercentage        =   ($receiveSms->bg_number/$originalMessage->parentService->bg_number)*100;
+                $bpSmPercentage        =   ($receiveSms->sm_number/$originalMessage->parentService->sm_number)*100;
+            endif;
             break;
         }
         

@@ -234,6 +234,78 @@ $(document).on('change','.period',function(){
         });
     
  });
+$(document).on('change','.maxbp',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service :   $('.service').val(),
+          patient :   $('.patient').val(),
+          
+          maxbp  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+$(document).on('change','.minbp',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service :   $('.service').val(),
+          patient :   $('.patient').val(),
+        
+          minbp  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+$(document).on('change','.lowalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service :   $('.service').val(),
+          patient :   $('.patient').val(),
+          lowalert:   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.highalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service    :   $('.service').val(),
+          patient    :   $('.patient').val(),
+          highalert  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
 $(document).on('click','.start',function(){
         var start     =   $(this);
         var service   =   $('.service').val();
@@ -281,6 +353,7 @@ $(document).on('click','.stop',function(){
     
 
 });
+
 $(document).on('click','.send_test_message',function(){
 
     var  patient_service_id   =   $('.patient_service').val();
@@ -296,6 +369,8 @@ $(document).on('click','.send_test_message',function(){
       });
 
 });
+
+
 patient();
   function patient(queryString='') {
     // body...

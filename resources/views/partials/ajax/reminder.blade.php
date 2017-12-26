@@ -1,18 +1,55 @@
          <style type="text/css">
          .form-group {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 .custom-row {
     margin: 10px;
 }</style>
-<form role="form" method="POST" action="">
+<form role="form" class="form-horizontal" method="POST" action="">
+    <!-- <div class="col-md-5"> -->
+    @if($patientService->service_id==1)
+        <div class="form-group">
+
+            <label class="col-xs-7"> Taget Bp Big Number</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm maxbp" name="maxbp" placeholder="eg:180" value="{{$patientService->bg_number}}">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> Taget Small Bp Small Number</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm minbp" name="minbp" placeholder="eg:80" value="{{$patientService->sm_number}}">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> Low Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm lowalert" name="lowalert"  placeholder="eg:5" value="{{$patientService->alert_low}}">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> High Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm highalert" name="highalert" placeholder="eg:10" value="{{$patientService->alert_high}}">
+            </div>
+        </div>
+    @endif
+            <!-- </div> -->
     <div class="form-group">
-        <h5>When should we ask for BP readings</h5>
-        <p>On what day we should request a reading
-        <br>
-        simply select and unselect
-        </p>
+        <div class="col-md-7">
+            <h5>When should we ask for BP readings</h5>
+            <p>On what day we should request a reading
+            <br>
+            simply select and unselect
+            </p>
+        </div>
+        
+
     </div>
+    <div class="clearfix"></div>
     
     <input type="hidden" name="patient" class="patient" value="{{$patientService->patient_id}}">
     <input type="hidden" name="service" class="service" value="{{$patientService->service_id}}">
@@ -58,7 +95,7 @@
     </div>   
     <div class="clearfix"></div>
     <div class="form-group">
-        <h5>What time should we send reminders</h5>
+        <h5 class="col-xs-12">What time should we send reminders</h5>
        <!--  <p>On what day we should request a reading
         <br>
         simply -->
@@ -99,7 +136,7 @@
             </div>
     </div><div class="clearfix"></div>
     <div class="form-group">
-        <h5>How long do you want reminder</h5>
+        <h5 class="col-xs-12">How long do you want reminder</h5>
     </div>
     @php
         $ongoingactive="";
@@ -110,8 +147,8 @@
         <div class="col-xs-6 text-center" >
           <input type="button" class="text-center btn  ongoing {{$ongoingactive}}" style="min-height:100px;border:1px solid black;font-size:24px;padding:5%;" value="Ongoing">
         </div>
-    </div>
-    <div class="form-group">
+<!--     </div>
+    <div class="form-group"> -->
         <div class="col-xs-6" style="margin:2% auto;">
           <input type="text" class="form-control period input-lg" name="ongoing" value="{{$patientService->period}}">
           <div class="col-md-12">
