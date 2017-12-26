@@ -16,9 +16,11 @@ class AlertPatientServiceTable extends Migration
         Schema::table('patient_services', function (Blueprint $table) {
             //
             $table->integer('bg_number')->nullable()->default(180)->after('ongoing');
-            $table->integer('sm_number')->nullable()->default(80)->after('ongoing');
-            $table->integer('alert_low')->nullable()->default(5)->after('ongoing');
-            $table->integer('alert_high')->nullable()->default(10)->after('ongoing');
+            $table->integer('sm_number')->nullable()->default(80)->after('bg_number');
+            $table->integer('low_alert')->nullable()->default(5)->after('sm_number');
+            $table->integer('very_low_alert')->nullable()->default(10)->after('low_alert');
+            $table->integer('high_alert')->nullable()->default(5)->after('very_low_alert');
+            $table->integer('very_high_alert')->nullable()->default(10)->after('high_alert');
         });
     }
 
