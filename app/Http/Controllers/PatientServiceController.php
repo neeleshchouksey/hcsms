@@ -194,16 +194,28 @@ class PatientServiceController extends Controller
                 $patientService->sm_number       =   $request->minbp;
 
             /**
-             * update alert_low if lowalert set in post value
+             * update low_alert if lowalert set in post value
              */
             elseif(isset($request->lowalert)):
-                $patientService->alert_low        =   $request->lowalert;
+                $patientService->low_alert        =   $request->lowalert;
 
             /**
-             * update alert_high if highalert set in post value
+             * update high_alert if highalert set in post value
              */
             elseif(isset($request->highalert)):
-                $patientService->alert_high        =   $request->highalert;
+                $patientService->high_alert        =   $request->highalert;
+
+            /**
+             * update very_low_alert if verylowalert set in post value
+             */
+            elseif(isset($request->verylowalert)):
+                $patientService->very_low_alert        =   $request->verylowalert;
+
+            /**
+             * update very_high_alert if veryhighalert set in post value
+             */
+            elseif(isset($request->veryhighalert)):
+                $patientService->very_high_alert        =   $request->veryhighalert;
 
             /**
              * update start date if start date set in post value

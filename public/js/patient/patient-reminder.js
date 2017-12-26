@@ -261,7 +261,6 @@ $(document).on('change','.minbp',function(){
         {
           service :   $('.service').val(),
           patient :   $('.patient').val(),
-        
           minbp  :   $(this).val(),
           action:'update'    
         }).done(function (data) {
@@ -305,7 +304,41 @@ $(document).on('change','.highalert',function(){
         });
     
  });
+$(document).on('change','.verylowalert',function(){
 
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service     :   $('.service').val(),
+          patient     :   $('.patient').val(),
+          verylowalert:   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.veryhighalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          veryhighalert  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
 $(document).on('click','.start',function(){
         var start     =   $(this);
         var service   =   $('.service').val();

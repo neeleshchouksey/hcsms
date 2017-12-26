@@ -26,16 +26,31 @@
 
             <label class="col-xs-7"> Low Alert %</label>
             <div class="col-xs-5">
-                <input type="text" class="form-control input-sm lowalert" name="lowalert"  placeholder="eg:5" value="{{$patientService->alert_low}}">
+                <input type="text" class="form-control input-sm lowalert" name="lowalert"  placeholder="eg:5" value="{{$patientService->low_alert}}">
+            </div>
+        </div>
+         <div class="form-group">
+
+            <label class="col-xs-7"> Very Low Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm verylowalert" name="verylowalert"  placeholder="eg:5" value="{{$patientService->very_low_alert}}">
             </div>
         </div>
         <div class="form-group">
 
             <label class="col-xs-7"> High Alert %</label>
             <div class="col-xs-5">
-                <input type="text" class="form-control input-sm highalert" name="highalert" placeholder="eg:10" value="{{$patientService->alert_high}}">
+                <input type="text" class="form-control input-sm highalert" name="highalert" placeholder="eg:10" value="{{$patientService->high_alert}}">
             </div>
         </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> Very High Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm veryhighalert" name="veryhighalert" placeholder="eg:10" value="{{$patientService->very_high_alert}}">
+            </div>
+        </div>
+
     @endif
             <!-- </div> -->
     <div class="form-group">
