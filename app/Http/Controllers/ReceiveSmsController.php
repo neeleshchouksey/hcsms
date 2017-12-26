@@ -57,7 +57,7 @@ class ReceiveSmsController extends Controller
         switch ($action) {
             case 'history':
             case 'help':
-            case 'help':
+            case 'average':
             case 'share':
               
 

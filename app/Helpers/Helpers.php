@@ -81,7 +81,9 @@ class Helpers
         $readings  .= "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
       }
       $message = str_replace('@last-ten-reading', $readings, $message);
+
     endif;
+    
     if($patientService->service_id==1 && $action=='average'):
 
       $readings = '';
@@ -91,12 +93,12 @@ class Helpers
       $timezone   = $timezone[0];
       // echo Carbon::now()->subDay(30);
       // die;
-      $tenDayBg   = $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number');
-      $tenDaySm   = $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number');
+      $tenDayBg   = round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number'),2);
+      $tenDaySm   = round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number'),2);
       $readings  .= "\r\n Last 10 Days :"." ".$tenDayBg."/".$tenDaySm;
 
-      $thirtyDayBg   =  $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number');
-      $thirtyDaySm   =  $patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number');
+      $thirtyDayBg   =  round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number'),2);
+      $thirtyDaySm   =  round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number'),2);
       $readings     .= "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
 
       $message      =   str_replace('@average-reading', $readings, $message);
