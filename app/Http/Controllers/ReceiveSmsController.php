@@ -101,10 +101,10 @@ class ReceiveSmsController extends Controller
          *  if action not match with those cases then go to default condition
          */
         switch ($action) {
-            case 'history':
-            case 'help':
-            case 'average':
-            case 'share':
+            case 'bphistory':
+            case 'bphelp':
+            case 'bpaverage':
+            case 'bpshare':
               
                 /**
                  * check orignal message parent service is matched with bp service id or not
