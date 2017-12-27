@@ -67,7 +67,7 @@ class Helpers
     $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
 
-    if($patientService->service_id==1 && $action=='history'):
+    if($patientService->service_id==1 && $action=='bphistory'):
       $readings = '';
       $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
       $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
@@ -85,7 +85,7 @@ class Helpers
 
     endif;
     
-    if($patientService->service_id==1 && $action=='average'):
+    if($patientService->service_id==1 && $action=='bpaverage'):
 
       $readings = '';
 
