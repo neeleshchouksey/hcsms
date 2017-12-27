@@ -35,10 +35,16 @@ class ReceiveSmsController extends Controller
       echo  $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
         
         $parentService          =$originalMessage->remindMessage->parentService;
-        if($bpSmPercentage>$parentService->alert_high || $bpBigPercentage>$parentService->alert_high){
+        if($bpSmPercentage>$parentService->very_low_alert || $bpBigPercentage>$parentService->very_low_alert){
+            echo "very alert high";
+        }
+        elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
             echo "alert high";
         }
-        if($bpSmPercentage<(-$parentService->alert_low) || $bpBigPercentage<(-$parentService->alert_low)){
+        if($bpSmPercentage<(-$parentService->very_high_alert) || $bpBigPercentage<(-$parentService->very_high_alert)){
+            echo "very alert low";
+        }
+        elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
             echo "alert low";
         }
 
@@ -133,9 +139,34 @@ class ReceiveSmsController extends Controller
             $receiveSms->user_id                =       $request->user_id;
             $receiveSms->save();
             if($originalMessage->parentService->service_id==$service_id):
+                $parentService          =$originalMessage->parentService;
                 \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
-                // $bpBigPercentage        =   ($receiveSms->bg_number/$originalMessage->parentService->bg_number)*100;
-                // $bpSmPercentage        =   ($receiveSms->sm_number/$originalMessage->parentService->sm_number)*100;
+                $tar_bg_number          =   $parentService->bg_number;
+                $tar_sm_number          =   $parentService->sm_number;
+                $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
+                
+                $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
+        
+                
+
+                if($bpSmPercentage>$parentService->very_low_alert || $bpBigPercentage>$parentService->very_low_alert){
+
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-high',$receiveSms);
+
+                    //echo "very alert high";
+                }
+                elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high',$receiveSms);
+                    //echo "alert high";
+                }
+                if($bpSmPercentage<(-$parentService->very_high_alert) || $bpBigPercentage<(-$parentService->very_high_alert)){
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low',$receiveSms);
+                    //echo "very alert low";
+                }
+                elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-low',$receiveSms);
+                    //echo "alert low";
+                }
             endif;
             break;
         }
