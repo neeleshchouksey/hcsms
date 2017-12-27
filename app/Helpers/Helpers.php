@@ -64,6 +64,7 @@ class Helpers
     
     $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
+    $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
 
     if($patientService->service_id==1 && $action=='history'):
@@ -201,6 +202,7 @@ class Helpers
             endif;
 
             $reminderSms->custom_string          =       $message->custom_string;
+            if($action=='test')
             $reminderSms->islive                 =       0;
             $reminderSms->user_id                =       $message->user_id;
             $reminderSms->patient_service_id     =       $patientService->id;
