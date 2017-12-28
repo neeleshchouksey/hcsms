@@ -198,7 +198,8 @@ option.separator {
         <div class="modal-content">
             <div class="modal-header">
                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-xs-center">Set Reminder</h4>
+                <h4 class="modal-title pull-left text-xs-center">Set Reminder</h4>
+                <span class="pull-right" style="margin-right:5%;">{{$timezone}}</span>
             </div>
             <div class="modal-body">
                 

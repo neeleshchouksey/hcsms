@@ -13,6 +13,7 @@ use App\PatientReminderDays;
 use App\PatientReminderTime;
 use Illuminate\Http\Request;
 
+
 class PatientServiceController extends Controller
 {
     /**
@@ -239,7 +240,7 @@ class PatientServiceController extends Controller
                 /**
                  * call helper fuction for sent service start message
                  */
-                \Helper::sendSmsMessage($patientService,'start');
+                Helper::sendSmsMessage($patientService,'start');
 
              /**
               * if stop is set then set start date value null
@@ -251,7 +252,7 @@ class PatientServiceController extends Controller
                 /**
                  * call helper function for send end service message 
                  */
-                \Helper::sendSmsMessage($patientService,'end');
+                Helper::sendSmsMessage($patientService,'end');
 
             endif;
 

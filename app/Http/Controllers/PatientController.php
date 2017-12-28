@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\PatientService;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientEditRequest;
+use Helper;
 
 class PatientController extends Controller
 {
@@ -76,7 +77,14 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return view('patient.edit',compact('patient'));
+        /**
+         * call helper function to get timezone of patient
+         *
+         * @var        <type>
+         */
+        $timezone   =   Helper::getPracticeTimeZone($patient);
+
+        return view('patient.edit',compact('patient','timezone'));
     }
 
     /**

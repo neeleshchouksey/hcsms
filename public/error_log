@@ -94,3 +94,5 @@ Stack trace:
 #3 /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(732): Illuminate\Container\Container->make('view', Array)
 #4 /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(110): Illuminate\Foundation\Application->make('view', Array)
 #5 /home/whitebrains/public_html in /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 752
+[27-Dec-2017 16:20:24 UTC] PHP Fatal error:  Cannot use Helper as Helper because the name is already in use in /home/whitebrains/public_html/dev/hcsms/app/Http/Controllers/PatientServiceController.php on line 15
+[27-Dec-2017 16:20:41 UTC] PHP Fatal error:  Cannot use Helper as Helper because the name is already in use in /home/whitebrains/public_html/dev/hcsms/app/Http/Controllers/PatientServiceController.php on line 15

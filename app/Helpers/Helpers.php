@@ -160,7 +160,7 @@ class Helpers
             if($smsTypesMessage->is_reminder==2):
               $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
             else:
-              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
+              $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
             endif;
 
             $senderId    = $patientService->patient->doctor->sender_id;
@@ -218,6 +218,39 @@ class Helpers
     }
     public static function getOriginalMessage($message_id){
       return ReminderSms::where('message_id',$message_id)->first();
+    }
+    /**
+     * Gets the practice time zone.
+     * take patient object and return 
+     * time zone of country selected by doctor
+     */
+    public static function getPracticeTimeZone($patient){
+      /**
+       * find doctors country code
+       *
+       * @var        <type>
+       */
+      $countryCode    =   $patient->doctor->getCountry->iso_3166_2;
+
+      /**
+       * find time zone based on country code
+       *
+       * @var        <type>
+       */
+      $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+
+      /**
+       * take first index of return array as time zone
+       *
+       * @var        <type>
+       */
+      $timezone   = $timezone[0];
+
+      /**
+       * returns time zone
+       */
+      return $timezone;
+
     }
 
 }
