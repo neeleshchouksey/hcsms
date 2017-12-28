@@ -253,4 +253,47 @@ class Helpers
 
     }
 
+    /**
+     * 
+     * Pass receive message as argument for this function
+     * then check it match with reply of which service format
+     */
+
+    public static function checkReceiveMessageFormat($message){
+
+      /**
+       * check message match with 
+       * blood pressure reading format
+       * or not
+       */
+      if(preg_match('/^\d{1,3}\/\d{1,2}$/', $message)==1 || preg_match('/^\d{1,3}\ \d{1,2}$/', $message)==1){
+
+        /**
+         * if receive message format match with 
+         * blood pressure reading message format
+         * then return one
+         */
+        return 1;
+      }
+      /**
+       * check message match with blood sugar 
+       * reading format or not
+       */
+      elseif(is_float($message)){
+        /**
+         * if receive message format match
+         * with blood sugar reading message 
+         * format then return two
+         */
+        return 2;
+      }
+
+      /**
+       * return zero if receive message doesn't
+       * match with any service reading format
+       */
+      return 0;
+
+    }
+
 }

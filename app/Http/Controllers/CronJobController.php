@@ -20,10 +20,11 @@ class CronJobController extends Controller
             date_default_timezone_set($timezone);
             $day    =   strtolower(date('D'));
             $time   =   date('H:00');
-        	            $patients   =   $user->patients()->whereHas('reminderService',
+        	$patients   =   $user->patients()->whereHas('reminderService',
                                         function($q) use($day,$time){
                                             $q->where('status',1);
-                                            $q->where('start_date','<=',date('Y-m-d'));
+                                            $q->where('start_date','<=',date('Y-m-d H:i:s'));
+                                            $q->whereNotNull('start_date');
                                             $q->whereHas('reminderDays',
                                                 function($q2) use($day){
                                                     $q2->whereHas('dayData',
@@ -43,25 +44,7 @@ class CronJobController extends Controller
 
                                         })->with(['reminderService' => function($q) use($day,$time){
                                             $q->where('status',1);
-                                            $q->where('start_date','<=',date('Y-m-d'));
-                                            $q->whereHas('reminderDays',
-                                                function($q2) use($day){
-                                                    $q2->whereHas('dayData',
-                                                        function($q3) use ($day){
-                                                            $q3->where('abbr',$day);
-                                                        });
-                                                });
-                                            $q->whereHas('reminderTime',
-                                                function($q4) use($time){
-                                                    $q4->whereHas('timeData',
-                                                        function($q5) use($time){
-                                                            $q5->where('abbr',$time);
-                                                        });
-
-                                                });
-                                            }])->with(['reminderService' => function($q) use($day,$time){
-                                            $q->where('status',1);
-                                            $q->where('start_date','<=',date('Y-m-d'));
+                                            $q->where('start_date','<=',date('Y-m-d H:i:s'));
                                             $q->whereNotNull('start_date');
                                             $q->whereHas('reminderDays',
                                                 function($q2) use($day){
@@ -96,6 +79,7 @@ class CronJobController extends Controller
                                                
                                             }])
                                 ->get();
+                                
         	foreach ($patients as $patient) {
         		//code...
         		foreach ($patient->reminderService as $service) {
@@ -200,11 +184,12 @@ class CronJobController extends Controller
                     echo "<br>";
                     print_r($service);
                     if($service->service_id==1 && $messageCount==0)
-                   
+                        echo "first-reminder";
                     # code...
-                        \Helper::sendSmsMessage($service,'first-reminder',$dayData['day_id'],$timeData['time_id']);
+                       // \Helper::sendSmsMessage($service,'first-reminder',$dayData['day_id'],$timeData['time_id']);
                     else
-                    \Helper::sendSmsMessage($service,'reminder',$dayData['day_id'],$timeData['time_id']);
+                        echo "reminder";
+                    //\Helper::sendSmsMessage($service,'reminder',$dayData['day_id'],$timeData['time_id']);
                 }
             }
             // echo "<pre>";

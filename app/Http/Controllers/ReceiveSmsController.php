@@ -18,6 +18,9 @@ class ReceiveSmsController extends Controller
     {
         //
         $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
+        echo $reading    =   7.9;
+        //echo is_float($reading);
+        echo Helper::checkReceiveMessageFormat($reading);
         echo "<pre>";
         //print_r($originalMessage->remindMessage->parentService);
         $history         =    'average';
@@ -180,9 +183,12 @@ class ReceiveSmsController extends Controller
             $receiveSms->body                   =       $request->body;
 
             /**
-             * check parent service id is bp service id
+             * Call helper function to check receive message 
+             * format match with blood pressure service reply 
+             * or not if reply match with bp service reply format
+             * then function return 1
              */
-            if($originalMessage->parentService->service_id==$service_id):
+            if(Helper::checkReceiveMessageFormat($request->body)==1):
 
                 /**
                  * find bp latest send reminder message to patient
@@ -190,7 +196,7 @@ class ReceiveSmsController extends Controller
                  * @var        <type>
                  */
 
-                $parentMessageAc = $originalMessage->parentService->reminderMessage()->whereIn('sms_type_id',[8,9])->latest()->first();
+                $parentMessageAc = $originalMessage->parentService->reminderMessage()->whereIn('sms_type_id',[5,6,8,9])->latest()->first();
 
                 /**
                  * Assign reply message to reading variable
@@ -328,7 +334,7 @@ class ReceiveSmsController extends Controller
                     /**
                      * call helper function to send bp very high reading message
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-high',$receiveSms);
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-high');
 
                 }
 
@@ -341,7 +347,7 @@ class ReceiveSmsController extends Controller
                   /**
                    * call helper function to send bp high reading message
                    */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high',$receiveSms);
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high');
                     
                 }
 
@@ -354,7 +360,7 @@ class ReceiveSmsController extends Controller
                     /**
                      * call helper fuction to sent bp very low alert message
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low',$receiveSms);
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low');
                     
                 }
 
@@ -367,7 +373,7 @@ class ReceiveSmsController extends Controller
                     /**
                      * call helper function bp low alert message
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-low',$receiveSms);
+                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-low');
                     
                 }
             endif;
