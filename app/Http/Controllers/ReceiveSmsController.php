@@ -264,7 +264,7 @@ class ReceiveSmsController extends Controller
                 /**
                  * assign patient bp service id as service id of reply message
                  */
-                $receiveSms->patient_service_id   =   $originalMessage->parentService->id;
+                $receiveSms->patient_service_id   =   $parentService->id;
 
                 /**
                  * assign lastest bp reminder sent message id as original message id of curent message
@@ -296,7 +296,7 @@ class ReceiveSmsController extends Controller
             /**
              * check parent service id is bp service id
              */
-            if($parentService->service_id==$service_id):
+            if(Helper::checkReceiveMessageFormat($request->body)==1):
                 
                 /**
                  * call helper function for send reading receive for bp service
