@@ -296,19 +296,12 @@ class ReceiveSmsController extends Controller
             /**
              * check parent service id is bp service id
              */
-            if($originalMessage->parentService->service_id==$service_id):
+            if($parentService->service_id==$service_id):
                 
-                /**
-                 * Assign original parent service to parent service variable
-                 *
-                 * @var        <type>
-                 */
-                $parentService          =$originalMessage->parentService;
-
                 /**
                  * call helper function for send reading receive for bp service
                  */
-                \Helper::sendSmsMessage($originalMessage->parentService,'reading-received',$receiveSms);
+                \Helper::sendSmsMessage($parentService,'reading-received',$receiveSms);
 
                 /**
                  * assign parent service  bg number as tar_bg_number
