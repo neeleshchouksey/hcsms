@@ -111,7 +111,7 @@
           ykeys: ['bg_number','sm_number'],
           // Labels for the ykeys -- will be displayed when you hover over the
           // chart.
-          labels: ['Big Number', 'Small Number'],
+          labels: ['SYS', 'DIA'],
           lineColors: ['#3097D1','orangered'],
          parseTime:false
           
