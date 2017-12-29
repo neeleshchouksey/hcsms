@@ -41,7 +41,7 @@
                             <label for="company" class="col-md-3  ">Sender Id</label>
 
                             <div class="col-md-6">
-                                <input id="company" type="text" class="form-control" name="sender_id" value="{{ Auth::user()->sender_id }}" required >
+                                <input id="company" type="text" class="form-control" name="sender_id" value="{{ Auth::user()->sender_id }}"  >
 
                                 @if ($errors->has('sender_id'))
                                     <span class="help-block">

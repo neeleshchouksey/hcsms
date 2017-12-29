@@ -29,7 +29,7 @@ class ProfileRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.Auth::user()->id,
             'country'=>'required',
-            'sender_id'=>'required',
+            //'sender_id'=>'required',
             'company' => 'required|string|max:255',
             'phone' => 'required|numeric',
             'practice_type' => 'required',
