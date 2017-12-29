@@ -120,6 +120,7 @@
     $('select').select2();
 });
     </script>
+    
     @if(request()->is('patient')!=1 && request()->is('staff')!=1)
    <script src="{{ asset('js/a1pp.js') }}"></script>
    @endif

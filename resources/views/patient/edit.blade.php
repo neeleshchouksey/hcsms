@@ -15,8 +15,16 @@ option.separator {
     padding:0;
 }
 </style>
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -219,25 +227,48 @@ option.separator {
                 <h4 class="modal-title text-xs-center">View Reply</h4>
             </div>
             <div class="modal-body">
-                
-                        <table id="" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Date </th>
-                                    <th>Time</th>
-                                    <th>To</th>
-                                    <th>From</th>
-                                    <th>Message</th>
-                                    
-                                    
-                             
-                                </tr>
-                            </thead>
-                            <tbody>
-                              
-                            </tbody>
+              
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date </th>
+                            <th>Time</th>
+                            <th>To</th>
+                            <th>From</th>
+                            <th>Message</th>
                             
-                        </table>
+                            
+                     
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal HTML Markup -->
+<div id="getBPHistoryModal" class="modal  fade">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">View History
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                
+                <div class="serviceHistory">
+
+                </div>
+               
             </div>
             <div class="modal-footer text-xs-center">
                
@@ -262,4 +293,6 @@ option.separator {
 
     <script src="{{ asset('js/patient/patient-reminder.js') }}"></script>
 @endpush
+
+
 @endsection

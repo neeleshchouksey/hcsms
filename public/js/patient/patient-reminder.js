@@ -339,6 +339,26 @@ $(document).on('change','.veryhighalert',function(){
         });
     
  });
+$(document).on('click','.getBPHistory',function(){
+
+  //$('#getBPHistoryModal').modal('show');
+   $.post({
+      type: 'post',
+      url: url
+    },
+    {
+        service:$(this).attr('service'),
+        patient:$(this).attr('patient'),
+        action:'serviceHistory'    
+    }).done(function (data) {
+      $( "#myfirstchart" ).empty();
+        $('#getBPHistoryModal .serviceHistory').html(data);
+
+         $("#serviceHistoryTable").DataTable();
+        $('#getBPHistoryModal').modal('show');
+    
+    });
+});
 $(document).on('click','.start',function(){
         var start     =   $(this);
         var service   =   $('.service').val();

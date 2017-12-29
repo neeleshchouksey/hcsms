@@ -12,6 +12,7 @@ use App\PatientService;
 use App\PatientReminderDays;
 use App\PatientReminderTime;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class PatientServiceController extends Controller
@@ -156,6 +157,38 @@ class PatientServiceController extends Controller
              * and return view for ajax response
              */
             return \Response::view('partials.ajax.reminder',compact('patientService','patientGetServiceDays','patientGetServicetime','receiveMessage'));
+        /**
+         * check current action is serviceHistory
+         * if action is history then return its receive messages history
+         */
+        elseif ($request->action=='serviceHistory'):
+            # code...
+            $receiveMessage =   $patientService->receiveMessage;
+            $averages                     =     (object) array();
+            $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number').'/'.$receiveMessage->avg('sm_number'),2);
+
+            $offset                       =     5;
+            $averages->lastFiveReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number').'/'.$patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $getdays                      =     Carbon::now()->subDay($offset);
+            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number').'/'.$receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+
+            $offset                       =     10;
+            $averages->lastTenReading     =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number').'/'.$patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $getdays                      =     Carbon::now()->subDay($offset);
+            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number').'/'.$receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+
+            $offset                       =     20;
+            $averages->lastTwenReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number').'/'.$patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $getdays                      =     Carbon::now()->subDay($offset);
+            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number').'/'.$receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+           
+            $offset                       =     30;
+            $averages->lastThirReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number').'/'.$patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $getdays                      =     Carbon::now()->subDay($offset);
+            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number').'/'.$receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+           
+            
+            return \Response::view('partials.ajax.serviceHistory',compact('receiveMessage','averages'));
 
         /**
          * Check curent action 
