@@ -351,6 +351,7 @@ $(document).on('click','.getBPHistory',function(){
         patient:$(this).attr('patient'),
         action:'serviceHistory'    
     }).done(function (data) {
+      $( "#myfirstchart" ).empty();
         $('#getBPHistoryModal .serviceHistory').html(data);
 
          $("#serviceHistoryTable").DataTable();

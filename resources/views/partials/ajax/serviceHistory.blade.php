@@ -86,12 +86,13 @@
         </tbody>
         
     </table>
-    @php
+   
+</div>
+@if(!empty($data))
+ @php
     $data = json_encode($data);
     
     @endphp
-</div>
-
 <script type="text/javascript">
     $('#getBPHistoryModal').on('shown.bs.modal', function () {
         $( "#myfirstchart" ).empty();
@@ -112,3 +113,4 @@
         });
     });
 </script>
+@endif
