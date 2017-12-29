@@ -19,8 +19,8 @@
             $dayCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->count();
             $i=0;
         @endphp
-        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderDays as $day)
-            {{$day->dayData->abbr}}
+        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->orderBy('day_id','asc')->get() as $day)
+            {{ucfirst($day->dayData->abbr)}}
 
             @php
                 if($i==$dayCount-2 ):
@@ -36,7 +36,7 @@
             $timeCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->count();
             $i=0;
         @endphp
-        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderTime as $time)
+        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->orderBy('time_id','asc')->get() as $time)
             {{$time->timeData->title}} 
              @php
                
@@ -49,7 +49,7 @@
             @endphp
         @endforeach
     @else
-        mon & fri at 8:00 Am  and 7:00 PM 
+        mon & fri at 8am  and 7pm 
     @endif
        
 

@@ -18,7 +18,7 @@ class CronJobController extends Controller
             $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
             $timezone   = $timezone[0];
             date_default_timezone_set($timezone);
-            $day    =   strtolower(date('D'));
+            $day    =   date('D');
             $time   =   date('H:00');
         	$patients   =   $user->patients()->whereHas('reminderService',
                                         function($q) use($day,$time){
@@ -105,7 +105,8 @@ class CronJobController extends Controller
             $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
             echo $timezone   = $timezone[0];
             date_default_timezone_set($timezone);
-            echo $day    =   strtolower(date('D'));
+            echo $day    =   date('D');
+            die;
             echo "<br>";
             echo $time   =   date('H:00');
             echo "<br>";

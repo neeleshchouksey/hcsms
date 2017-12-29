@@ -53,10 +53,10 @@ class Helpers
     // echo $action;
     // die('checkhisory');
     
-    $getDays   =    $patientService->reminderDays()->with('dayData')->get()->toArray();
+    $getDays   =    $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
       
-    $getTime   =   $patientService->reminderTime()->with('timeData')->get()->toArray();
+    $getTime   =   $patientService->reminderTime()->with('timeData')->orderBy('time_id','asc')->get()->toArray();
     $getTime   =    self::customArrayMap(array('time_data','title'),$getTime);
    
     $message = str_replace('@NAME', $patientService->patient->name, $message);

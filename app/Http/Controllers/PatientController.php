@@ -9,6 +9,7 @@ use App\PatientService;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientEditRequest;
 use Helper;
+use Auth;
 
 class PatientController extends Controller
 {
@@ -78,13 +79,20 @@ class PatientController extends Controller
     public function edit(Patient $patient)
     {
         /**
+         * Check current user is authorize for access 
+         * this user or not
+         */
+        if($patient->doctor->id==Auth::user()->id):
+        /**
          * call helper function to get timezone of patient
          *
          * @var        <type>
          */
+        
         $timezone   =   Helper::getPracticeTimeZone($patient);
 
         return view('patient.edit',compact('patient','timezone'));
+        endif;
     }
 
     /**
@@ -119,11 +127,17 @@ class PatientController extends Controller
     public function destroy(Patient $patient)
     {
         //
-        $patient->delete();
+        /**
+         * Check current user is authorize for delete 
+         * this patient  or not
+         */
+        if($patient->doctor->id==Auth::user()->id):
+            $patient->delete();
+        endif;
     }
     public function ajaxLoad(){
 
-        $patients    =   Patient::where('user_id',\Auth::user()->id)->get();
+        $patients    =   Patient::where('user_id',Auth::user()->id)->get();
         $records     =   array();
         $i           =   0;
 
