@@ -1,4 +1,4 @@
-<div class="col-md-7">
+<div class="col-md-6">
     <h4>{{$service->name}}</h4>
     Remindar set for
     @php
@@ -54,7 +54,13 @@
        
 
 </div>
-<div class="col-md-offset-2 col-md-3">
-    <input type="checkbox" class="service-toggle" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle"><br><br>
-    <button class="btn btn-success  editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
+<div class="col-md-6">
+    <div class="col-md-offset-6 col-md-6">
+    <input type="checkbox" class="service-toggle pull-right" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle">
+    </div>
+    <br><br>
+    @if($service->id==1)
+        <button class="btn btn-success pull-left col-md-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
+    @endif 
+   <button class="btn btn-success pull-right col-md-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
  </div>
