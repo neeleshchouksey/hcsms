@@ -182,7 +182,7 @@ class PatientServiceController extends Controller
             /**
              * Get all time averages of bp readings
              */
-            $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number'),2).'/'.round($receiveMessage->avg('sm_number'),2);
+            $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number')).'/'.round($receiveMessage->avg('sm_number'));
 
             /**
              * Inialiatize offset value for get averages of 
@@ -197,7 +197,7 @@ class PatientServiceController extends Controller
              * received bp readings
              * 
              */
-            $averages->lastFiveReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number'),2).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $averages->lastFiveReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number')).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'));
             
             /**
              * Get 5 days before date
@@ -209,7 +209,7 @@ class PatientServiceController extends Controller
             /**
              * get avarage of last 5 days rececived readings
              */
-            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
             /**
              * Inialiatize offset value for get averages of 
@@ -224,7 +224,7 @@ class PatientServiceController extends Controller
              * received bp readings
              * 
              */
-            $averages->lastTenReading     =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number'),2).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $averages->lastTenReading     =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number')).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'));
            
              /**
              * Get 10 days before date
@@ -236,7 +236,7 @@ class PatientServiceController extends Controller
              /**
              * get avarage of last 10 days rececived readings
              */
-            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
             /**
              * Initialize offset for get avarages of 
@@ -249,7 +249,7 @@ class PatientServiceController extends Controller
             /**
              * Get averages of last 20 days bp readings
              */
-            $averages->lastTwenReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number'),2).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $averages->lastTwenReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number')).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'));
             
             /**
              * get   20 days before date
@@ -261,7 +261,7 @@ class PatientServiceController extends Controller
             /**
              * get averages of last 20 days bp readings
              */
-            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
            
             /**
              * Initialize for get averages of
@@ -274,7 +274,7 @@ class PatientServiceController extends Controller
             /**
              * Get averages of last 30  bp readings
              */
-            $averages->lastThirReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number'),2).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'),2);
+            $averages->lastThirReading    =     round($patientService->receiveMessage()->latest()->take($offset)->avg('bg_number')).'/'.round($patientService->receiveMessage()->latest()->take($offset)->avg('sm_number'));
             
             /**
              * get 30 days before date
@@ -286,7 +286,7 @@ class PatientServiceController extends Controller
             /**
              * get average of last 30 days average reading
              */
-            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'),2);
+            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
            
            /**
             * Pass receive messages and all averages 

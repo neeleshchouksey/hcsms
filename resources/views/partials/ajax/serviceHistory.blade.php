@@ -76,6 +76,7 @@
                 @php
                     $messageData =  array(
                                         'rownum'=>$i,
+                                        'date'=>$message->created_at->format('d/m/Y H:i'),
                                         'bg_number'=>$message->bg_number,
                                         'sm_number'=>$message->sm_number
                                     );
@@ -105,7 +106,7 @@
           // the chart.
           data: <?=$data?>,
           // The name of the data record attribute that contains x-values.
-          xkey: 'rownum',
+          xkey: 'date',
           // A list of names of data record attributes that contain y-values.
           ykeys: ['bg_number','sm_number'],
           // Labels for the ykeys -- will be displayed when you hover over the
