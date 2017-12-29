@@ -5,7 +5,7 @@
     <table class="table table-bordered">
         <tr>
             <td>Average (all times)</td>
-            <td>xxxx</td>
+            <td>{{$averages->allTimeAverage}}</td>
             <td> </td>
         </tr>
         <tr>
@@ -64,6 +64,7 @@
         <tbody>
             @php
                 $data  = array();
+                $i=1;
             @endphp
             @foreach($receiveMessage as $message)
                 <tr>
@@ -74,12 +75,13 @@
                 </tr>
                 @php
                     $messageData =  array(
-                                        'date'=>$message->created_at->format('Y-m-d H:i:s'),
+                                        'rownum'=>$i,
                                         'bg_number'=>$message->bg_number,
                                         'sm_number'=>$message->sm_number
                                     );
 
-                    array_push($data, $messageData)
+                    array_push($data, $messageData);
+                    $i++;
                 @endphp
             @endforeach
           
@@ -103,13 +105,15 @@
           // the chart.
           data: <?=$data?>,
           // The name of the data record attribute that contains x-values.
-          xkey: 'date',
+          xkey: 'rownum',
           // A list of names of data record attributes that contain y-values.
           ykeys: ['bg_number','sm_number'],
           // Labels for the ykeys -- will be displayed when you hover over the
           // chart.
           labels: ['Big Number', 'Small Number'],
-          xLabels:'day'
+          lineColors: ['#3097D1','orangered'],
+         parseTime:false
+          
         });
     });
 </script>
