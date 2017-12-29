@@ -9,15 +9,11 @@
             <td> </td>
         </tr>
         <tr>
-            <td>Highest Reading</td>
-            <td>xxxx</td>
-            <td>xxxx</td>
+            <td>Latest Reading</td>
+            <td>{{$latestReading->bg_number.'/'.$latestReading->sm_number}}</td>
+            <td>{{$latestReading->created_at->format('d-m-Y H:i')}}</td>
         </tr>
-        <tr>
-            <td>Lowest Reading</td>
-            <td>xxxx</td>
-            <td>xxxx</td>
-        </tr>
+        
     </table>
 
     <h5>Averages</h5>
@@ -113,7 +109,8 @@
           // chart.
           labels: ['SYS', 'DIA'],
           lineColors: ['#3097D1','orangered'],
-         parseTime:false
+         parseTime:false,
+         smooth:true,axes:"y"
           
         });
     });

@@ -288,12 +288,14 @@ class PatientServiceController extends Controller
              */
             $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
            
+            $latestReading                =     $patientService->receiveMessage()->latest()->first();
            /**
             * Pass receive messages and all averages 
             * of bp service to view and return view 
             * data for ajax response
             */
-            return \Response::view('partials.ajax.serviceHistory',compact('receiveMessage','averages'));
+
+            return \Response::view('partials.ajax.serviceHistory',compact('receiveMessage','averages','latestReading'));
 
         /**
          * Check curent action 
