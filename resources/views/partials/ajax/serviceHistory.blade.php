@@ -52,6 +52,7 @@
                 <th>Reading</th>
                 <th>Note</th>
                 <th>Included</th>
+               
                 
                 
          
@@ -59,8 +60,13 @@
         </thead>
         <tbody>
             @php
-                $data  = array();
-                $i=1;
+                $data       =   array();
+                $i          =   1;
+                $disabled   =   '';
+
+                if(request()->is('history/*')==1)
+                 $disabled = 'disabled';
+             
             @endphp
             @foreach($patientService->receiveMessage()->orderBy('created_at','ASC')->get() as $message)
                 @php
@@ -77,7 +83,8 @@
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
                     <td>{{$message->remindMessage->parentSmsType->label}}</td>
-                    <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"></td>
+                    
+                    <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"  {{$disabled}}></td>
                 </tr>
                 @php
                     if($message->included==1):

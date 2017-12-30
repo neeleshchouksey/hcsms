@@ -29,6 +29,8 @@ Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('sen
 
 Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->name('end-reminder');
 
+Route::get('history/{id}','PatientServiceController@getPatientHistory');
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('profile','ProfileController');
@@ -40,6 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('patient','PatientController');
 
 	Route::get('patient/ajax/load','PatientController@ajaxLoad');
+
+    Route::get('g-unique-id','PatientServiceController@generateUniqueId');
 
 	Route::resource('patient-service','PatientServiceController');
 

@@ -76,6 +76,7 @@ class PatientServiceController extends Controller
             $patientService                 =       new PatientService;
             $patientService->service_id     =       $request->service;
             $patientService->patient_id     =       $request->patient;
+            $patientService->token          =       uniqid();
             $patientService->status         =       $request->status;
             $patientService->period         =       6;
             $patientService->duration       =       $duration->id;
@@ -162,7 +163,7 @@ class PatientServiceController extends Controller
          * if action is history then return its receive messages history
          */
         elseif ($request->action=='serviceHistory'):
-            
+
             /**
              * Call Helper function which takes
              * Patient service and return its history
@@ -435,5 +436,22 @@ class PatientServiceController extends Controller
 
         }
         endif;
+    }
+
+    /**
+     * generate unique id for existing patient services
+     */
+    public function generateUniqueId(){
+        
+        $patients   = PatientService::all();
+        foreach ($patients as $patient) {
+            $patient->token     =   uniqid();
+            $patient->save();
+        }
+    }
+    public function getPatientHistory($id){
+        $patientService     =   PatientService::where('token',$id)->first();
+        $getHistory         =   Helper::getServiceHistory($patientService);
+        return view('history.index',compact('getHistory'));
     }
 }

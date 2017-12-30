@@ -439,7 +439,7 @@ class Helpers
         * data for ajax response
         */
 
-        return \Response::view('partials.ajax.serviceHistory',compact('patientService','averages','latestReading'));
+        return view('partials.ajax.serviceHistory',compact('patientService','averages','latestReading'));
     }
 
 }
