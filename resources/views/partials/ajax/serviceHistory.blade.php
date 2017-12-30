@@ -51,8 +51,8 @@
                 <th>Time</th>
                 <th>Reading</th>
                 <th>Note</th>
-              <!--   <th>Message</th>
-               -->  
+                <th>Included</th>
+                
                 
          
             </tr>
@@ -62,12 +62,13 @@
                 $data  = array();
                 $i=1;
             @endphp
-            @foreach($receiveMessage as $message)
+            @foreach($patientService->receiveMessage()->orderBy('created_at','ASC')->get() as $message)
                 <tr>
                     <td>{{$message->created_at->format('d-m-Y')}}</td>
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
                     <td>{{$message->remindMessage->parentSmsType->label}}</td>
+                    <td><input type="checkbox" class="excludedMesssage" ></td>
                 </tr>
                 @php
                     $messageData =  array(
