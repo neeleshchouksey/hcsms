@@ -162,6 +162,7 @@ class PatientServiceController extends Controller
          * if action is history then return its receive messages history
          */
         elseif ($request->action=='serviceHistory'):
+            
             /**
              * Call Helper function which takes
              * Patient service and return its history

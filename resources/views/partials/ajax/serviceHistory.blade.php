@@ -80,15 +80,17 @@
                     <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"></td>
                 </tr>
                 @php
-                    $messageData =  array(
-                                        'rownum'=>$i,
-                                        'date'=>$message->created_at->format('d/m/Y H:i'),
-                                        'bg_number'=>$message->bg_number,
-                                        'sm_number'=>$message->sm_number
-                                    );
+                    if($message->included==1):
+                        $messageData =  array(
+                                            'rownum'=>$i,
+                                            'date'=>$message->created_at->format('d/m/Y H:i'),
+                                            'bg_number'=>$message->bg_number,
+                                            'sm_number'=>$message->sm_number
+                                        );
 
-                    array_push($data, $messageData);
-                    $i++;
+                        array_push($data, $messageData);
+                        $i++;
+                    endif;
                 @endphp
             @endforeach
           
@@ -103,7 +105,7 @@
     
     @endphp
 <script type="text/javascript">
-    $('#getBPHistoryModal').on('shown.bs.modal', function () {
+    //$('#getBPHistoryModal').on('shown.bs.modal', function () {
         $( "#myfirstchart" ).empty();
         new Morris.Line({
           // ID of the element in which to draw the chart.
@@ -123,6 +125,6 @@
          smooth:true,axes:"y"
           
         });
-    });
+    //});
 </script>
 @endif
