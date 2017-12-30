@@ -53,6 +53,8 @@ class Helpers
     // echo $action;
     // die('checkhisory');
     
+    $bphistoryurl   =   url('history/'.$patientService->token);
+    
     $getDays   =    $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
       
