@@ -66,6 +66,8 @@ class Helpers
     $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
     $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
+    $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
+
 
     if($patientService->service_id==1 && $action=='bphistory'):
       $readings = '';
