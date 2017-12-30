@@ -63,12 +63,21 @@
                 $i=1;
             @endphp
             @foreach($patientService->receiveMessage()->orderBy('created_at','ASC')->get() as $message)
+                @php
+                    /* define empty variable*/
+                    $selectIncluded     =   '';
+
+                    /* check if included value is one or not*/
+                    if($message->included==1)
+                        $selectIncluded = 'checked';
+
+                @endphp
                 <tr>
                     <td>{{$message->created_at->format('d-m-Y')}}</td>
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
                     <td>{{$message->remindMessage->parentSmsType->label}}</td>
-                    <td><input type="checkbox" class="excludedMesssage" ></td>
+                    <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"></td>
                 </tr>
                 @php
                     $messageData =  array(

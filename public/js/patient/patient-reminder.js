@@ -351,10 +351,10 @@ $(document).on('click','.getBPHistory',function(){
         patient:$(this).attr('patient'),
         action:'serviceHistory'    
     }).done(function (data) {
-      $( "#myfirstchart" ).empty();
+        $( "#myfirstchart" ).empty();
         $('#getBPHistoryModal .serviceHistory').html(data);
 
-         $("#serviceHistoryTable").DataTable();
+        $("#serviceHistoryTable").DataTable();
         $('#getBPHistoryModal').modal('show');
     
     });
@@ -464,6 +464,28 @@ $(document).on('click','.messageReply',function(){
           $('#replySmsModal tbody').html(data);
           $('#replySmsModal').modal('show');
           
+        });
+    
+    
+});
+$(document).on('change','.excludedMesssage',function(){
+    var messageId     =   $(this).val();
+   //alert(messageId);
+     $.post({
+          type: 'post',
+          url: replyUrl
+          
+        },
+        {
+          message_id :   messageId,
+          action:'edit'
+        }).done(function (data) {
+          $( "#myfirstchart" ).empty();
+          $('#getBPHistoryModal .serviceHistory').html(data);
+
+          $("#serviceHistoryTable").DataTable();
+          $('#getBPHistoryModal').modal('show');
+            
         });
     
     

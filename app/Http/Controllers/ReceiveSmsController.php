@@ -6,6 +6,7 @@ use App\ReceiveSms;
 use App\ReminderSms;
 use Helper;
 use Illuminate\Http\Request;
+use Auth;
 
 class ReceiveSmsController extends Controller
 {
@@ -437,11 +438,87 @@ class ReceiveSmsController extends Controller
     }
     public function ajaxLoad(Request $request){
 
+        /**
+         * Assign posted message id to variable id
+         *
+         * @var        <type>
+         */
         $id                 =       $request->message_id;
 
-        $replyMessages      =       ReceiveSms::where('original_message_id',$id)->get();
+        /**
+         * Check if action is  equal to
+         * edit or not
+         */
+        if($request->action=='edit'){
 
-        return \Response::view('partials.ajax.replyMessage',compact('replyMessages'));
+            /**
+             * Find Messeage id in database
+             *
+             * @var        <type>
+             */
+
+            $replyMessages      =       ReceiveSms::where('message_id',$id)->first();
+
+            /**
+             * Check logged in user is autorized
+             * for edit that message or not
+             */
+            if($replyMessages->parentService->patient->doctor->id==Auth::user()->id){
+
+                /**
+                 * Check current message included value is 1
+                 * then set it 2
+                 */
+                if($replyMessages->included==1){
+
+                    /**
+                     * Assign value 2 for included of receive message object
+                     */
+                    $replyMessages->included        =   2;
+
+                }
+                /**
+                 * if it message included value is not 1 
+                 * then set it to 1
+                 */
+                else{
+                    /**
+                     * Assign value 1 for included of receive message object
+                     */
+                    $replyMessages->included        =   1; 
+                }
+                /**
+                 * Save receive message object
+                 */
+
+                $replyMessages->save();
+            }
+
+            /**
+             * Call Helper function which takes
+             * Patient service and return its history
+             */
+           return Helper::getServiceHistory($replyMessages->parentService);
+
+        }
+        /**
+         * This section is not in use currently
+         */
+        else{
+
+            /**
+             * find all received message 
+             * based and it original message id
+             *
+             * @var        <type>
+             */
+            $replyMessages      =       ReceiveSms::where('original_message_id',$id)->get();
+            
+            /**
+             * return ajax view for ajax response
+             */
+            return \Response::view('partials.ajax.replyMessage',compact('replyMessages'));
+        }
 
     }
     public function replyBpmHistory(Request $request){
