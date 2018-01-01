@@ -83,7 +83,7 @@ class Helpers
         $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
         $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
 
-        $readings  .= "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+        $readings       .=    "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
       }
       $message = str_replace('@last-ten-reading', $readings, $message);
 

@@ -112,7 +112,7 @@
     
     @endphp
 <script type="text/javascript">
-    //$('#getBPHistoryModal').on('shown.bs.modal', function () {
+    $('#getBPHistoryModal').on('shown.bs.modal', function () {
         $( "#myfirstchart" ).empty();
         new Morris.Line({
           // ID of the element in which to draw the chart.
@@ -132,6 +132,26 @@
          smooth:true,axes:"y"
           
         });
-    //});
+    });
+   // $('#getBPHistoryModal .serviceHistory').change(function(){
+          new Morris.Line({
+          // ID of the element in which to draw the chart.
+          element: 'myfirstchart',
+          // Chart data records -- each entry in this array corresponds to a point on
+          // the chart.
+          data: <?=$data?>,
+          // The name of the data record attribute that contains x-values.
+          xkey: 'date',
+          // A list of names of data record attributes that contain y-values.
+          ykeys: ['bg_number','sm_number'],
+          // Labels for the ykeys -- will be displayed when you hover over the
+          // chart.
+          labels: ['SYS', 'DIA'],
+          lineColors: ['#3097D1','orangered'],
+         parseTime:false,
+         smooth:true,axes:"y"
+          
+        });
+   // });
 </script>
 @endif
