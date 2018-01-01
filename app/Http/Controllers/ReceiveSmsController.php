@@ -137,7 +137,7 @@ class ReceiveSmsController extends Controller
                  *
                  * @var        <type>
                  */
-                $parentMessage = $parentService->reminderMessage()->latest()->first();
+                $parentMessage = $parentService->reminderMessage()->whereIn('sms_type_id',[5,6,8,9])->latest()->first();
 
                 /**
                  * initialize recieve sms object and
