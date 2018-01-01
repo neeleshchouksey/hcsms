@@ -272,6 +272,42 @@ class ReceiveSmsController extends Controller
                  */
                 $receiveSms->original_message_id  =   $parentMessageAc->message_id;
 
+            elseif(Helper::checkReceiveMessageFormat($request->body)==2):
+
+                /**
+                 * check orignal message parent service is matched with bp service id or not
+                 * if match then assigne original parent service for parent sevice varible
+                 */
+                if($originalMessage->parentService->service_id==2)
+                    $parentService = $originalMessage->parentService;
+
+                /**
+                 * if not then find patient bp service id 
+                 * and assign patient bp service to parent service
+                 */
+                else
+                    $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',2)->first();
+                /**
+                 * find bp latest send reminder message to patient
+                 *
+                 * @var        <type>
+                 */
+
+                $parentMessageAc = $parentService->reminderMessage()->whereIn('sms_type_id',[19,20,21])->latest()->first();
+
+                
+                /**
+                 * assign patient bp service id as service id of reply message
+                 */
+                $receiveSms->patient_service_id   =   $parentService->id;
+
+                /**
+                 * assign lastest bp reminder sent message id as original message id of curent message
+                 */
+                $receiveSms->original_message_id  =   $parentMessageAc->message_id;
+
+         
+
             else:
                 /**
                  * assign receive original message id as original message id of current message
