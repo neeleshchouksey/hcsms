@@ -20,7 +20,8 @@ class ReceiveSmsController extends Controller
         //
        // $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
         $originalMessage    =       ReminderSms::where('message_id','B5BE56E0-965F-421A-9D73-EF494CA66B6E')->first();
-        echo $reading    =   7.9;
+        echo $reading    =   "9.2hu";
+        echo "<br>";
         //echo is_float($reading);
         echo Helper::checkReceiveMessageFormat($reading);
         echo "<pre>";
@@ -33,25 +34,25 @@ class ReceiveSmsController extends Controller
        // $parentService = \App\PatientService::find(5);
        // \Helper::sendSmsMessage($parentService,$history);
         //print_r($parentService->reminderMessage()->latest()->first());
-       $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
-       $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
-      echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
-      echo "<br>";
-      echo  $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
+      //  $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
+      //  $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
+      // echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
+      // echo "<br>";
+      // echo  $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
         
-        $parentService          =$originalMessage->remindMessage->parentService;
-        if($bpSmPercentage>$parentService->very_high_alert || $bpBigPercentage>$parentService->very_high_alert){
-            echo "very alert high";
-        }
-        elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
-            echo "alert high";
-        }
-        if($bpSmPercentage<(-$parentService->very_low_alert) || $bpBigPercentage<(-$parentService->very_low_alert)){
-            echo "very alert low";
-        }
-        elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
-            echo "alert low";
-        }
+      //   $parentService          =$originalMessage->remindMessage->parentService;
+      //   if($bpSmPercentage>$parentService->very_high_alert || $bpBigPercentage>$parentService->very_high_alert){
+      //       echo "very alert high";
+      //   }
+      //   elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
+      //       echo "alert high";
+      //   }
+      //   if($bpSmPercentage<(-$parentService->very_low_alert) || $bpBigPercentage<(-$parentService->very_low_alert)){
+      //       echo "very alert low";
+      //   }
+      //   elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
+      //       echo "alert low";
+      //   }
 
 
     }

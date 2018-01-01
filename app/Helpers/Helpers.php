@@ -53,7 +53,7 @@ class Helpers
     // echo $action;
     // die('checkhisory');
     
-    $bphistoryurl   =   url('history/'.$patientService->token);
+    $bphistoryurl   =   url($patientService->token);
     
     $getDays   =    $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
@@ -278,12 +278,14 @@ class Helpers
          * then return one
          */
         return 1;
+
+
       }
       /**
        * check message match with blood sugar 
        * reading format or not
        */
-      elseif(is_float($message)){
+      elseif(preg_match('/^[+-]?([0-9]*[.])?[0-9]+$/', $message)==1 ){
         /**
          * if receive message format match
          * with blood sugar reading message 

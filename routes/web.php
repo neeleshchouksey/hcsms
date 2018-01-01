@@ -107,3 +107,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     });
 });
+Route::get('/{id}','PatientServiceController@getPatientHistory');
