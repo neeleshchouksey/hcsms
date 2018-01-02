@@ -115,7 +115,7 @@ class PatientController extends Controller
         $patient->agree         =       $request->agree;
         // $patient->services  =   implode(',', $request->service);
         $patient->save();
-        return redirect(route('patient.edit',$patient->id));
+        //return redirect(route('patient.edit',$patient->id));
     }
 
     /**

@@ -432,21 +432,32 @@ $(document).on('change','.bsveryhighalert',function(){
         });
     
  });
-$(document).on('change','.language',function(){
+$(document).on('change','.patientData',function(){
 
+        var patientData = $('#patientData').serializeArray();
+        var purl        = $('#patientData').attr('action');
         $.post({
           type: 'post',
-          url: url
+          url: purl
         },
-        {
-          
-          patient        :   $('.messagePatientLog').val(),
-          language       :   $(this).val(),
-          action:'update'    
-        }).done(function (data) {
+        patientData).done(function (data) {
           $('.ongoing').removeClass('btn-success');
+          $('#formerrors').empty();
           
-        });
+        })
+        .fail(function(data) {
+          console.log(data.responseJSON.errors);
+          if( data.status === 422 ) {
+                                var errors = data.responseJSON.errors;
+                                errorHtml='<div class="errors"><ul>';
+                                $.each( errors, function( key, value ) {
+                                     errorHtml += '<li>' + value[0] + '</li>';
+                               });
+                                errorHtml += '</ul></div>';
+                                $( '#formerrors' ).html( errorHtml );
+
+                          }
+  });
     
  });
 $(document).on('click','.getBPHistory',function(){

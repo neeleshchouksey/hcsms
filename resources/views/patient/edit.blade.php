@@ -14,6 +14,9 @@ option.separator {
     border-top:1px solid #666;
     padding:0;
 }
+.errors {
+    color:red;
+}
 </style>
 
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
@@ -32,7 +35,8 @@ option.separator {
                 <div class="panel-heading">Patient</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('patient.update',$patient->id) }}">
+                    <div id="formerrors"></div>
+                    <form class="form-horizontal" method="POST" id="patientData" action="{{ route('patient.update',$patient->id) }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="put">
                         <input type='hidden' class="messagePatientLog" name="messagePatientLog" value="{{$patient->id}}"/>
@@ -40,7 +44,7 @@ option.separator {
                             <label for="code" class="col-md-3">Patient Reference</label>
 
                             <div class="col-md-6">
-                                <input id="code" type="text" class="form-control" name="code" value="{{ $patient->ref_code }}" required autofocus>
+                                <input id="code" type="text" class="form-control patientData" name="code" value="{{ $patient->ref_code }}" required autofocus>
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -53,7 +57,7 @@ option.separator {
                             <label for="name" class="col-md-3  ">Patient Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ $patient->name }}" required >
+                                <input id="name" type="text" class="form-control patientData" name="name" value="{{ $patient->name }}" required >
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -68,7 +72,7 @@ option.separator {
                             <label for="mobile" class="col-md-3">Mobile Number</label>
 
                             <div class="col-md-6">
-                                <input id="mobile" type="text" class="form-control" name="mobile" value="{{ $patient->mobile }}" required >
+                                <input id="mobile" type="text" class="form-control patientData" name="mobile" value="{{ $patient->mobile }}" required >
 
                                 @if($errors->has('mobile'))
                                     <span class="help-block">
@@ -82,7 +86,7 @@ option.separator {
 
                             <div class="col-md-6">
 
-                                <select name="language" class="language form-control">
+                                <select name="language" class="language patientData form-control">
                                     <option value="">Select Language</option>
                                     @foreach(Helper::languages() as $language)
                                         @php
@@ -110,7 +114,7 @@ option.separator {
                             <label for="note" class="col-md-3">Notes</label>
 
                             <div class="col-md-6">
-                                <textarea id="note" type="text" class="form-control" name="note"  required >{{ $patient->note }}</textarea>
+                                <textarea id="note" type="text" class="form-control patientData" name="note"  required >{{ $patient->note }}</textarea>
 
                                 @if($errors->has('note'))
                                     <span class="help-block">
@@ -130,17 +134,17 @@ option.separator {
                                         $checkedAgree = 'checked';
                                     @endphp
 
-                                    <input id="" type="checkbox"  name="agree" value="1"   {{$checkedAgree}}>
+                                    <input id="" type="checkbox"  class="patientData" name="agree" value="1"   {{$checkedAgree}}>
                                     Please tick to confirm patient has agreed to receive reminders from HealthCheckSms
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                           <!--  <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                     <div class="col-md-12">
