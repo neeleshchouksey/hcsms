@@ -367,7 +367,7 @@ class ReceiveSmsController extends Controller
                         /**
                          * call helper function to send bp very high reading message
                          */
-                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-high');
+                        \Helper::sendSmsMessage($parentService,'reading-high');
 
                     }
 
@@ -380,7 +380,7 @@ class ReceiveSmsController extends Controller
                       /**
                        * call helper function to send bp high reading message
                        */
-                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high');
+                        \Helper::sendSmsMessage($parentService,'reading-very-high');
                         
                     }
 
@@ -393,7 +393,7 @@ class ReceiveSmsController extends Controller
                         /**
                          * call helper fuction to sent bp very low alert message
                          */
-                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low');
+                        \Helper::sendSmsMessage($parentService,'reading-very-low');
                         
                     }
 
@@ -402,6 +402,77 @@ class ReceiveSmsController extends Controller
                      * low alert percentage than sent bp low alert message
                      */
                     elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
+
+                        /**
+                         * call helper function bp low alert message
+                         */
+                        \Helper::sendSmsMessage($parentService,'reading-low');
+                        
+                    }
+              
+                elseif($service_id==2):
+                    /**
+                     * assign parent service  target as target_number
+                     *
+                     * @var        <type>
+                     */
+                    $target_number          =   $parentService->target;
+
+                    
+
+                    /**
+                     * calculate  parent service bs target percetange respect to receive message bs reading
+                     *
+                     * @var        <type>
+                     */
+                    $targetPercentage        =   (($receiveSms->body-$target_number)/$target_number)*100;
+
+                   
+                    
+                    /**
+                     * if bp big percentage or bp sm percentage is greater than parent service
+                     * very high alert percentage than sent bp very high alert messag
+                     */
+                    if($targetPercentage>$parentService->bs_very_high_alert){
+                        
+                        /**
+                         * call helper function to send bp very high reading message
+                         */
+                        \Helper::sendSmsMessage($parentService,'reading-high');
+
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is greater than parent service
+                     *  high alert percentage than sent bp very high alert message
+                     */
+                    elseif($targetPercentage>$parentService->bs_high_alert){
+
+                      /**
+                       * call helper function to send bp high reading message
+                       */
+                        \Helper::sendSmsMessage($parentService,'reading-very-high');
+                        
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is less than parent service
+                     * very low alert percentage than sent bp very low alert message
+                     */
+                   elseif($targetPercentage<(-$parentService->bs_very_low_alert)){
+
+                        /**
+                         * call helper fuction to sent bp very low alert message
+                         */
+                        \Helper::sendSmsMessage($parentService,'reading-very-low');
+                        
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is less than parent service
+                     * low alert percentage than sent bp low alert message
+                     */
+                    elseif($targetPercentage<(-$parentService->bs_low_alert)){
 
                         /**
                          * call helper function bp low alert message

@@ -178,19 +178,9 @@ class PatientServiceController extends Controller
          */
         elseif($request->action=='update'):
 
-            if(isset($request->language)):
-                
-
-                $servicePatient                   =     Patient::find($request->patient);
-                $servicePatient->language_id      =     $request->language;
-                $servicePatient->save();
-                die;
-
-            endif;
             /**
              * update duration if duration set in post value
              */
-
             if(isset($request->duration)):
                 $patientService->duration       =   $request->duration;
 
@@ -241,6 +231,37 @@ class PatientServiceController extends Controller
              */
             elseif(isset($request->veryhighalert)):
                 $patientService->very_high_alert        =   $request->veryhighalert;
+
+            /**
+             * update target if target set in post value
+             */
+            elseif(isset($request->target)):
+                $patientService->target       =   $request->target;
+
+            /**
+             * update bs_low_alert if bslowalert set in post value
+             */
+            elseif(isset($request->bslowalert)):
+                $patientService->bs_low_alert        =   $request->bslowalert;
+
+            /**
+             * update bs_high_alert if bshighalert set in post value
+             */
+            elseif(isset($request->bshighalert)):
+                $patientService->bs_high_alert        =   $request->bshighalert;
+
+            /**
+             * update bs_very_low_alert if bsverylowalert set in post value
+             */
+            elseif(isset($request->bsverylowalert)):
+                $patientService->bs_very_low_alert        =   $request->bsverylowalert;
+
+            /**
+             * update bs_very_high_alert if bsveryhighalert set in post value
+             */
+            elseif(isset($request->bsveryhighalert)):
+                $patientService->bs_very_high_alert        =   $request->bsveryhighalert;
+
 
             /**
              * update start date if start date set in post value
