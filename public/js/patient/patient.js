@@ -15,6 +15,7 @@ patient();
           { data: 'code' },
           { data: 'name' },
           { data: 'mobile' },
+          { data: 'language' },
           { data: 'update_at' },
           { data: 'action'}
          

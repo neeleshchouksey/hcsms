@@ -35,8 +35,10 @@ class AlertPatientServiceTable extends Migration
             //
             $table->dropColumn('bg_number');
             $table->dropColumn('sm_number');
-            $table->dropColumn('alert_low');
-            $table->dropColumn('alert_high');
+            $table->dropColumn('low_alert');
+            $table->dropColumn('very_low_alert');
+            $table->dropColumn('high_alert');
+            $table->dropColumn('very_low_alert');
             
         });
     }

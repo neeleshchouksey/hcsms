@@ -151,6 +151,7 @@ class PatientController extends Controller
             $records[$i]['code']        =   $value->code;
             $records[$i]['mobile']      =   $value->mobile;
             $records[$i]['name']        =   $value->name;
+            $records[$i]['language']        =   $value->language->title;
             $records[$i]['update_at']   =   $value->updated_at->format('d-m-Y H:i:s');
             $records[$i]['action']      =   $editBtn." ".$delteBtn;
             $i++;

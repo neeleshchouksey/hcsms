@@ -82,7 +82,7 @@ option.separator {
 
                             <div class="col-md-6">
 
-                                <select name="language" class="form-control">
+                                <select name="language" class="language form-control">
                                     <option value="">Select Language</option>
                                     @foreach(Helper::languages() as $language)
                                         @php

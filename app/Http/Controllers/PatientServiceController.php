@@ -178,9 +178,19 @@ class PatientServiceController extends Controller
          */
         elseif($request->action=='update'):
 
+            if(isset($request->language)):
+                
+
+                $servicePatient                   =     Patient::find($request->patient);
+                $servicePatient->language_id      =     $request->language;
+                $servicePatient->save();
+                die;
+
+            endif;
             /**
              * update duration if duration set in post value
              */
+
             if(isset($request->duration)):
                 $patientService->duration       =   $request->duration;
 

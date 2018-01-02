@@ -24,7 +24,9 @@
                   <th>Code </th>
                   <th>Name</th>
                   <th>Mobile</th>
+                  <th>Language</th>
                   <th>Last Update</th>
+
                   <th>Action</th>
                  
                 </tr>

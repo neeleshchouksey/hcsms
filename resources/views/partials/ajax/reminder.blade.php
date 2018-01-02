@@ -52,17 +52,60 @@
         </div>
 
     @endif
+     @if($patientService->service_id==2)
+        <div class="form-group">
+
+            <label class="col-xs-7"> Taget Bs  Number</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm target" name="maxbp" placeholder="eg:4.9" value="{{$patientService->target}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-xs-7"> Low Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm bslowalert" name="lowalert"  placeholder="eg:10" value="{{$patientService->bs_low_alert}}">
+            </div>
+        </div>
+         <div class="form-group">
+
+            <label class="col-xs-7"> Very Low Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm bsverylowalert" name="verylowalert"  placeholder="eg:20" value="{{$patientService->bs_very_low_alert}}">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> High Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm bshighalert" name="highalert" placeholder="eg:10" value="{{$patientService->bs_high_alert}}">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="col-xs-7"> Very High Alert %</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm bsveryhighalert" name="veryhighalert" placeholder="eg:20" value="{{$patientService->bs_very_high_alert}}">
+            </div>
+        </div>
+
+    @endif
             <!-- </div> -->
     <div class="form-group">
         <div class="col-md-7">
+
             @if($patientService->service_id==3)
-            <h5>When should we sent {{$patientService->serviceData->name}} reminders?</h5>
+
+                <h5>When should we sent {{$patientService->serviceData->name}} reminders?</h5>
+
             @else
-            <h5>When should we ask for BP readings</h5>
-            <p>On what day we should request a reading
-            <br>
-            simply select and unselect
-            </p>
+                <h5>When should we ask for BP readings</h5>
+                <p>
+                    On what day we should request a reading
+                    <br>
+                    simply select and unselect
+                </p>
             @endif
         </div>
         

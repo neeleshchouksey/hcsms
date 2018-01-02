@@ -339,6 +339,116 @@ $(document).on('change','.veryhighalert',function(){
         });
     
  });
+
+// bs target fields
+
+
+$(document).on('change','.target',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          target  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.bslowalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          bslowalert     :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.bsverylowalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          bsverylowalert  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.bshighalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          bshighalert    :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+
+$(document).on('change','.bsveryhighalert',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          bsveryhighalert  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+$(document).on('change','.language',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          
+          patient        :   $('.messagePatientLog').val(),
+          language       :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
 $(document).on('click','.getBPHistory',function(){
 
   //$('#getBPHistoryModal').modal('show');
