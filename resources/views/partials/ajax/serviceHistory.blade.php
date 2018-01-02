@@ -50,8 +50,13 @@
                 <th>Date </th>
                 <th>Time</th>
                 <th>Reading</th>
-                <th>Note</th>
-                <th>Included</th>
+
+                @if(request()->is('history/*')==1)
+
+                    <th>Note</th>
+                    <th>Included</th>
+                    
+                @endif
                
                 
                 
@@ -82,9 +87,14 @@
                     <td>{{$message->created_at->format('d-m-Y')}}</td>
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
-                    <td>{{$message->remindMessage->parentSmsType->label}}</td>
+
+                    @if(request()->is('history/*')==1)
+
+                        <td>{{$message->remindMessage->parentSmsType->label}}</td>
                     
-                    <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"  {{$disabled}}></td>
+                        <td><input type="checkbox" class="excludedMesssage" {{$selectIncluded}} value="{{$message->message_id}}"  {{$disabled}}></td>
+
+                    @endif
                 </tr>
                 @php
                     if($message->included==1):
