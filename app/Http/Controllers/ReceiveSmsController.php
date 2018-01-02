@@ -137,7 +137,7 @@ class ReceiveSmsController extends Controller
                  *
                  * @var        <type>
                  */
-                $parentMessage = $parentService->reminderMessage()->whereIn('sms_type_id',[5,6,8,9])->latest()->first();
+                $parentMessage = $parentService->reminderMessage()->latest()->first();
 
                 /**
                  * initialize recieve sms object and
@@ -145,6 +145,7 @@ class ReceiveSmsController extends Controller
                  *
                  * @var        ReceiveSms
                  */
+
 
                 $receiveSms                         =       new ReceiveSms;
                 $receiveSms->sms_time               =       $request->timestamp;
@@ -191,7 +192,9 @@ class ReceiveSmsController extends Controller
              * or not if reply match with bp service reply format
              * then function return 1
              */
-            if(Helper::checkReceiveMessageFormat($request->body)==1):
+            $service_id         =       Helper::checkReceiveMessageFormat($request->body);
+
+            if($service_id>0):
 
                 /**
                  * check orignal message parent service is matched with bp service id or not
@@ -212,56 +215,59 @@ class ReceiveSmsController extends Controller
                  * @var        <type>
                  */
 
-                $parentMessageAc = $parentService->reminderMessage()->whereIn('sms_type_id',[5,6,8,9])->latest()->first();
+                $parentMessageAc = $parentService->reminderMessage()->latest()->first();
 
-                /**
-                 * Assign reply message to reading variable
-                 *
-                 * @var        <type>
-                 */
-                $reading     =  $request->body;
-
-                /**
-                 * Define empty reading data to save readings
-                 *
-                 * @var        array
-                 */
-                $readingData =  array();
-
-                /**
-                 * check bp reading seperated by space 
-                 */
-                if(strpos($reading, ' ')!='')
+                if($service_id==1):
                     /**
-                     * if yes the reading varible exploded by space
-                     * and save reading in reading data varible
+                     * Assign reply message to reading variable
                      *
-                     * @var        callable
+                     * @var        <type>
                      */
-                    $readingData = explode(' ', $reading);
-
-                  /**
-                   * check if readings are seperated by slash 
-                   */
-                elseif(strpos($reading,'/')!='')
+                    $reading     =  $request->body;
 
                     /**
-                    * if yes the reading varible exploded by slash
-                     * and save reading in reading data varible 
+                     * Define empty reading data to save readings
                      *
-                     * @var        callable
+                     * @var        array
                      */
-                    $readingData = explode('/', $reading);
+                    $readingData =  array();
 
-                /**
-                 * assign reading data first index as bg number
-                 */
-                $receiveSms->bg_number            =   $readingData[0];
+                    /**
+                     * check bp reading seperated by space 
+                     */
+                    if(strpos($reading, ' ')!='')
+                        /**
+                         * if yes the reading varible exploded by space
+                         * and save reading in reading data varible
+                         *
+                         * @var        callable
+                         */
+                        $readingData = explode(' ', $reading);
 
-                /**
-                 * assign reading data last index as sm number
-                 */
-                $receiveSms->sm_number            =   end($readingData);
+                      /**
+                       * check if readings are seperated by slash 
+                       */
+                    elseif(strpos($reading,'/')!='')
+
+                        /**
+                        * if yes the reading varible exploded by slash
+                         * and save reading in reading data varible 
+                         *
+                         * @var        callable
+                         */
+                        $readingData = explode('/', $reading);
+
+                    /**
+                     * assign reading data first index as bg number
+                     */
+                    $receiveSms->bg_number            =   $readingData[0];
+
+                    /**
+                     * assign reading data last index as sm number
+                     */
+                    $receiveSms->sm_number            =   end($readingData);
+
+                endif;
 
                 /**
                  * assign patient bp service id as service id of reply message
@@ -334,93 +340,95 @@ class ReceiveSmsController extends Controller
             /**
              * check parent service id is bp service id
              */
-            if(Helper::checkReceiveMessageFormat($request->body)==1):
+            if(Helper::checkReceiveMessageFormat($request->body)>0):
                 
                 /**
                  * call helper function for send reading receive for bp service
                  */
                 \Helper::sendSmsMessage($parentService,'reading-received',$receiveSms);
-
-                /**
-                 * assign parent service  bg number as tar_bg_number
-                 *
-                 * @var        <type>
-                 */
-                $tar_bg_number          =   $parentService->bg_number;
-
-                /**
-                 * assign parent service  sm number as tar_sm_number
-                 *
-                 * @var        <type>
-                 */
-                $tar_sm_number          =   $parentService->sm_number;
-
-                /**
-                 * calculate  parent service bp big number percetange respect to receive message bp big number
-                 *
-                 * @var        <type>
-                 */
-                $bpBigPercentage        =   (($receiveSms->bg_number-$tar_bg_number)/$tar_bg_number)*100;
-
-                /**
-                 * calcalate parent service bp sm number percentage respect to receive message bp sm number
-                 *
-                 * @var        <type>
-                 */
                 
-                $bpSmPercentage        =   (($receiveSms->sm_number-$tar_sm_number)/$tar_sm_number)*100;
-                
-                /**
-                 * if bp big percentage or bp sm percentage is greater than parent service
-                 * very high alert percentage than sent bp very high alert messag
-                 */
-                if($bpSmPercentage>$parentService->very_high_alert || $bpBigPercentage>$parentService->very_high_alert){
-                    
+                if($service_id==1):
                     /**
-                     * call helper function to send bp very high reading message
+                     * assign parent service  bg number as tar_bg_number
+                     *
+                     * @var        <type>
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-high');
-
-                }
-
-                /**
-                 * if bp big percentage or bp sm percentage is greater than parent service
-                 *  high alert percentage than sent bp very high alert message
-                 */
-                elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
-
-                  /**
-                   * call helper function to send bp high reading message
-                   */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high');
-                    
-                }
-
-                /**
-                 * if bp big percentage or bp sm percentage is less than parent service
-                 * very low alert percentage than sent bp very low alert message
-                 */
-                if($bpSmPercentage<(-$parentService->very_low_alert) || $bpBigPercentage<(-$parentService->very_low_alert)){
+                    $tar_bg_number          =   $parentService->bg_number;
 
                     /**
-                     * call helper fuction to sent bp very low alert message
+                     * assign parent service  sm number as tar_sm_number
+                     *
+                     * @var        <type>
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low');
-                    
-                }
-
-                /**
-                 * if bp big percentage or bp sm percentage is less than parent service
-                 * low alert percentage than sent bp low alert message
-                 */
-                elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
+                    $tar_sm_number          =   $parentService->sm_number;
 
                     /**
-                     * call helper function bp low alert message
+                     * calculate  parent service bp big number percetange respect to receive message bp big number
+                     *
+                     * @var        <type>
                      */
-                    \Helper::sendSmsMessage($originalMessage->parentService,'reading-low');
+                    $bpBigPercentage        =   (($receiveSms->bg_number-$tar_bg_number)/$tar_bg_number)*100;
+
+                    /**
+                     * calcalate parent service bp sm number percentage respect to receive message bp sm number
+                     *
+                     * @var        <type>
+                     */
                     
-                }
+                    $bpSmPercentage        =   (($receiveSms->sm_number-$tar_sm_number)/$tar_sm_number)*100;
+                    
+                    /**
+                     * if bp big percentage or bp sm percentage is greater than parent service
+                     * very high alert percentage than sent bp very high alert messag
+                     */
+                    if($bpSmPercentage>$parentService->very_high_alert || $bpBigPercentage>$parentService->very_high_alert){
+                        
+                        /**
+                         * call helper function to send bp very high reading message
+                         */
+                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-high');
+
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is greater than parent service
+                     *  high alert percentage than sent bp very high alert message
+                     */
+                    elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
+
+                      /**
+                       * call helper function to send bp high reading message
+                       */
+                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-high');
+                        
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is less than parent service
+                     * very low alert percentage than sent bp very low alert message
+                     */
+                    if($bpSmPercentage<(-$parentService->very_low_alert) || $bpBigPercentage<(-$parentService->very_low_alert)){
+
+                        /**
+                         * call helper fuction to sent bp very low alert message
+                         */
+                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-very-low');
+                        
+                    }
+
+                    /**
+                     * if bp big percentage or bp sm percentage is less than parent service
+                     * low alert percentage than sent bp low alert message
+                     */
+                    elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
+
+                        /**
+                         * call helper function bp low alert message
+                         */
+                        \Helper::sendSmsMessage($originalMessage->parentService,'reading-low');
+                        
+                    }
+                endif
             endif;
         break;
         }
