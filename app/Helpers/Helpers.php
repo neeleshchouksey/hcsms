@@ -54,7 +54,7 @@ class Helpers
     // die('checkhisory');
     
     $bphistoryurl   =   url('/'.$patientService->token);
-    $site_url       =   url();
+    $site_url       =   url('/');
     $timezone       =   Self::getPracticeTimeZone($patientService->patient);
     $getDays   =    $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
@@ -116,7 +116,7 @@ class Helpers
           $message        =   str_replace('@average-reading', $readings, $message);
 
         break;
-        
+
       case 'bsaverage':
         
           $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('body'),2);
