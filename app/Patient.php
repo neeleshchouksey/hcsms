@@ -15,6 +15,6 @@ class Patient extends Model
     	return $this->belongsTO('App\User','user_id');
     }
     public function language(){
-    	return $this->belongsTO('App\LangUage','language_id');
+    	return $this->belongsTO('App\Language','language_id');
     }
 }
