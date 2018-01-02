@@ -367,7 +367,7 @@ class ReceiveSmsController extends Controller
                         /**
                          * call helper function to send bp very high reading message
                          */
-                        \Helper::sendSmsMessage($parentService,'reading-high');
+                        \Helper::sendSmsMessage($parentService,'reading-very-high');
 
                     }
 
@@ -380,7 +380,7 @@ class ReceiveSmsController extends Controller
                       /**
                        * call helper function to send bp high reading message
                        */
-                        \Helper::sendSmsMessage($parentService,'reading-very-high');
+                        \Helper::sendSmsMessage($parentService,'reading-high');
                         
                     }
 
@@ -436,9 +436,10 @@ class ReceiveSmsController extends Controller
                     if($targetPercentage>$parentService->bs_very_high_alert){
                         
                         /**
+                         *
                          * call helper function to send bp very high reading message
                          */
-                        \Helper::sendSmsMessage($parentService,'reading-high');
+                        \Helper::sendSmsMessage($parentService,'reading-very-high');
 
                     }
 
@@ -451,7 +452,7 @@ class ReceiveSmsController extends Controller
                       /**
                        * call helper function to send bp high reading message
                        */
-                        \Helper::sendSmsMessage($parentService,'reading-very-high');
+                        \Helper::sendSmsMessage($parentService,'reading-high');
                         
                     }
 
