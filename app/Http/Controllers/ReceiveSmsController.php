@@ -19,7 +19,7 @@ class ReceiveSmsController extends Controller
     {
         //
        // $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
-        $originalMessage    =       ReminderSms::where('message_id','B5BE56E0-965F-421A-9D73-EF494CA66B6E')->first();
+        $originalMessage    =       ReminderSms::where('message_id','B9188247-6A96-44C9-BC3E-AAC026655AF7')->first();
         echo $reading    =   "9.2hu";
         echo "<br>";
         //echo is_float($reading);
@@ -27,13 +27,13 @@ class ReceiveSmsController extends Controller
         echo "<pre>";
         //print_r($originalMessage->remindMessage->parentService);
         $history         =    'average';
-        // if($originalMessage->remindMessage->parentService->service_id==1)
-        //   $parentService = $originalMessage->remindMessage->parentService;
-        // else
-        //     $parentService = $originalMessage->remindMessage->parentService->patient->reminderService->where('service_id',1)->first();
+        if($originalMessage->parentService->service_id==1)
+          $parentService = $originalMessage->parentService;
+        else
+            $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',1)->first();
        // $parentService = \App\PatientService::find(5);
        // \Helper::sendSmsMessage($parentService,$history);
-        //print_r($parentService->reminderMessage()->latest()->first());
+        print_r($parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first());
       //  $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
       //  $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
       // echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
@@ -192,9 +192,8 @@ class ReceiveSmsController extends Controller
              * or not if reply match with bp service reply format
              * then function return 1
              */
-            $service_id         =       Helper::checkReceiveMessageFormat($request->body);
-
-            if($service_id>0):
+            $service_id     =   Helper::checkReceiveMessageFormat($request->body);
+            if($service_id > 0):
 
                 /**
                  * check orignal message parent service is matched with bp service id or not
@@ -215,9 +214,9 @@ class ReceiveSmsController extends Controller
                  * @var        <type>
                  */
 
-                $parentMessageAc = $parentService->reminderMessage()->latest()->first();
+                $parentMessageAc = $parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first();
 
-                if($service_id==1):
+                if($service_id==1):    
                     /**
                      * Assign reply message to reading variable
                      *
@@ -279,41 +278,6 @@ class ReceiveSmsController extends Controller
                  */
                 $receiveSms->original_message_id  =   $parentMessageAc->message_id;
 
-            elseif(Helper::checkReceiveMessageFormat($request->body)==2):
-
-                /**
-                 * check orignal message parent service is matched with bp service id or not
-                 * if match then assigne original parent service for parent sevice varible
-                 */
-                if($originalMessage->parentService->service_id==2)
-                    $parentService = $originalMessage->parentService;
-
-                /**
-                 * if not then find patient bp service id 
-                 * and assign patient bp service to parent service
-                 */
-                else
-                    $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',2)->first();
-                /**
-                 * find bp latest send reminder message to patient
-                 *
-                 * @var        <type>
-                 */
-
-                $parentMessageAc = $parentService->reminderMessage()->whereIn('sms_type_id',[19,20,21])->latest()->first();
-
-                
-                /**
-                 * assign patient bp service id as service id of reply message
-                 */
-                $receiveSms->patient_service_id   =   $parentService->id;
-
-                /**
-                 * assign lastest bp reminder sent message id as original message id of curent message
-                 */
-                $receiveSms->original_message_id  =   $parentMessageAc->message_id;
-
-         
 
             else:
                 /**
@@ -340,13 +304,13 @@ class ReceiveSmsController extends Controller
             /**
              * check parent service id is bp service id
              */
-            if(Helper::checkReceiveMessageFormat($request->body)>0):
+            if($service_id>0):
                 
                 /**
                  * call helper function for send reading receive for bp service
                  */
                 \Helper::sendSmsMessage($parentService,'reading-received',$receiveSms);
-                
+
                 if($service_id==1):
                     /**
                      * assign parent service  bg number as tar_bg_number
@@ -428,7 +392,7 @@ class ReceiveSmsController extends Controller
                         \Helper::sendSmsMessage($originalMessage->parentService,'reading-low');
                         
                     }
-                endif
+                endif;
             endif;
         break;
         }
