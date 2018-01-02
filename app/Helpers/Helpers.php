@@ -136,7 +136,13 @@ class Helpers
         # code...
         break;
     }
-    
+    if($patientService->service_id==2):
+        $bsmin          =   $patientService->target-(($patientService->bs_low_alert*$patientService->target)/100);
+        $bsmax          =   $patientService->target+(($patientService->bs_high_alert*$patientService->target)/100);
+
+        $message        =   str_replace('@BSMIN', $bsmin, $message);
+        $message        =   str_replace('@BSMAX', $bsmax, $message);   
+    endif;  
     $message = str_replace('@DAYS', $getDays, $message);
     $message = str_replace('@TIMES', $getTime, $message);
 
