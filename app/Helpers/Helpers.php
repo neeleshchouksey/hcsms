@@ -123,7 +123,12 @@ class Helpers
           
           $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg;
 
+          $readingcount   =   $patientService->receiveMessage->count();
+
           $message        =   str_replace('@average-reading', $readings, $message);
+
+          $message        =   str_replace('@readingcount', $readingcount, $message);
+
         break;
 
       
