@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ReceiveSms;
 use App\ReminderSms;
+use App\ServiceSmsTypes;
 use Helper;
 use Illuminate\Http\Request;
 use Auth;
@@ -33,7 +34,9 @@ class ReceiveSmsController extends Controller
             $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',1)->first();
        // $parentService = \App\PatientService::find(5);
        // \Helper::sendSmsMessage($parentService,$history);
-        print_r($parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first());
+        //print_r($parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first());
+        $ServiceSmsTypes            =   ServiceSmsTypes::where('name','bphistory')->first();
+        print_r($ServiceSmsTypes);
       //  $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
       //  $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
       // echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
@@ -111,12 +114,25 @@ class ReceiveSmsController extends Controller
             case 'bphelp':
             case 'bpaverage':
             case 'bpshare':
-              
+            case 'bshelp':
+            case 'advice':
+            case 'bshistory':
+            case 'bsaverage':
+            case 'buy':
+                              
+                 /**
+                 * find current action service id
+                 *
+                 * @var        <type>
+                 */
+                $service_id            =   ServiceSmsTypes::where('name',$action)->value('service_id');
                 /**
                  * check orignal message parent service is matched with bp service id or not
                  * if match then assigne original parent service for parent sevice varible
                  */
+
                 if($originalMessage->parentService->service_id==$service_id)
+
                     $parentService = $originalMessage->parentService;
 
                 /**
@@ -167,6 +183,7 @@ class ReceiveSmsController extends Controller
                   * save receive message object
                   */
                 $receiveSms->save();
+
             break;
             
         default: 

@@ -54,7 +54,8 @@ class Helpers
     // die('checkhisory');
     
     $bphistoryurl   =   url('/'.$patientService->token);
-    
+    $site_url       =   url();
+    $timezone       =   Self::getPracticeTimeZone($patientService->patient);
     $getDays   =    $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
     $getDays   =    self::customArrayMap(array('day_data','abbr'),$getDays);
       
@@ -69,48 +70,68 @@ class Helpers
     $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
+    $message = str_replace('@WEBSITE', $site_url, $message);
 
+    $readings = '';
 
-    if($patientService->service_id==1 && $action=='bphistory'):
-      $readings = '';
-      $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
-      $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
-      $timezone   = $timezone[0];
+    switch ($action) {
 
-      foreach ($patientService->receiveMessage as $receiveM) {
+      case 'bphistory':
+ 
+          foreach ($patientService->receiveMessage as $receiveM) {
+            # code...
+            $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
+            $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
+            $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
+
+            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+          }
+          $message = str_replace('@last-ten-reading', $readings, $message);
+        break;
+
+      case 'bshistory':
+        
+          foreach ($patientService->receiveMessage as $receiveM) {
+            
+            $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
+            $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
+            $receiveMReading  =   $receiveMessage->body;
+
+            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+          }
+          $message = str_replace('@last-ten-reading', $readings, $message);
+
+        break;
+
+      case 'bpaverage':
+        
+          $tenDayBg       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number'),2);
+          $tenDaySm       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number'),2);
+          $readings      .=   "\r\n Last 10 Days :"." ".$tenDayBg."/".$tenDaySm;
+
+          $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number'),2);
+          $thirtyDaySm    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number'),2);
+          $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
+
+          $message        =   str_replace('@average-reading', $readings, $message);
+
+        break;
+        
+      case 'bsaverage':
+        
+          $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('body'),2);
+          
+          $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg;
+
+          $message        =   str_replace('@average-reading', $readings, $message);
+        break;
+
+      
+      default:
         # code...
-        $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
-        $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
-        $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
-
-        $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
-      }
-      $message = str_replace('@last-ten-reading', $readings, $message);
-
-    endif;
+        break;
+    }
     
-    if($patientService->service_id==1 && $action=='bpaverage'):
-
-      $readings        =    '';
-
-      $countryCode     =   $patientService->patient->doctor->getCountry->iso_3166_2;
-      $timezone        =   \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
-      $timezone        =    $timezone[0];
-      // echo Carbon::now()->subDay(30);
-      // die;
-      $tenDayBg       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number'),2);
-      $tenDaySm       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number'),2);
-      $readings      .=   "\r\n Last 10 Days :"." ".$tenDayBg."/".$tenDaySm;
-
-      $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number'),2);
-      $thirtyDaySm    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number'),2);
-      $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
-
-      $message        =   str_replace('@average-reading', $readings, $message);
-
-    endif;
-
-
     $message = str_replace('@DAYS', $getDays, $message);
     $message = str_replace('@TIMES', $getTime, $message);
 
