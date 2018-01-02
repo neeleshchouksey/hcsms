@@ -409,8 +409,8 @@ class ReceiveSmsController extends Controller
                         \Helper::sendSmsMessage($parentService,'reading-low');
                         
                     }
-              
-                elseif($service_id==2):
+                endif;
+                if($service_id==2):
                     /**
                      * assign parent service  target as target_number
                      *
