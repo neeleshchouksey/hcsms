@@ -78,7 +78,7 @@ class Helpers
 
       case 'bphistory':
  
-          foreach ($patientService->receiveMessage as $receiveM) {
+          foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
             # code...
             $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
             $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
@@ -90,12 +90,12 @@ class Helpers
         break;
 
       case 'bshistory':
-        
-          foreach ($patientService->receiveMessage as $receiveM) {
+         
+          foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
             
             $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
             $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
-            $receiveMReading  =   $receiveMessage->body;
+            $receiveMReading  =   $receiveM->body;
 
             $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
           }
