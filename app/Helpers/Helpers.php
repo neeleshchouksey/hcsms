@@ -70,6 +70,7 @@ class Helpers
     $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
     $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
+    $message = str_replace('@PATIENTBSHISTORYLINK', $bphistoryurl, $message);
     $message = str_replace('@WEBSITE', $site_url, $message);
 
     $readings = '';
