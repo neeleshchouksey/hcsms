@@ -297,10 +297,34 @@ class ReceiveSmsController extends Controller
 
 
             else:
+
+                /**
+                 * check orignal message parent service is matched with tb service id or not
+                 * if match then assigne original parent service for parent sevice varible
+                 */
+                if($originalMessage->parentService->service_id==3)
+                    $parentService = $originalMessage->parentService;
+
+                /**
+                 * if not then find patient tb service id 
+                 * and assign patient tb service to parent service
+                 */
+                else
+                    $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',3)->first();
+
+                /**
+                 * find tb latest send reminder message to patient
+                 *
+                 * @var        <type>
+                 */
+
+                $parentMessageAc = $parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first();
+
+                
                 /**
                  * assign receive original message id as original message id of current message
                  */
-                $receiveSms->original_message_id    =       $request->original_message_id;
+                $receiveSms->original_message_id    =       $parentMessageAc->message_id;
 
             endif;
 

@@ -251,6 +251,8 @@ class CronJobController extends Controller
              * message
              */
             \Helper::sendSmsMessage($service,$action);
+            $service->ischanged    =   0   ;   
+            $service->save();
         }
     }
 }
