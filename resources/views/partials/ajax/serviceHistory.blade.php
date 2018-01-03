@@ -51,7 +51,7 @@
                 <th>Time</th>
                 <th>Reading</th>
 
-                @if(request()->is('history/*')!=1)
+                @if(request()->is('patient/*')==1)
 
                     <th>Note</th>
                     <th>Included</th>
@@ -88,7 +88,7 @@
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
 
-                    @if(request()->is('history/*')!=1)
+                    @if(request()->is('patient/*')==1)
 
                         <td>{{$message->remindMessage->parentSmsType->label}}</td>
                     
