@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <td>Latest Reading</td>
-            <td>{{$latestReading->bg_number.'/'.$latestReading->sm_number}}</td>
+            <td>{{$averages->latestReading}}</td>
             <td>{{$latestReading->created_at->format('d-m-Y H:i')}}</td>
         </tr>
         
@@ -51,7 +51,7 @@
                 <th>Time</th>
                 <th>Reading</th>
 
-                @if(request()->is('history/*')==1)
+                @if(request()->is('history/*')!=1)
 
                     <th>Note</th>
                     <th>Included</th>
@@ -79,7 +79,7 @@
                     $selectIncluded     =   '';
 
                     /* check if included value is one or not*/
-                    if($message->included==1)
+                    if($message->included=1)
                         $selectIncluded = 'checked';
 
                 @endphp
@@ -88,7 +88,7 @@
                     <td>{{$message->created_at->format('H:i')}}</td>
                     <td>{{$message->body}}</td>
 
-                    @if(request()->is('history/*')==1)
+                    @if(request()->is('history/*')!=1)
 
                         <td>{{$message->remindMessage->parentSmsType->label}}</td>
                     
@@ -98,12 +98,29 @@
                 </tr>
                 @php
                     if($message->included==1):
-                        $messageData =  array(
+                        if($patientService->service_id==1):
+
+                            $labels   =   array('SYS','DIa');
+                            $ykeys    =   array('bg_number','sm_number');
+
+                            $messageData =  array(
                                             'rownum'=>$i,
                                             'date'=>$message->created_at->format('d/m/Y H:i'),
                                             'bg_number'=>$message->bg_number,
                                             'sm_number'=>$message->sm_number
                                         );
+                        else:
+
+                            $messageData =  array(
+                                            'rownum'=>$i,
+                                            'date'=>$message->created_at->format('d/m/Y H:i'),
+                                            'target'=>$message->body,
+                                            
+                                        );
+                            $labels   =   array('SYS');
+                            $ykeys    =   array('target');
+
+                        endif;
 
                         array_push($data, $messageData);
                         $i++;
@@ -133,13 +150,14 @@
           // The name of the data record attribute that contains x-values.
           xkey: 'date',
           // A list of names of data record attributes that contain y-values.
-          ykeys: ['bg_number','sm_number'],
+          ykeys: <?=json_encode($ykeys)?>,
           // Labels for the ykeys -- will be displayed when you hover over the
           // chart.
-          labels: ['SYS', 'DIA'],
+          labels: <?=json_encode($labels)?>,
           lineColors: ['#3097D1','orangered'],
-         parseTime:false,
-         smooth:true,axes:"y"
+          parseTime:false,
+          smooth:true,
+          axes:"y"
           
         });
     });
@@ -153,10 +171,10 @@
           // The name of the data record attribute that contains x-values.
           xkey: 'date',
           // A list of names of data record attributes that contain y-values.
-          ykeys: ['bg_number','sm_number'],
+          ykeys: <?=json_encode($ykeys)?>,
           // Labels for the ykeys -- will be displayed when you hover over the
           // chart.
-          labels: ['SYS', 'DIA'],
+          labels: <?=json_encode($labels)?>,
           lineColors: ['#3097D1','orangered'],
          parseTime:false,
          smooth:true,axes:"y"

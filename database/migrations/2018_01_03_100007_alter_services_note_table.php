@@ -17,6 +17,7 @@ class AlterServicesNoteTable extends Migration
             //
             $table->text('popuplabel')->after('practice_id')->nullable();
             $table->text('notes')->after('popuplabel')->nullable();
+            $table->tinyInteger('ishistory')->default(0)->after('notes');
         });
     }
 
@@ -30,6 +31,7 @@ class AlterServicesNoteTable extends Migration
         Schema::table('services', function (Blueprint $table) {
             //
             $table->dropColumn('popuplabel');
+            $table->dropColumn('ishistory');
             $table->dropColumn('notes');
         });
     }

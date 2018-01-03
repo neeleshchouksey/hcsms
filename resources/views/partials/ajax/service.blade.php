@@ -59,7 +59,7 @@
     <input type="checkbox" class="service-toggle pull-right" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle">
     </div>
     <br><br>
-    @if($service->id==1)
+    @if($service->ishistory==1)
         <button class="btn btn-success pull-left col-md-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
     @endif 
    <button class="btn btn-success pull-right col-md-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>

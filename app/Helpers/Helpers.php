@@ -358,121 +358,243 @@ class Helpers
          */
         $averages                     =     (object) array();
 
-        /**
-         * Get all time averages of bp readings
-         */
-        $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number')).'/'.round($receiveMessage->avg('sm_number'));
+        if($patientService->service_id==1):
+          
+          /**
+           * Get all time averages of bp readings
+           */
+          $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number')).'/'.round($receiveMessage->avg('sm_number'));
 
-        /**
-         * Inialiatize offset value for get averages of 
-         * last 5 days and last 5 records of bp readings
-         *
-         * @var        integer
-         */
-        $offset                       =     5;
+          /**
+           * Inialiatize offset value for get averages of 
+           * last 5 days and last 5 records of bp readings
+           *
+           * @var        integer
+           */
+          $offset                       =     5;
 
-        /**
-         * Get average of last 5 records of 
-         * received bp readings
-         * 
-         */
-        $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-        
-        /**
-         * Get 5 days before date
-         *
-         * @var        <type>
-         */
-        $getdays                      =     Carbon::now()->subDay($offset);
+          /**
+           * Get average of last 5 records of 
+           * received bp readings
+           * 
+           */
+          $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
+          
+          /**
+           * Get 5 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
 
-        /**
-         * get avarage of last 5 days rececived readings
-         */
-        $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+          /**
+           * get avarage of last 5 days rececived readings
+           */
+          $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
-        /**
-         * Inialiatize offset value for get averages of 
-         * last 10 days and last 10 records of bp readings
-         *
-         * @var        integer
-         */
-        $offset                       =     10;
+          /**
+           * Inialiatize offset value for get averages of 
+           * last 10 days and last 10 records of bp readings
+           *
+           * @var        integer
+           */
+          $offset                       =     10;
 
-         /**
-         * Get average of last 10 records  
-         * received bp readings
-         * 
-         */
-        $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-       
-         /**
-         * Get 10 days before date
-         *
-         * @var        <type>
-         */
-        $getdays                      =     Carbon::now()->subDay($offset);
+           /**
+           * Get average of last 10 records  
+           * received bp readings
+           * 
+           */
+          $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
+         
+           /**
+           * Get 10 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
 
-         /**
-         * get avarage of last 10 days rececived readings
-         */
-        $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+           /**
+           * get avarage of last 10 days rececived readings
+           */
+          $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
-        /**
-         * Initialize offset for get avarages of 
-         * last 20 records and last 20 days records
-         *
-         * @var        integer
-         */
-        $offset                       =     20;
+          /**
+           * Initialize offset for get avarages of 
+           * last 20 records and last 20 days records
+           *
+           * @var        integer
+           */
+          $offset                       =     20;
 
-        /**
-         * Get averages of last 20 days bp readings
-         */
-        $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-        
-        /**
-         * get   20 days before date
-         *
-         * @var        <type>
-         */
-        $getdays                      =     Carbon::now()->subDay($offset);
+          /**
+           * Get averages of last 20 days bp readings
+           */
+          $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
+          
+          /**
+           * get   20 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
 
-        /**
-         * get averages of last 20 days bp readings
-         */
-        $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
-       
-        /**
-         * Initialize for get averages of
-         * last 30 and last 30 days bp readings
-         *
-         * @var        integer
-         */
-        $offset                       =     30;
+          /**
+           * get averages of last 20 days bp readings
+           */
+          $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+         
+          /**
+           * Initialize for get averages of
+           * last 30 and last 30 days bp readings
+           *
+           * @var        integer
+           */
+          $offset                       =     30;
 
-        /**
-         * Get averages of last 30  bp readings
-         */
-        $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-        
-        /**
-         * get 30 days before date
-         *
-         * @var        <type>
-         */
-        $getdays                      =     Carbon::now()->subDay($offset);
+          /**
+           * Get averages of last 30  bp readings
+           */
+          $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
+          
+          /**
+           * get 30 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
 
-        /**
-         * get average of last 30 days average reading
-         */
-        $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
-       
-        /**
-         * { var_description }
-         *
-         * @var        <type>
-         */
-        $latestReading                =     $receiveMessage->first();
+          /**
+           * get average of last 30 days average reading
+           */
+          $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+         
+          /**
+           * { var_description }
+           *
+           * @var        <type>
+           */
+          $latestReading                =     $receiveMessage->first();
+          $averages->latestReading      =     $latestReading->bg_number.'/'.$latestReading->sm_number;
+        else:
+          /**
+           * Get all time averages of bs readings
+           */
+          $averages->allTimeAverage     =     round($receiveMessage->avg('body'),2);
+
+          /**
+           * Inialiatize offset value for get averages of 
+           * last 5 days and last 5 records of bs readings
+           *
+           * @var        integer
+           */
+          $offset                       =     5;
+
+          /**
+           * Get average of last 5 records of 
+           * received bs readings
+           * 
+           */
+          $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('body'),2);
+          
+          /**
+           * Get 5 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
+
+          /**
+           * get avarage of last 5 days rececived readings
+           */
+          $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+
+          /**
+           * Inialiatize offset value for get averages of 
+           * last 10 days and last 10 records of bs readings
+           *
+           * @var        integer
+           */
+          $offset                       =     10;
+
+           /**
+           * Get average of last 10 records  
+           * received bs readings
+           * 
+           */
+          $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('body'),2);
+         
+           /**
+           * Get 10 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
+
+           /**
+           * get avarage of last 10 days rececived readings
+           */
+          $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+
+          /**
+           * Initialize offset for get avarages of 
+           * last 20 records and last 20 days records
+           *
+           * @var        integer
+           */
+          $offset                       =     20;
+
+          /**
+           * Get averages of last 20 days bs readings
+           */
+          $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('body'),2);
+          
+          /**
+           * get   20 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
+
+          /**
+           * get averages of last 20 days bs readings
+           */
+          $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+         
+          /**
+           * Initialize for get averages of
+           * last 30 and last 30 days bs readings
+           *
+           * @var        integer
+           */
+          $offset                       =     30;
+
+          /**
+           * Get averages of last 30  bs readings
+           */
+          $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('body'),2);
+          
+          /**
+           * get 30 days before date
+           *
+           * @var        <type>
+           */
+          $getdays                      =     Carbon::now()->subDay($offset);
+
+          /**
+           * get average of last 30 days average reading
+           */
+          $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+         
+          /**
+           * { var_description }
+           *
+           * @var        <type>
+           */
+          $latestReading                =     $receiveMessage->first();
+          $averages->latestReading      =     $latestReading->body;
+        endif;
+
        /**
         * Pass receive messages and all averages 
         * of bp service to view and return view 
