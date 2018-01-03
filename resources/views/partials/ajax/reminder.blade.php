@@ -94,19 +94,7 @@
             <!-- </div> -->
     <div class="form-group">
         <div class="col-md-7">
-
-            @if($patientService->service_id==3)
-
-                <h5>When should we sent {{$patientService->serviceData->name}} reminders?</h5>
-
-            @else
-                <h5>When should we ask for BP readings</h5>
-                <p>
-                    On what day we should request a reading
-                    <br>
-                    simply select and unselect
-                </p>
-            @endif
+            {!!$patientService->serviceData->popuplabel!!}
         </div>
         
 
@@ -233,7 +221,7 @@
     <div class="clearfix"></div>
     <div class="form-group text-center">
         <h4>Note to doctor</h4>
-        <h6>Please ensure you show them to enter BP reading in one line Big Number SPACE Small number</h6>
+        <h6>{{$patientService->serviceData->notes}}</h6>
     </div>
 
     <div class="clearfix"></div>
