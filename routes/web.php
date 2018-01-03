@@ -29,6 +29,8 @@ Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('sen
 
 Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->name('end-reminder');
 
+Route::get('/update-send-messge', 'CronJobController@checkUpdateservice')->name('update-send-messge');
+
 Route::get('history/{id}','PatientServiceController@getPatientHistory');
 
 Route::group(['middleware' => 'auth'], function() {

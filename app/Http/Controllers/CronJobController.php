@@ -209,4 +209,48 @@ class CronJobController extends Controller
         die;
 
     }
+    public function checkUpdateservice(){
+        /**
+         * Find patient services those are active and changed 
+         * and check they services has changed reminder in database or not
+         *
+         * @var        <type>
+         */
+        $patientServices    =   PatientService::where('ischanged',1)
+                                    ->where('status',1)
+                                    ->whereHas('serviceData',
+                                            function($q){
+                                                $q->where('id',2);
+                                                $q->whereHas('smsTypes',
+                                                    function($q2){
+                                                        $q2->where('label','Changed');
+                                                    }
+                                                    );
+                                                }
+                                            )->with(['serviceData.smsTypes'=>function($q3){
+                                                $q3->where('label','Changed');
+                                            }])->get();
+        
+        foreach ($patientServices as $service) {
+            /**
+             * find service sms type action
+             *
+             * @var        <type>
+             */
+            $smsTypes   =   $service->serviceData->smsTypes->first();
+            
+            /**
+             * Assign service sms type name to action name
+             *
+             * @var        <type>
+             */
+            $action     =   $smsTypes->name;
+            
+            /**
+             * Call helper function to send changed
+             * message
+             */
+            \Helper::sendSmsMessage($service,$action);
+        }
+    }
 }
