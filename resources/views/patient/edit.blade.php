@@ -167,6 +167,7 @@ option.separator {
                      $j++
                     @endphp
                     @endforeach
+                   
                     <div class="clearfix"></div>
 
                     <div class="col-md-12">
@@ -280,6 +281,27 @@ option.separator {
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- Modal HTML Markup -->
+<div id="manageServiceModal" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">Manage Appointments
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 @push('scripts')
 

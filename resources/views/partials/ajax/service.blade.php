@@ -1,66 +1,81 @@
-<div class="col-md-6">
-    <h4>{{$service->name}}</h4>
-    Remindar set for
-    @php
-        $checked= "";
+@if($service->id<4):
 
-    @endphp 
+    <div class="col-md-6">
+        <h4>{{$service->name}}</h4>
 
-    @if($patient->reminderService()->where('service_id',$service->id)->exists()==1)
-
+        Remindar set for
         @php
-            
-            if($patient->reminderService()->where('service_id',$service->id)->first()->status==1):
-                $checked = 'checked';
-            else:
-                $checked = '';
-            endif;
+            $checked= "";
 
-            $dayCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->count();
-            $i=0;
-        @endphp
-        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->orderBy('day_id','asc')->get() as $day)
-            {{ucfirst($day->dayData->abbr)}}
+        @endphp 
+
+        @if($patient->reminderService()->where('service_id',$service->id)->exists()==1)
 
             @php
-                if($i==$dayCount-2 ):
-                    echo "&";
-                elseif($i<$dayCount && $i!=$dayCount-1):
-                    echo ","; 
+                
+                if($patient->reminderService()->where('service_id',$service->id)->first()->status==1):
+                    $checked = 'checked';
+                else:
+                    $checked = '';
                 endif;
-                $i++;
-            @endphp
-        @endforeach
-        at 
-        @php
-            $timeCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->count();
-            $i=0;
-        @endphp
-        @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->orderBy('time_id','asc')->get() as $time)
-            {{$time->timeData->title}} 
-             @php
-               
-                if($i==$timeCount-2 ):
-                    echo "and";
-                elseif($i<$timeCount && $i!=$timeCount-1):
-                    echo ","; 
-                endif;
-                $i++;
-            @endphp
-        @endforeach
-    @else
-        mon & fri at 8am  and 7pm 
-    @endif
-       
 
-</div>
-<div class="col-md-6">
-    <div class="col-md-offset-6 col-md-6">
-    <input type="checkbox" class="service-toggle pull-right" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle">
+                $dayCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->count();
+                $i=0;
+            @endphp
+            @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderDays()->orderBy('day_id','asc')->get() as $day)
+                {{ucfirst($day->dayData->abbr)}}
+
+                @php
+                    if($i==$dayCount-2 ):
+                        echo "&";
+                    elseif($i<$dayCount && $i!=$dayCount-1):
+                        echo ","; 
+                    endif;
+                    $i++;
+                @endphp
+            @endforeach
+            at 
+            @php
+                $timeCount = $patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->count();
+                $i=0;
+            @endphp
+            @foreach($patient->reminderService()->where('service_id',$service->id)->first()->reminderTime()->orderBy('time_id','asc')->get() as $time)
+                {{$time->timeData->title}} 
+                 @php
+                   
+                    if($i==$timeCount-2 ):
+                        echo "and";
+                    elseif($i<$timeCount && $i!=$timeCount-1):
+                        echo ","; 
+                    endif;
+                    $i++;
+                @endphp
+            @endforeach
+        @else
+            mon & fri at 8am  and 7pm 
+        @endif
+           
+
     </div>
-    <br><br>
-    @if($service->ishistory==1)
-        <button class="btn btn-success pull-left col-md-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
-    @endif 
-   <button class="btn btn-success pull-right col-md-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
- </div>
+    <div class="col-md-6">
+        <div class="col-md-offset-6 col-md-6">
+        <input type="checkbox" class="service-toggle pull-right" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle">
+        </div>
+        <br><br>
+        @if($service->ishistory==1)
+            <button class="btn btn-success pull-left col-md-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
+        @endif 
+       <button class="btn btn-success pull-right col-md-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
+     </div>
+@else:
+        <div class="col-md-6">
+            <h4>{{$service->name}}</h4>
+            Live Appointments:1
+        </div>
+        <div class="col-md-6">
+           
+                <button class="btn btn-success pull-right  manageService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Manage</button>
+            
+            
+        </div>
+@endif

@@ -17,4 +17,9 @@ class Service extends Model
     	return $this->hasMany('App\ServiceSmsTypes','service_id');
     	
     }
+    public function appointments(){
+
+    	return $this->hasMany('App\PatientAppointment','service_id');
+    	
+    }
 }

@@ -10,4 +10,9 @@ class RemiderTime extends Model
     public function getMessages(){
     	$this->hasMany('App\ReminderSms','time_id');
     }
+    public function appointments(){
+
+    	return $this->hasMany('App\PatientAppointment','appt_time');
+    	
+    }
 }

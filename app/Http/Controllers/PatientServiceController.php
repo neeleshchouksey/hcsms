@@ -46,7 +46,7 @@ class PatientServiceController extends Controller
     public function store(Request $request)
     {
         //
-        // initalizin where array for check condition 
+        // initalizing where array for check condition 
         $where              =    array('patient_id'=>$request->patient,'service_id'=>$request->service);
 
         // get patient servive data from database
@@ -58,11 +58,20 @@ class PatientServiceController extends Controller
         // get all defualt values of time from database
         $defaultTime        =   RemiderTime::where('isdefault',1)->pluck('id');
 
+
+        /**
+         * find original service
+         *
+         * @var        <type>
+         */
+
+        $service =  Service::find($request->service);
+
         /**
         * check if service is exists in patient service database if not exists
         * in database then insert service in patient service database
         */
-        if(count($patientService)==0):
+        if(count($patientService)==0 && $request->service!=4):
 
             // get default duration from database
             $duration           =   RemindarDuration::where('isdefault',1)->first();
@@ -327,19 +336,17 @@ class PatientServiceController extends Controller
              */
             $patient =  $patientService->patient;
 
-            /**
-             * find original service
-             *
-             * @var        <type>
-             */
-
-            $service =  Service::find($request->service);
 
             /**
              * Pass patient and service data in view 
              * and return view data to ajax response
              */
             return \Response::view('partials.ajax.service',compact('patient','service'));
+        elseif($request->action=='appointment'):
+            $times          =    RemiderTime::all();
+            $patient        =    Patient::find($request->patient);
+            $appointments   =   $service->appointments()->where('patient_id',$patient->id)->get();
+            return \Response::view('partials.ajax.appointment',compact('service','times','patient','appointments'));
         else:
             return "add";
         endif;

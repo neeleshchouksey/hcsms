@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('staff','StaffController');
 
+    Route::resource('patient-appointment','PatientAppointmentController');
+
 	Route::get('staff/ajax/load','StaffController@ajaxLoad');
 
 	Route::resource('patient','PatientController');

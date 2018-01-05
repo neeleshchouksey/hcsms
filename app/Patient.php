@@ -17,4 +17,7 @@ class Patient extends Model
     public function language(){
     	return $this->belongsTO('App\Language','language_id');
     }
+    public function appointments(){
+        return $this->hasMany('App\PatientAppointment','patient_id');
+    }
 }
