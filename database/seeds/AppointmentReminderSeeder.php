@@ -18,11 +18,11 @@ class AppointmentReminderSeeder extends Seeder
         ]);
 
         DB::table('appointment_reminder_statuses')->insert([
-            'title' => 'Not Active'
+            'name' => 'Not Active'
             
         ]);
         DB::table('appointment_reminder_statuses')->insert([
-            'title' => 'Sent'
+            'name' => 'Sent'
             
         ]);
     }
