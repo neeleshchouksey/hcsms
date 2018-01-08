@@ -53,24 +53,59 @@ class Helpers
     // echo $action;
     // die('checkhisory');
     
+    
     $bphistoryurl   =     url('/'.$patientService->token);
+    
     $site_url       =     url('/');
+    
     $timezone       =     Self::getPracticeTimeZone($patientService->patient);
-    $getDays        =     $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
-    $getDays        =     self::customArrayMap(array('day_data','abbr'),$getDays);
-      
-    $getTime        =     $patientService->reminderTime()->with('timeData')->orderBy('time_id','asc')->get()->toArray();
-    $getTime        =     self::customArrayMap(array('time_data','title'),$getTime);
-   
+
+    if($patientService->reminderDays):
+
+      $getDays        =     $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
+    
+      $getDays        =     self::customArrayMap(array('day_data','abbr'),$getDays);
+    
+      $message        =     str_replace('@DAYS', $getDays, $message);
+
+    endif;
+
+    if($patientService->timeData):
+        
+        $message = str_replace('@DATE', $patientService->appt_date, $message);
+
+        $message = str_replace('@TIME', $patientService->timeData->title, $message);
+
+        $message = str_replace('@WITH', $patientService->with, $message);
+    
+    endif;
+    
+    if($patientService->reminderTime):
+
+        $getTime        =     $patientService->reminderTime()->with('timeData')->orderBy('time_id','asc')->get()->toArray();
+
+        $getTime        =     self::customArrayMap(array('time_data','title'),$getTime);
+
+        $message        =     str_replace('@TIMES', $getTime, $message);
+
+    endif;
+
     $message = str_replace('@NAME', $patientService->patient->name, $message);
+    
     $message = str_replace('@DOCTORNAME', $patientService->patient->doctor->name, $message);
     
     $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
+    
     $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
+    
     $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
+    
     $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
+    
     $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
+    
     $message = str_replace('@PATIENTBSHISTORYLINK', $bphistoryurl, $message);
+    
     $message = str_replace('@WEBSITE', $site_url, $message);
 
     $readings = '';
@@ -85,6 +120,7 @@ class Helpers
             $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
             $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
 
+    
             $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
           }
           $message = str_replace('@last-ten-reading', $readings, $message);
@@ -131,6 +167,22 @@ class Helpers
           $message        =   str_replace('@readingcount', $readingcount, $message);
 
         break;
+      case 'appointments':
+        
+          foreach ($patientService->patient->appointments()->where('status',1)->get() as $receiveM) {
+            
+            $receiveMDate     =   $receiveM->appt_date;
+
+            $receiveMTime     =   $receiveM->timeData->title;
+
+            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime;
+          
+          }
+          
+          $message = str_replace('@scheduled-appointments', $readings, $message);
+
+
+        break;
 
       
       default:
@@ -144,8 +196,7 @@ class Helpers
         $message        =   str_replace('@BSMIN', $bsmin, $message);
         $message        =   str_replace('@BSMAX', $bsmax, $message);   
     endif;  
-    $message = str_replace('@DAYS', $getDays, $message);
-    $message = str_replace('@TIMES', $getTime, $message);
+
 
     if(!empty($receiveMessage)):
 
@@ -174,90 +225,285 @@ class Helpers
 
   }
   public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id=''){
+        /**
+         * check patient service send has sms types or not
+         */
         if($patientService->serviceData->smsTypes()->exists()):
-        try {
 
-            // Prepare ClickSend client.
-            $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
+          /**
+           *  call try function for send sms api function
+           */
+          try {
 
-            // Get SMS instance.
-            $sms = $client->getSMS();
+              /***
+              * Prepare ClickSend client.
+              */
+              $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
 
-            $language_id        =   $patientService->patient->language_id;
+              // Get SMS instance.
+              $sms = $client->getSMS();
 
+              /**
+               * find patient selected language
+               *
+               * @var        <type>
+               */
+              $language_id          =   $patientService->patient->language_id;
+
+            /**
+            * Check sms message is exist in selected language or not
+            *
+            * @var        <type>
+            */
             $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-            
+
+            /**
+            * if sms message is not exists in 
+            * patient preffered language
+            * then find english language message
+            * for send sms
+            */
             if(empty($smsTypesMessage)){
+              /**
+               * Initialize ennglish language id for 
+               * language_id variable
+               *
+               * @var        integer
+               */
+              $language_id  =1;
+              /**
+               * get english langeuage sms type object for database
+               *
+               * @var        <type>
+               */
+              $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
 
-                $language_id  =1;
-                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-            
             }
-            // The payload.
-            
+            /**
+            * get message object of preferred language
+            *
+            * @var        <type>
+            */
+           
             $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+            /**
+            * Chack reminder type of service sms type
+            * if reminder type 2 then pass 
+            * language message, patientService,receive sms and action
+            * in change message variable function
+            * day_id = recieve_sms object
+            */
             if($smsTypesMessage->is_reminder==2):
-              $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
+
+                /**
+                 * call change message variables function
+                 * to change dyanamic values of messages
+                 * @var        <type>
+                 */
+                $textMessage = self::change_message_variables($smsMessage->message,$patientService,$type,$action);
+            /**
+            * if message reminder type of servics sms type 
+            * is not equal to 2  then pass
+            * language message, patient service and action
+            * in change msssage variable function
+            * 
+            */
             else:
-              $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
+
+                 /**
+                 * call change message variables function
+                 * to change dyanamic values of messages
+                 * @var        <type>
+                 */
+                $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
+
             endif;
 
-            $senderId    = $patientService->patient->doctor->sender_id;
-            
-            if (empty($senderId)) {
-                
-                $senderId   =   '+447520619101';
+              /**
+               * find sender id of doctor
+               *
+               * @var        <type>
+               */
+              $senderId    = $patientService->patient->doctor->sender_id;
+              
+              /**
+               * if sender id is empty then
+               * assign default sender id
+               * to sender id varible
+               */
+              if (empty($senderId)) {
+                  /**
+                   * assign defualt id
+                   *
+                   * @var        string
+                   */
+                  $senderId   =   '+447520619101';
 
-            }
+              } 
 
-            $messages =  [
-                [
-                    "source" => "php",
-                    "from" => $senderId,
-                    "body" => $textMessage,
-                    "to" => $patientService->patient->mobile,
-                    //"schedule" => 1536874701,
-                    "custom_string" => "this is a test"
-                ]
-                
-            ];
-            
-            // Send SMS.
-            $response   =   $sms->sendSms(['messages' => $messages]);
+              /**
+               * set message variable
+               * to send sms to patient
+               * mobile number
+               *
+               * @var        array
+               */
+              $messages =  [
+                  [
+                      "source" => "php",
+                      "from" => $senderId,
+                      "body" => $textMessage,
+                      "to" => $patientService->patient->mobile,
+                      //"schedule" => 1536874701,
+                      "custom_string" => "this is a test"
+                  ]
+                  
+              ];
+              
+              /**
+               * Call Api function to send
+               * sms and get sms response
+               * and store in response variable
+               *
+               * @var        <type>
+               */
+              $response   =   $sms->sendSms(['messages' => $messages]);
 
-            $message    =   $response->data->messages[0];
+              /**
+               * Get Send message data from api response
+               *
+               * @var        <type>
+               */
+              $message    =   $response->data->messages[0];
 
-            $reminderSms                         =       new ReminderSms;
-            $reminderSms->sms_time               =       $message->date;
-            $reminderSms->to                     =       $message->to;
-            $reminderSms->from                   =       $message->from;
-            $reminderSms->body                   =       $message->body;
-            $reminderSms->message_id             =       $message->message_id;
-            $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+              /**
+               * Initialize send reminder object
+               *
+               * @var        ReminderSms
+               */
+              $reminderSms                         =       new ReminderSms;
+              
+              /**
+               * assign sms date for ReminderSms sms_time
+               */
+              $reminderSms->sms_time               =       $message->date;
+              
+              /**
+               * assign sms to for ReminderSms to
+               */
+              $reminderSms->to                     =       $message->to;
 
-            if($smsTypesMessage->is_reminder==1):
-              $reminderSms->day_id               =       $day_id;
-              $reminderSms->time_id              =       $time_id;
-            endif;
+              /**
+               * assign sms from for ReminderSms from
+               */
+              $reminderSms->from                   =       $message->from;
+              
+              /**
+               * assign sms body for ReminderSms body
+               */ 
+              $reminderSms->body                   =       $message->body;
+              
+              /**
+               * assign sms message_id for ReminderSms message_id
+               */
+              $reminderSms->message_id             =       $message->message_id;
+             
+              /**
+               * assign sms type id for ReminderSms sms_type_id
+               */
+              $reminderSms->sms_type_id            =       $smsTypesMessage->id;
 
-            $reminderSms->custom_string          =       $message->custom_string;
-            if($action=='test')
-            $reminderSms->islive                 =       0;
-            $reminderSms->user_id                =       $message->user_id;
-            $reminderSms->patient_service_id     =       $patientService->id;
+              /**
+               * check is reminder type 1
+               * then save day and time id 
+               * in reminder sms table
+               */
+              if($smsTypesMessage->is_reminder==1):
+                /**
+                 * assign day_id for ReminderSms day_id
+                 */
+                $reminderSms->day_id               =       $day_id;
 
-            $reminderSms->save();
-            
-        } catch(\ClickSendLib\APIException $e) {
+                /**
+                 * assign time_id for ReminderSms time_id
+                 */
+                $reminderSms->time_id              =       $time_id;
 
-            print_r($e->getResponseBody());
+              endif;
 
-        }
-        endif;
+              /**
+               * assign custom_string for ReminderSms custom_string
+               */
+              $reminderSms->custom_string          =       $message->custom_string;
+
+              /**
+               * Check if action equals to test
+               * then save is live equals to 
+               * zero in database
+               */
+              if($action=='test')
+                /**
+                 * assign zero for ReminderSms islive
+                 */
+                $reminderSms->islive                 =       0;
+
+              /**
+               * assign user_id for ReminderSms user_id
+               */
+              $reminderSms->user_id                =       $message->user_id;
+
+              /**
+               * check day id equals to appointment
+               * then save patientService id in
+               * patient_appt_id 
+               */
+              if($day_id=='appointment')
+
+                 /**
+                 * assign patientService id for ReminderSms patient_appt_id
+                 */
+                $reminderSms->patient_appt_id      =       $patientService->id;
+              /**
+               * other wise
+               * save patientService id in
+               * patient_service_id 
+               */
+              else
+                $reminderSms->patient_service_id   =       $patientService->id;
+
+              /**
+               * Save reminder sms object
+               */
+              $reminderSms->save();
+              
+          } catch(\ClickSendLib\APIException $e) {
+              /**
+               * print exception if any issue 
+               * in sending sms
+               */
+              print_r($e->getResponseBody());
+
+          }
+          endif;
     }
+
+    /**
+     * 
+     * Gets the original message.
+     *
+     * @param      <type>  $message_id  The message identifier
+     *
+     * @return     <type>  The original message.
+     */
     public static function getOriginalMessage($message_id){
+      /**
+       * find reminder sms based on message_id
+       * and return reminder sms object
+       */
       return ReminderSms::where('message_id',$message_id)->first();
     }
+    
     /**
      * Gets the practice time zone.
      * take patient object and return 
@@ -604,5 +850,176 @@ class Helpers
 
         return view('partials.ajax.serviceHistory',compact('patientService','averages','latestReading'));
     }
+    /**
+     * Sends appointment reminders.
+     *
+     * @param      <type>  $user      The user
+     * @param      <type>  $dayvalue  The dayvalue
+     */
+    public static function sendAppointmentReminders($user,$dayvalue){
 
+      /**
+       * Get the date based on dayvalue from now
+       *
+       * @var        <type>
+       */
+      $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->format('d/m/Y');
+
+      /**
+       * Get all patient appointment those are
+       * in reminder date
+       *
+       * @var        <type>
+       */
+      $patients  = $user->patients()
+                  ->whereHas('appointments',
+                    function($q) use($reminderDate,$dayvalue){ 
+                        $q->where('appt_date',$reminderDate);
+                        $q->where('status',1);
+                        $q->whereHas('apptReminders',function($q3) use($dayvalue){
+                          $q3->where('status',1);
+                          $q3->whereHas('smsTypeData',function($q4) use($dayvalue){
+                            $smsTypesName ='reminder'.$dayvalue;
+                            $q4->where('name',$smsTypesName);
+                          });
+                        });
+                      }
+                    )
+                  ->with(['appointments'=>function($q2) use($reminderDate,$dayvalue){
+                        $q2->where('appt_date',$reminderDate);
+                        $q2->where('status',1);
+                        $q2->whereHas('apptReminders',function($q3) use($dayvalue){
+                          $q3->where('status',1);
+                          $q3->whereHas('smsTypeData',function($q4) use($dayvalue){
+                            $smsTypesName ='reminder'.$dayvalue;
+                            $q4->where('name',$smsTypesName);
+                          });
+                        });
+                  },'appointments.apptReminders'=>function($q3) use($dayvalue){
+                          $q3->where('status',1);
+                          $q3->whereHas('smsTypeData',function($q4) use($dayvalue){
+                            $smsTypesName ='reminder'.$dayvalue;
+                            $q4->where('name',$smsTypesName);
+                          });
+                        }])
+                  ->get()
+                  ;
+    /**
+     * use for each loop to send to appointment reminder
+     * messaage
+     */
+      foreach ($patients as $patient) {
+            
+            /**
+             * Get patient appointment
+             *
+             * @var        <type>
+             */
+            $patientAppointment     = $patient->appointments->first();
+            
+            /**
+             * get patient appointment reminder
+             *
+             * @var        <type>
+             */
+            $patientReminder        = $patientAppointment->apptReminders->first();
+
+            /**
+             * Assign reminder name which is need to be sent 
+             * to action varible
+             *
+             * @var        <type>
+             */
+            $action                 = $patientReminder->smsTypeData->name;
+            
+            /**
+             * call helper fuction to send reminder message
+             */
+            self::sendSmsMessage($patientAppointment,$action,'appointment');
+
+            /**
+             * Set patient appointement reminder status as sent
+             */
+            $patientReminder->status     =   3;
+            
+            /**
+             * save patient appointment reminder status
+             */
+            $patientReminder->save();
+      }
+    }
+    public static function getSmsActuallMessage($patientService,$type,$action,$language_id){
+
+        /**
+        * Check sms message is exist in selected language or not
+        *
+        * @var        <type>
+        */
+        $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+        /**
+        * if sms message is not exists in 
+        * patient preffered language
+        * then find english language message
+        * for send sms
+        */
+        if(empty($smsTypesMessage)){
+          /**
+           * Initialize ennglish language id for 
+           * language_id variable
+           *
+           * @var        integer
+           */
+          $language_id  =1;
+          /**
+           * get english langeuage sms type object for database
+           *
+           * @var        <type>
+           */
+          $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+        }
+        /**
+        * get message object of preferred language
+        *
+        * @var        <type>
+        */
+       
+        $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+        /**
+        * Chack reminder type of service sms type
+        * if reminder type 2 then pass 
+        * language message, patientService,receive sms and action
+        * in change message variable function
+        * day_id = recieve_sms object
+        */
+        if($smsTypesMessage->is_reminder==2):
+
+        /**
+         * call change message variables function
+         * to change dyanamic values of messages
+         * @var        <type>
+         */
+        $textMessage = self::change_message_variables($smsMessage->message,$patientService,$type,$action);
+        /**
+        * if message reminder type of servics sms type 
+        * is not equal to 2  then pass
+        * language message, patient service and action
+        * in change msssage variable function
+        * 
+        */
+        else:
+
+         /**
+         * call change message variables function
+         * to change dyanamic values of messages
+         * @var        <type>
+         */
+        $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
+
+        endif;
+
+        return $textMessage;
+    }
 }

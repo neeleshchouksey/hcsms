@@ -2,7 +2,7 @@
     <div id="appterrors"></div>
     {{ csrf_field() }}
     
-    <input type="hidden" name="patient" value="{{$patientAppointment->patientData->id}}">
+    <input type="hidden" name="patient" value="{{$patientAppointment->patient->id}}">
     <input type="hidden" name="service" value="{{$patientAppointment->serviceData->id}}">
 
     <input type="hidden" name="_method" value="put">
@@ -87,23 +87,24 @@
                 <label>Reminders</label>
                 @php
                     $getReminder    =       explode(',',$patientAppointment->reminders);
-                    $reminderCount  =       $patientAppointment->serviceData->smsTypes->count();
+                    $aptReminderCount =     $patientAppointment->apptReminders->whereIn('status',[1,3])->count();
+                    $reminderCount  =       $patientAppointment->serviceData->smsTypes()->where('is_reminder',1)->count();
                     $allChecked     =       '';
-                    if(count($getReminder)==$reminderCount)
+                    if($aptReminderCount==$reminderCount)
                         $allChecked     =       'checked';
                 @endphp
                 <div class="checkbox">
                     <label><input type="checkbox" class="selectAll" {{$allChecked}} value="">All</label>
                 </div>
 
-                @foreach($patientAppointment->serviceData->smsTypes as $reminders)
+                @foreach($patientAppointment->apptReminders as $reminders)
                     @php
                         $checked     =       '';
-                        if(in_array($reminders->id,$getReminder))
+                        if($reminders->status==1 || $reminders->status==3)
                             $checked     =       'checked'; 
                     @endphp
                     <div class="checkbox">
-                        <label><input type="checkbox" class="reminders" {{$checked}} name="reminders[]" value="{{$reminders->id}}">{{$reminders->label}}</label>
+                        <label><input type="checkbox" class="reminders" {{$checked}} name="reminders[]" value="{{$reminders->reminder_id}}">{{$reminders->smsTypeData->label}}</label>
                     </div>
                 @endforeach
             </div>
@@ -115,7 +116,7 @@
                 </button>
             </div>
              <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" action="{{url('patient-appointment/'.$patientAppointment->id)}}" class="btn view-reminder-messages btn-primary">
                     View Messages
                 </button>
             </div>

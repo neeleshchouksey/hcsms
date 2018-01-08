@@ -56,31 +56,7 @@ $(document).on('click','.editService',function(){
     
     });
 });
-function manageService(service,patient){
-   $.post({
-      type: 'post',
-      url: url
-    },
-    {
-        service:service,
-        patient:patient,
-        status:0,
-        action:'appointment'    
-    }).done(function (data) {
-        $('#manageServiceModal .modal-body').html(data);
-        $('#manageServiceModal').modal('show');
-        $('#start_date').datepicker({format: 'mm/dd/yyyy'});
-        $("#start_date").datepicker("setDate", new Date());
-        $('#appointment_log_table').DataTable();
-        //$('#appt_time').datepicker({format: 'hh:ii'});
-    
-    });
-}
-$(document).on('click','.manageService',function(){
-  var service = $(this).attr('service');
-  var patient = $(this).attr('patient');
-   manageService(service,patient);
-});
+
 $(document).on('click','.days',function(){
   var service = $('.service').val();
     if($(this).hasClass('btn-success')){
@@ -457,82 +433,7 @@ $(document).on('change','.bsveryhighalert',function(){
         });
     
  });
-$(document).on('click','.add-appointment',function(e){
-        //alert('test');
-        e.preventDefault();
-        var appt = $(this);
-        appt.attr('disabled','disabled');
-        var patientData = $('#appointment').serializeArray();
-        var purl        = $('#appointment').attr('action');
-        console.log(patientData[1].value);
-        $.post({
-          type: 'post',
-          url: purl
-        },
-        patientData).done(function (data) {
-          $('.ongoing').removeClass('btn-success');
-          $('#formerrors').empty();
-          manageService(patientData[2].value,patientData[1].value);
-          appt.removeAttr('disabled');
-        })
-        .fail(function(data) {
-          console.log(data.responseJSON.errors);
-          if( data.status === 422 ) {
-                                var errors = data.responseJSON.errors;
-                                errorHtml='<div class="errors"><ul>';
-                                $.each( errors, function( key, value ) {
-                                     errorHtml += '<li>' + value[0] + '</li>';
-                               });
-                                errorHtml += '</ul></div>';
-                                $( '#appterrors' ).html( errorHtml );
 
-                          }
-                          appt.removeAttr('disabled');
-  });
-    
- });
-$(document).on('click','.editAppointment',function(e){
-        //alert('test');
-        e.preventDefault();
-        var appt = $(this);
-        
-        
-        var purl        = appt.attr('action');
-        console.log(patientData[1].value);
-        $.post({
-          type: 'get',
-          url: purl
-        }).done(function (data) {
-          $('#appointment').replaceWith(data);
-          
-        })
-        .fail(function (data) {
-          
-        });
-    
- });
-$(document).on('click','.selectAll',function(){
-  
-    if($('.selectAll').prop('checked')==true){
-      $('.reminders').prop('checked',true);
-    }
-    else{
-     $('.reminders').prop('checked',false); 
-    }
-});
-$(document).on('click','.reminders',function(){
-  
-    var reminderLength   =  $('.reminders').length;
-    var reminderChecked  =  $('.reminders:checked').length;
-
-    if(reminderLength==reminderChecked){
-
-        $('.selectAll').prop('checked',true);
-    }
-    else{
-        $('.selectAll').prop('checked',false);
-    }
-});
 $(document).on('change','.patientData',function(){
 
         var patientData = $('#patientData').serializeArray();
@@ -727,4 +628,176 @@ $(document).on('click','#showSentMessage,#showReceivedMessage',function(){
  patient(str);
 }
 console.log(params.length);
+});
+function manageService(service,patient){
+   $.post({
+      type: 'post',
+      url: url
+    },
+    {
+        service:service,
+        patient:patient,
+        status:0,
+        action:'appointment'    
+    }).done(function (data) {
+        $('#manageServiceModal .modal-body').html(data);
+        $('#manageServiceModal').modal('show');
+        $('#start_date').datepicker({format: 'dd/mm/yyyy'});
+        $("#start_date").datepicker("setDate", new Date());
+        $('#appointment_log_table').DataTable();
+        $('.appt-toggle').bootstrapToggle();   
+        //$('#appt_time').datepicker({format: 'hh:ii'});
+    
+    });
+}
+$(document).on('click','.manageService',function(){
+
+   var service = $(this).attr('service');
+   var patient = $(this).attr('patient');
+   manageService(service,patient);
+
+});
+$(document).on('click','.add-appointment',function(e){
+        //alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        appt.attr('disabled','disabled');
+        var patientData = $('#appointment').serializeArray();
+        var purl        = $('#appointment').attr('action');
+        console.log(patientData[1].value);
+        $.post({
+          type: 'post',
+          url: purl
+        },
+        patientData).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          $('#formerrors').empty();
+          manageService(patientData[2].value,patientData[1].value);
+          appt.removeAttr('disabled');
+        })
+        .fail(function(data) {
+          console.log(data.responseJSON.errors);
+          if( data.status === 422 ) {
+                                var errors = data.responseJSON.errors;
+                                errorHtml='<div class="errors"><ul>';
+                                $.each( errors, function( key, value ) {
+                                     errorHtml += '<li>' + value[0] + '</li>';
+                               });
+                                errorHtml += '</ul></div>';
+                                $( '#appterrors' ).html( errorHtml );
+
+                          }
+                          appt.removeAttr('disabled');
+  });
+    
+ });
+$(document).on('click','.editAppointment',function(e){
+        //alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        
+        
+        var purl        = appt.attr('action');
+        console.log(patientData[1].value);
+        $.post({
+          type: 'get',
+          url: purl
+        }).done(function (data) {
+          $('#appointment').replaceWith(data);
+          $('#start_date').datepicker({format: 'dd/mm/yyyy'});
+          $('#manageServiceModal').animate({ scrollTop: 0 }, 'slow');
+        })
+        .fail(function (data) {
+          
+        });
+    
+ });
+$(document).on('click','.viewapptlog',function(e){
+        //alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        
+        
+        var purl        = appt.attr('action');
+        console.log(patientData[1].value);
+        $.post({
+          type: 'put',
+          url: purl
+        },{action:'getapptlog'}).done(function (data) {
+          $('#viewApptLog .table tbody').html(data);
+          $('#manageServiceModal').modal('hide');
+          $('#viewApptLog').modal('show');
+        })
+        .fail(function (data) {
+          
+        });
+
+    
+ });
+$(document).on('click','.view-reminder-messages',function(e){
+        //alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        
+        
+        var purl        = appt.attr('action');
+        console.log(patientData[1].value);
+        $.post({
+          type: 'get',
+          url: purl
+        },{action:'getapptlog'}).done(function (data) {
+          $('#viewApptMessageLog .table tbody').html(data);
+          $('#manageServiceModal').modal('hide');
+          $('#viewApptMessageLog').modal('show');
+        })
+        .fail(function (data) {
+          
+        });
+
+    
+ });
+ $('#viewApptLog,#viewApptMessageLog').on('hidden.bs.modal', function () {
+  $('#manageServiceModal').modal('show');
+ });
+$(document).on('change','.appt-toggle',function(e){
+        //alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        
+        
+        var purl        = appt.attr('action');
+        console.log(patientData[1].value);
+        $.post({
+          type: 'put',
+          url: purl
+        },{action:'update'}).done(function (data) {
+          //$('#appointment').replaceWith(data);
+          
+        })
+        .fail(function (data) {
+          
+        });
+    
+ });
+$(document).on('click','.selectAll',function(){
+  
+    if($('.selectAll').prop('checked')==true){
+      $('.reminders').prop('checked',true);
+    }
+    else{
+     $('.reminders').prop('checked',false); 
+    }
+});
+$(document).on('click','.reminders',function(){
+  
+    var reminderLength   =  $('.reminders').length;
+    var reminderChecked  =  $('.reminders:checked').length;
+
+    if(reminderLength==reminderChecked){
+
+        $('.selectAll').prop('checked',true);
+    }
+    else{
+        $('.selectAll').prop('checked',false);
+    }
 });

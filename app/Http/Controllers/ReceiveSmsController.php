@@ -119,6 +119,7 @@ class ReceiveSmsController extends Controller
             case 'bshistory':
             case 'bsaverage':
             case 'buy':
+            case 'appointments':
                               
                  /**
                  * find current action service id
@@ -126,33 +127,66 @@ class ReceiveSmsController extends Controller
                  * @var        <type>
                  */
                 $service_id            =   ServiceSmsTypes::where('name',$action)->value('service_id');
-                /**
-                 * check orignal message parent service is matched with bp service id or not
-                 * if match then assigne original parent service for parent sevice varible
-                 */
-
-                if($originalMessage->parentService->service_id==$service_id)
-
-                    $parentService = $originalMessage->parentService;
 
                 /**
-                 * if not then find patient bp service id 
-                 * and assign patient bp service to parent service
+                 * check is parent service
+                 * exists
                  */
-                else
-                    $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
+                if($originalMessage->parentService):
+                    /**
+                     * check orignal message parent service is matched with bp service id or not
+                     * if match then assigne original parent service for parent sevice varible
+                     */
 
+                    if($originalMessage->parentService->service_id==$service_id)
+
+                        $parentService = $originalMessage->parentService;
+
+                    /**
+                     * if not then find patient bp service id 
+                     * and assign patient bp service to parent service
+                     */
+                    else
+                        $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',$service_id)->first();
+
+                    /**
+                     * initialize empty type for
+                     * other services
+                     *
+                     * @var        string
+                     */
+                    $type = '';
+                else:
+
+                    /**
+                     * find patient services appointments
+                     *
+                     * @var        <type>
+                     */
+                    $parentService = $originalMessage->parentAppt;
+
+                    /**
+                     * initialize type appointment for 
+                     * appointment services
+                     *
+                     * @var        string
+                     */
+
+                    $type  = 'appointment';
+
+                endif;
                 /**
                  * Call helper function for send bp average,help,history and share message
                  * based of action value
                  */
-                \Helper::sendSmsMessage($parentService,$action);
+                \Helper::sendSmsMessage($parentService,$action,$type);
 
                 /**
                  * find latest send message
                  *
                  * @var        <type>
                  */
+
                 $parentMessage = $parentService->reminderMessage()->latest()->first();
 
                 /**
@@ -162,8 +196,8 @@ class ReceiveSmsController extends Controller
                  * @var        ReceiveSms
                  */
 
-
                 $receiveSms                         =       new ReceiveSms;
+
                 $receiveSms->sms_time               =       $request->timestamp;
                 $receiveSms->to                     =       $request->to;
                 $receiveSms->from                   =       $request->from;

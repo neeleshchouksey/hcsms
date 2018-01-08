@@ -23,6 +23,7 @@ class CreatePatientAppointmentsTable extends Migration
             $table->string('patient_code')->nullable();
             $table->string('location_code')->nullable();
             $table->string('reminders')->nullable();
+            $table->string('status')->default(1);
             $table->integer('patient_id')->nullable();
             $table->integer('service_id')->nullable();
             $table->timestamps();

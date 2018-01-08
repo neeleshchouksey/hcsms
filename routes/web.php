@@ -31,6 +31,8 @@ Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->nam
 
 Route::get('/update-send-messge', 'CronJobController@checkUpdateservice')->name('update-send-messge');
 
+Route::get('/appointment-reminders', 'CronJobController@sendAppointmentReminders')->name('appointment-reminders');
+
 Route::get('history/{id}','PatientServiceController@getPatientHistory');
 
 Route::group(['middleware' => 'auth'], function() {
@@ -40,6 +42,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::resource('staff','StaffController');
 
     Route::resource('patient-appointment','PatientAppointmentController');
+
+    Route::put('patient-appointment-change/{patient_appointment}','PatientAppointmentController@updatePartial');
+
+    Route::get('appt-reminder-services/{service}/{patient}','PatientAppointmentController@getReminderServiceMessages');
 
 	Route::get('staff/ajax/load','StaffController@ajaxLoad');
 

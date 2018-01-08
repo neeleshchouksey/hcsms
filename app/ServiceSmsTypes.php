@@ -16,6 +16,10 @@ class ServiceSmsTypes extends Model
 	public function remindMessage() {
     	return $this->hasMany('App\ReminderSms','sms_type_id');
 	}
+	public function apptReminders(){
+        return $this->hasMany('App\PatientAppointmentReminders','reminder_id');
+    }
+
 
 
 }

@@ -72,7 +72,7 @@
                 <div class="checkbox">
                     <label><input type="checkbox" class="selectAll" checked value="">All</label>
                 </div>
-                @foreach($service->smsTypes as $reminders)
+                @foreach($service->smsTypes()->where('is_reminder',1)->get() as $reminders)
                     <div class="checkbox">
                         <label><input type="checkbox" class="reminders" checked name="reminders[]" value="{{$reminders->id}}">{{$reminders->label}}</label>
                     </div>
@@ -86,7 +86,7 @@
                 </button>
             </div>
              <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" action="{{url('appt-reminder-services/'.$service->id.'/'.$patient->id)}}" class="btn view-reminder-messages  btn-primary">
                     View Messages
                 </button>
             </div>
@@ -116,23 +116,30 @@
         <tbody>
             @foreach($appointments as $appointment)
             @php
-                $reminders =  explode(',',$appointment->reminders);
+                $reminders      =   explode(',',$appointment->reminders);
+                $apptStatus     =   '';    
+                if($appointment->status==1)
+                    $apptStatus = "checked";
             @endphp
             <tr>
                 <td width="12%">{{$appointment->appt_date}}</td>
                 <td>{{$appointment->apptTimeData->title}}</td>
                 <td>{{$appointment->with}}</td>
                 <td>{{$appointment->location}}</td>
-                @foreach($service->smsTypes as $serviceReminders)
+                @foreach($appointment->apptReminders as $serviceReminders)
                     @php
                         $checked ='';
-                        if(in_array($serviceReminders->id,$reminders)){
+                        if($serviceReminders->status==1 || $serviceReminders->status==3){
                             $checked = 'checked';
                         }
                     @endphp
                     <td><input type="checkbox" disabled {{$checked}} ></td>
                 @endforeach
-                <td><a href="javascript:void(0);" class="editAppointment" action="{{url('patient-appointment/'.$appointment->id.'/edit')}}">Edit</a> <a>view log</a> <a href="">Cancel</a></td>
+                <td>
+                    <a href="javascript:void(0);" class="editAppointment" action="{{url('patient-appointment/'.$appointment->id.'/edit')}}">Edit</a> | 
+                    <a href="javascript:void(0);" class="viewapptlog" action="{{url('patient-appointment-change/'.$appointment->id)}}">View log</a> | 
+                    <input type="checkbox" class="appt-toggle" action="{{url('patient-appointment-change/'.$appointment->id)}}" {{$apptStatus}} data-toggle="toggle">
+                </td>
          
             </tr>
             @endforeach

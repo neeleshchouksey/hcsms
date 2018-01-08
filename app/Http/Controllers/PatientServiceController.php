@@ -71,7 +71,7 @@ class PatientServiceController extends Controller
         * check if service is exists in patient service database if not exists
         * in database then insert service in patient service database
         */
-        if(count($patientService)==0 && $request->service!=4):
+        if(count($patientService)==0):
 
             // get default duration from database
             $duration           =   RemindarDuration::where('isdefault',1)->first();

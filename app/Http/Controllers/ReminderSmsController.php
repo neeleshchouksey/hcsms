@@ -100,10 +100,25 @@ class ReminderSmsController extends Controller
                                                         $q2->where('id',$id);
                                                     });
                                             });
-
+                                        $q->orWhereHas('parentAppt',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+                                            });
                                         }
                                     );
             $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id')->whereHas('parentService',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+
+                                            }
+                                        )
+                                        ->orWhereHas('parentAppt',
                                             function($q1) use($id){
                                                 $q1->whereHas('patient',
                                                     function($q2) use($id){
@@ -117,6 +132,13 @@ class ReminderSmsController extends Controller
         elseif(request()->query('received')!=null):
                     $reminderSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id')->whereHas('remindMessage',function($q) use($id){
                                         $q->whereHas('parentService',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
+                                            });
+                                         $q->orWhereHas('parentAppt',
                                             function($q1) use($id){
                                                 $q1->whereHas('patient',
                                                     function($q2) use($id){
@@ -137,7 +159,15 @@ class ReminderSmsController extends Controller
 
                                         }
                                     )
+                                    ->orWhereHas('parentAppt',
+                                            function($q1) use($id){
+                                                $q1->whereHas('patient',
+                                                    function($q2) use($id){
+                                                        $q2->where('id',$id);
+                                                    });
 
+                                            }
+                                        )
                                     ->orderBy('created_at', 'DESC')->get();
         
        
@@ -159,7 +189,10 @@ class ReminderSmsController extends Controller
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
-            $records[$i]['service']     =       $message->parentService->serviceData->data.' '.$smsLabel;
+            if($message->parentService)
+                $records[$i]['service']     =       $message->parentService->serviceData->data.' '.$smsLabel;
+            else
+                $records[$i]['service']     =       $message->parentAppt->serviceData->data.' '.$smsLabel;
             $i++;
 
         }

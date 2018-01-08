@@ -10,10 +10,21 @@ class PatientAppointment extends Model
     public function apptTimeData(){
     	return $this->belongsTo('App\RemiderTime','appt_time');
     }
-    public function patientData(){
+    public function patient(){
     	return $this->belongsTo('App\Patient','patient_id');
     }
     public function serviceData(){
     	return $this->belongsTo('App\Service','service_id');
     }
+    
+    public function apptReminders(){
+        return $this->hasMany('App\PatientAppointmentReminders','appointment_id');
+    }
+    public function timeData(){
+        return $this->belongsTo('App\RemiderTime','appt_time');
+    }
+    public function reminderMessage(){
+        return $this->hasMany('App\ReminderSms','patient_appt_id');
+    }
+       
 }

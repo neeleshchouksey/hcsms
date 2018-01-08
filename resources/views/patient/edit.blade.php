@@ -301,8 +301,109 @@ option.separator {
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- Modal HTML Markup -->
+<div id="viewApptLog" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                </h4>
+            </div>
 
+            <div class="modal-body">
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date </th>
+                            <th>Time</th>
+                            <th>Reminder</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            
+                            
+                     
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal HTML Markup -->
+<div id="viewApptLog" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                </h4>
+            </div>
 
+            <div class="modal-body">
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date </th>
+                            <th>Time</th>
+                            <th>Reminder</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            
+                            
+                     
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="viewApptMessageLog" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <table id="" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            
+                            <th >Reminder</th>
+                            <th>Message</th>
+                     
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @push('scripts')
 
   <script type="text/javascript">

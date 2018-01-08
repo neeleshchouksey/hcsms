@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Patient;
 use App\User;
 use App\PatientService;
+use Helper;
 
 class CronJobController extends Controller
 {
@@ -254,5 +255,52 @@ class CronJobController extends Controller
             $service->ischanged    =   0   ;   
             $service->save();
         }
+    }
+    public function sendAppointmentReminders(){
+        
+        /**
+         * Get all user from database
+         *
+         * @var        <type>
+         */
+        $users      =   User::all();
+
+        /**
+         * Use for each loop to retrive users
+         * one by one
+         */
+        foreach ($users as $user) :
+
+            /**
+             * Get users Country code
+             *
+             * @var        <type>
+             */
+            $countryCode    =   $user->getCountry->iso_3166_2;
+            
+            /**
+             * { var_description }
+             *
+             * @var        <type>
+             */
+            $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+            $timezone   = $timezone[0];
+
+            /**
+             * Intialize day value array for
+             * send  appointment reminders
+             * @var        array
+             */
+            $dayvalue   =   array(7,3,1,0);
+            
+            foreach ($dayvalue as $day) {
+                /**
+                 * Call helper function for send appointment reminders
+                 */
+                Helper::sendAppointmentReminders($user,$day);
+            }
+            
+
+        endforeach;
     }
 }
