@@ -301,7 +301,7 @@ class Helpers
                  * to change dyanamic values of messages
                  * @var        <type>
                  */
-                $textMessage = self::change_message_variables($smsMessage->message,$patientService,$type,$action);
+                $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
             /**
             * if message reminder type of servics sms type 
             * is not equal to 2  then pass
@@ -941,7 +941,7 @@ class Helpers
              * Set patient appointement reminder status as sent
              */
             $patientReminder->status     =   3;
-            
+
             /**
              * save patient appointment reminder status
              */
