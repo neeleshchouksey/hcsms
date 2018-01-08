@@ -133,7 +133,7 @@
                             $checked = 'checked';
                         }
                     @endphp
-                    <td><input type="checkbox" disabled {{$checked}} ></td>
+                    <td>{!!$serviceReminders->statusData->icon!!}</td>
                 @endforeach
                 <td>
                     <a href="javascript:void(0);" class="editAppointment" action="{{url('patient-appointment/'.$appointment->id.'/edit')}}">Edit</a> | 

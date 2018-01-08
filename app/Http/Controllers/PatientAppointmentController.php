@@ -323,8 +323,8 @@ class PatientAppointmentController extends Controller
 
         $reminderServices   =   $service->smsTypes()->where('is_reminder',1)->get();
 
-        $language_id        =   $patient->language_id;
+        $language           =   $patient->language;
 
-        return \Response::view('partials.ajax.viewApptMessage',compact('reminderServices','language_id'));
+        return \Response::view('partials.ajax.viewApptMessage',compact('reminderServices','language'));
     }
 }

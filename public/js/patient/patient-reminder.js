@@ -746,7 +746,7 @@ $(document).on('click','.view-reminder-messages',function(e){
           type: 'get',
           url: purl
         },{action:'getapptlog'}).done(function (data) {
-          $('#viewApptMessageLog .table tbody').html(data);
+          $('#viewApptMessageLog .modal-body').html(data);
           $('#manageServiceModal').modal('hide');
           $('#viewApptMessageLog').modal('show');
         })

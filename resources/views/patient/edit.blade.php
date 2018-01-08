@@ -383,20 +383,7 @@ option.separator {
             </div>
 
             <div class="modal-body">
-                <table id="" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            
-                            <th >Reminder</th>
-                            <th>Message</th>
-                     
-                        </tr>
-                    </thead>
-                    <tbody>
-                      
-                    </tbody>
-                    
-                </table>
+                
             </div>
             <div class="modal-footer text-xs-center">
                

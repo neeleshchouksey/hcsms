@@ -112,11 +112,11 @@
         <div class="form-group">
             <div class="col-md-6">
                 <button type="button"  class="btn add-appointment btn-primary">
-                    Edit
+                    Save
                 </button>
             </div>
              <div class="col-md-6">
-                <button type="submit" action="{{url('patient-appointment/'.$patientAppointment->id)}}" class="btn view-reminder-messages btn-primary">
+                <button type="submit" action="{{url('appt-reminder-services/'.$patientAppointment->serviceData->id.'/'.$patientAppointment->patient->id)}}" class="btn view-reminder-messages btn-primary">
                     View Messages
                 </button>
             </div>
