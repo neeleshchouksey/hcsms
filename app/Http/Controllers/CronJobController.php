@@ -285,6 +285,7 @@ class CronJobController extends Controller
              */
             $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
             $timezone   = $timezone[0];
+            date_default_timezone_set($timezone);
 
             /**
              * Intialize day value array for
@@ -293,11 +294,16 @@ class CronJobController extends Controller
              */
             $dayvalue   =   array(7,3,1,0);
             
+            /**
+             * Find current time
+             */
+            $time   =   date('H:i');
+
             foreach ($dayvalue as $day) {
                 /**
                  * Call helper function for send appointment reminders
                  */
-                Helper::sendAppointmentReminders($user,$day);
+                Helper::sendAppointmentReminders($user,$day,$time);
             }
             
 

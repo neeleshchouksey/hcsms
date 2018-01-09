@@ -50,9 +50,21 @@
                                 @endif
                             </div>
                         </div>
-                        
+                          <div class="form-group{{ $errors->has('appt_sender_id') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-3  ">Appointment Sender Id</label>
+
+                            <div class="col-md-6">
+                                <input id="company" type="text" class="form-control" name="appt_sender_id" value="{{ Auth::user()->appt_sender_id }}"  >
+
+                                @if ($errors->has('appt_sender_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('appt_sender_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
-                            <label for="company" class="col-md-3  ">Post Code</label>
+                            <label for="company" class="col-md-3">Post Code</label>
 
                             <div class="col-md-6">
                                 <input id="company" type="text" class="form-control" name="postcode" value="{{ Auth::user()->postcode }}"  >

@@ -860,7 +860,7 @@ class Helpers
      * @param      <type>  $user      The user
      * @param      <type>  $dayvalue  The dayvalue
      */
-    public static function sendAppointmentReminders($user,$dayvalue){
+    public static function sendAppointmentReminders($user,$dayvalue,$time){
 
       /**
        * Get the date based on dayvalue from now
@@ -877,7 +877,7 @@ class Helpers
        */
       $patients  = $user->patients()
                   ->whereHas('appointments',
-                    function($q) use($reminderDate,$dayvalue){ 
+                    function($q) use($reminderDate,$dayvalue,$time){ 
                         $q->where('appt_date',$reminderDate);
                         $q->where('status',1);
                         $q->whereHas('apptReminders',function($q3) use($dayvalue){
@@ -886,6 +886,9 @@ class Helpers
                             $smsTypesName ='reminder'.$dayvalue;
                             $q4->where('name',$smsTypesName);
                           });
+                        });
+                        $q->whereHas('timeData',function($q3) use($time){
+                          $q3->where('abbr',$time);
                         });
                       }
                     )
@@ -899,6 +902,9 @@ class Helpers
                             $q4->where('name',$smsTypesName);
                           });
                         });
+                        $q2->whereHas('timeData',function($q3) use($time){
+                          $q3->where('abbr',$time);
+                        });
                   },'appointments.apptReminders'=>function($q3) use($dayvalue){
                           $q3->where('status',1);
                           $q3->whereHas('smsTypeData',function($q4) use($dayvalue){
@@ -908,6 +914,7 @@ class Helpers
                         }])
                   ->get()
                   ;
+                 
     /**
      * use for each loop to send to appointment reminder
      * messaage

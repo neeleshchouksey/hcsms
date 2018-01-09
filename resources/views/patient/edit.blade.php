@@ -305,7 +305,8 @@ option.separator {
                 <h4 class="modal-title text-xs-center">Manage Appointments
                     <div class="pull-right" style="margin-right: 2%;">
                         <label>Sender Id:</label>
-                        <input type="text" name="sender_id" class="doctorSenderId" value="{{$patient->doctor->sender_id}}">
+                       <!--  <input type="text" name="sender_id" class="doctorSenderId" value="{{$patient->doctor->sender_id}}"> -->
+                       {{$patient->doctor->appt_sender_id}}}
                     </div>
                 </h4>
             </div>

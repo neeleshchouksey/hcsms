@@ -43,17 +43,18 @@ class ProfileController extends Controller
     {
         //
         
-        $data               =       $request;
-        $user               =       Auth::user();
-        $user->name         =       $data['name'];
-        $user->email        =       $data['email'];
-        $user->company      =       $data['company'];
-        $user->sender_id    =       $data['sender_id'];
-        $user->postcode     =       $data['postcode'];
-        $user->address      =       $data['address'];
-        $user->country      =       $data['country'];
-        $user->contact      =       $data['phone'];
-        $user->practice_id  =       implode(',', $data['practice_type']);
+        $data                   =       $request;
+        $user                   =       Auth::user();
+        $user->name             =       $data['name'];
+        $user->email            =       $data['email'];
+        $user->company          =       $data['company'];
+        $user->sender_id        =       $data['sender_id'];
+        $user->postcode         =       $data['postcode'];
+        $user->appt_sender_id   =       $data['appt_sender_id'];
+        $user->address          =       $data['address'];
+        $user->country          =       $data['country'];
+        $user->contact          =       $data['phone'];
+        $user->practice_id      =       implode(',', $data['practice_type']);
         $user->save();
 
         $practiceM  =   $data['keycontacts']['practice_manager'];

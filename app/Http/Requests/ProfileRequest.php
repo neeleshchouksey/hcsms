@@ -31,6 +31,7 @@ class ProfileRequest extends FormRequest
             'country'=>'required',
             //'sender_id'=>'required',
             'company' => 'required|string|max:255',
+            'appt_sender_id' => 'nullable|alpha_dash',
             'phone' => 'required|numeric',
             'practice_type' => 'required',
             'keycontacts.practice_manager.name' => 'required|string|max:255',
