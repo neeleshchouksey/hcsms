@@ -329,7 +329,7 @@ class PatientAppointmentController extends Controller
     }
     public function getReminderServiceMessages(Service $service,Patient $patient){
 
-        $reminderServices   =   $service->smsTypes()->where('is_reminder',1)->get();
+        $reminderServices   =   $service->smsTypes()->where('is_sender',1)->get();
 
         $language           =   $patient->language;
 
