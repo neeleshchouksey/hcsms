@@ -48,7 +48,7 @@
                 <input type="text" class="form-control" name="with"  value="{{$patientAppointment->with}}">
             </div>
         </div>
-        <div class="form-group">
+       <!--  <div class="form-group">
 
             <label class="col-xs-4">Include Map Link</label>
             <div class="col-xs-8">
@@ -61,7 +61,7 @@
                     <label><input type="checkbox" name="map" {{$checked}} value="1"></label>
                 </div>
             </div>
-        </div>
+        </div> -->
        
         <div class="form-group">
 
