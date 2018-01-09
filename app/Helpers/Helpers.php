@@ -80,6 +80,8 @@ class Helpers
 
         $message = str_replace('@WITH', $patientService->with, $message);
 
+        $message = str_replace('@LOCATION', $patientService->location, $message);
+
         $message = str_replace('@apptlink', $apptlink, $message);
     
     endif;
