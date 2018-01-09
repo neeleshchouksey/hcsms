@@ -71,12 +71,16 @@ class Helpers
     endif;
 
     if($patientService->timeData):
+
+        $apptlink = url('/appt/'.$patientService->patient->code);
         
         $message = str_replace('@DATE', $patientService->appt_date, $message);
 
         $message = str_replace('@TIME', $patientService->timeData->title, $message);
 
         $message = str_replace('@WITH', $patientService->with, $message);
+
+        $message = str_replace('@apptlink', $apptlink, $message);
     
     endif;
     
