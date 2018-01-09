@@ -32,6 +32,7 @@
                                     <td>{{$patient->doctor->contact}}</td>
                                 </tr>
                             </table>
+                            <div class="table-responsive">
                             <table id="" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -65,6 +66,7 @@
                                 </tbody>
                     
                             </table>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
