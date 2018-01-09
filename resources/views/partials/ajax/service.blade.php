@@ -70,7 +70,7 @@
 @else:
         <div class="col-md-6">
             <h4>{{$service->name}}</h4>
-            Live Appointments:1
+            Live Appointments:{{$patient->appointments->where('status',1)->count()}}
         </div>
         <div class="col-md-6">
            

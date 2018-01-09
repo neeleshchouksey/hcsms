@@ -81,6 +81,19 @@ option.separator {
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-3  ">Post Code</label>
+
+                            <div class="col-md-6">
+                                <input id="company" type="text" class="form-control patientData" name="postcode" value="{{ $patient->postcode }}"  >
+
+                                @if ($errors->has('postcode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('postcode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('language') ? ' has-error' : '' }}">
                             <label for="mobile" class="col-md-3">Language</label>
 
@@ -287,8 +300,13 @@ option.separator {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+
                  <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title text-xs-center">Manage Appointments
+                    <div class="pull-right" style="margin-right: 2%;">
+                        <label>Sender Id:</label>
+                        <input type="text" name="sender_id" class="doctorSenderId" value="{{$patient->doctor->sender_id}}">
+                    </div>
                 </h4>
             </div>
 
@@ -306,6 +324,7 @@ option.separator {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+
                  <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title text-xs-center">View Appointment Message Log
                 </h4>
@@ -396,6 +415,7 @@ option.separator {
   <script type="text/javascript">
     
     var  url        =     "{{url('patient-service')}}";
+    var  updUrl     =     "{{url('update-info')}}";
     var durl        =     "{{url('patient-service-days')}}";
     var turl        =     "{{url('patient-service-time')}}";
 

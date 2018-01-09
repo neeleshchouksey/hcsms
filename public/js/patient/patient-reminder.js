@@ -762,23 +762,38 @@ $(document).on('click','.view-reminder-messages',function(e){
 $(document).on('change','.appt-toggle',function(e){
         //alert('test');
         e.preventDefault();
+        
         var appt = $(this);
-        
-        
         var purl        = appt.attr('action');
-        console.log(patientData[1].value);
+        if(appt.prop('checked')==false){
+          if(confirm("Would you like to send Appointment Cancelled message?")){
+            apptChange(purl,1);
+          }
+          else{
+             apptChange(purl,0);
+          }
+        }
+        else{
+          apptChange(purl,0);
+        }
+ });
+function apptChange(purl,confirm) {
+      // body...
+      
+        
+        // console.log(patientData[1].value);
         $.post({
           type: 'put',
           url: purl
-        },{action:'update'}).done(function (data) {
-          //$('#appointment').replaceWith(data);
+        },{action:'update',confirm:confirm}).done(function (data) {
+           $('.service_'+data.service_id).html(data.view);  
           
         })
         .fail(function (data) {
           
         });
-    
- });
+}
+
 $(document).on('click','.selectAll',function(){
   
     if($('.selectAll').prop('checked')==true){
@@ -788,6 +803,7 @@ $(document).on('click','.selectAll',function(){
      $('.reminders').prop('checked',false); 
     }
 });
+
 $(document).on('click','.reminders',function(){
   
     var reminderLength   =  $('.reminders').length;
@@ -800,4 +816,30 @@ $(document).on('click','.reminders',function(){
     else{
         $('.selectAll').prop('checked',false);
     }
+});
+
+$(document).on('change','.doctorSenderId',function(){
+  
+    $.post({
+          type: 'post',
+          url: updUrl
+        },{sender_id:$(this).val()}).done(function (data) {
+            
+          
+        })
+        .fail(function (data) {
+          if( data.status === 422 ) {
+                                var errors = data.responseJSON.errors;
+                                var errorData= [];
+                                errorHtml='<div class="errors"><ul>';
+                                $.each( errors, function( key, value ) {
+                                     errorHtml += '<li>' + value[0] + '</li>';
+                                     errorData.push(value[0]);
+                               });
+                                errorHtml += '</ul></div>';
+                                $( '#snterrors' ).html( errorHtml );
+                                alert(errorData);
+
+                          }
+        });
 });

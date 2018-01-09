@@ -50,6 +50,7 @@ class PatientController extends Controller
         $patient->ref_code      =       $request->code;
         $patient->mobile        =       $request->mobile;
         $patient->name          =       $request->name;
+        $patient->postcode      =       $request->postcode;
         $patient->language_id   =       $request->language;
         $patient->note          =       $request->note;
         $patient->user_id       =       \Auth::user()->id;
@@ -110,6 +111,7 @@ class PatientController extends Controller
         $patient->mobile        =       $request->mobile;
         $patient->name          =       $request->name;
         $patient->language_id   =       $request->language;
+        $patient->postcode      =       $request->postcode;
         $patient->note          =       $request->note;
         $patient->user_id       =       \Auth::user()->id;
         $patient->agree         =       $request->agree;
@@ -159,5 +161,12 @@ class PatientController extends Controller
 
         echo json_encode($records);
         die;
+    }
+    public function getPatientAppointments($code){
+        $patient    = Patient::where('code',$code)->first();
+         return view('appointments.index',compact('patient'));
+        echo "<pre>";
+        print_r($patient);
+
     }
 }

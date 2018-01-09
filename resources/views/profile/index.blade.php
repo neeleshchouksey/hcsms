@@ -51,7 +51,19 @@
                             </div>
                         </div>
                         
+                        <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-3  ">Post Code</label>
 
+                            <div class="col-md-6">
+                                <input id="company" type="text" class="form-control" name="postcode" value="{{ Auth::user()->postcode }}"  >
+
+                                @if ($errors->has('postcode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('postcode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-3  ">E-Mail Address</label>

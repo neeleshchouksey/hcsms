@@ -28,7 +28,7 @@
 
             <label class="col-xs-4">Location</label>
             <div class="col-xs-8">
-                <input type="text" class="form-control" name="location"  value="">
+                <input type="text" class="form-control" name="location"  value="{{$patient->doctor->name}}">
             </div>
         </div>
          <div class="form-group">
@@ -38,7 +38,7 @@
                 <input type="text" class="form-control" name="with"  value="">
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
 
             <label class="col-xs-4">Include Map Link</label>
             <div class="col-xs-8">
@@ -46,13 +46,13 @@
                     <label><input type="checkbox" name="map" value="1"></label>
                 </div>
             </div>
-        </div>
+        </div> -->
        
         <div class="form-group">
 
             <label class="col-xs-4">Patient Postcode</label>
             <div class="col-xs-8">
-                <input type="text" class="form-control" name="patient_postcode"  value="">
+                <input type="text" class="form-control" name="patient_postcode"  value="{{$patient->postcode}}">
             </div>
         </div>
         
@@ -62,7 +62,7 @@
 
             <label class="col-xs-4">Location Postcode</label>
             <div class="col-xs-8">
-                <input type="text" class="form-control" name="location_postcode"  value="">
+                <input type="text" class="form-control" name="location_postcode"  value="{{$patient->doctor->postcode}}">
             </div>
         </div>
 
@@ -95,7 +95,7 @@
 </form>
 <div class="col-md-12">
     <h4>Appointment Message Log</h4>
-    <h5>Sender Id : {{$patient->doctor->name}}</h5>
+    <!-- <h5>Sender Id : {{$patient->doctor->sender_id}}</h5> -->
     <h5>Appointments:</h5>
     <table id="appointment_log_table" class="table table-bordered table-striped">
         <thead>

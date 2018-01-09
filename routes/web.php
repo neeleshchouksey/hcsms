@@ -35,9 +35,13 @@ Route::get('/appointment-reminders', 'CronJobController@sendAppointmentReminders
 
 Route::get('history/{id}','PatientServiceController@getPatientHistory');
 
+
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::resource('profile','ProfileController');
+
+    Route::post('update-info','ProfileController@updateInfo');
 
 	Route::resource('staff','StaffController');
 
@@ -117,4 +121,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     });
 });
+Route::get('/appt/{code}','PatientController@getPatientAppointments');
 Route::get('/{id}','PatientServiceController@getPatientHistory');

@@ -5,6 +5,7 @@ use Auth;
 use App\KeyContacts;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\UpdatePractice;
 
 class ProfileController extends Controller
 {
@@ -48,6 +49,7 @@ class ProfileController extends Controller
         $user->email        =       $data['email'];
         $user->company      =       $data['company'];
         $user->sender_id    =       $data['sender_id'];
+        $user->postcode     =       $data['postcode'];
         $user->address      =       $data['address'];
         $user->country      =       $data['country'];
         $user->contact      =       $data['phone'];
@@ -138,5 +140,11 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateInfo(UpdatePractice $request){
+        $user               =       Auth::user();
+        $user->sender_id    =       $request->sender_id;
+        $user->save();
     }
 }

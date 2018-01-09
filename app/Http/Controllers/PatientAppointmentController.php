@@ -305,6 +305,8 @@ class PatientAppointmentController extends Controller
 
                 $patientAppointment->status     =   0;
 
+                if($request->confirm==1)
+
                 Helper::sendSmsMessage($patientAppointment,'stop','appointment');
 
             }
@@ -317,6 +319,12 @@ class PatientAppointmentController extends Controller
 
             $patientAppointment->save();
 
+            $patient    =   $patientAppointment->patient;
+            $service    =   $patientAppointment->serviceData;
+            $view       =   view('partials.ajax.service',compact('patient','service'));
+            $view       =   $view->render();
+            $service_id =   $service->id;
+            return \Response::json(compact('service_id','view'));
         endif;
     }
     public function getReminderServiceMessages(Service $service,Patient $patient){
