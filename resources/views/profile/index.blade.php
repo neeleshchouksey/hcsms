@@ -245,29 +245,11 @@
                              $i=1;
                             @endphp
                             
-                                @foreach($others as $other)
-                                    @php
-                                        $otherKey = 'otherkey'.$i;
-                                    @endphp
-                                   <div class="form-group otherKeyContact">
-                                        <input id="" type="hidden" name="keycontacts[others][{{$otherKey}}][keyid]" placeholder="Title" value='{{$other->id}}' required="required" class="form-control ">
-                                        <div for="" class="col-md-3">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][title]" placeholder="Title" value='{{$other->title}}' required="required" class="form-control profileUpdate">
-                                        </div> 
-                                        <div class="col-md-3 ">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][name]" placeholder="Name" value='{{$other->name}}' required="required" class="form-control profileUpdate">
-                                        </div> 
-                                        <div class="col-md-3 ">
-                                            <input id="" type="text" name="keycontacts[others][{{$otherKey}}][phone]" placeholder="Number" value='{{$other->phone}}' required="required" class="form-control profileUpdate">
-                                        </div> 
-                                        <div class="col-md-3 ">
-                                            <input id="" type="email" name="keycontacts[others][{{$otherKey}}][email]" placeholder="email" value='{{$other->email}}' required="required" class="form-control profileUpdate">
-                                        </div>
-                                    </div>
-                                    @php
-                                        $i++;
-                                    @endphp
-                                @endforeach
+                            @foreach($others as $other)
+                                <div class="form-group otherKeyContact">
+                                    @include('partials.ajax.profile.keyContacts')
+                                </div>
+                            @endforeach
                            
                         </div>
                         <div class="form-group">
@@ -292,10 +274,10 @@
 var otherkeynumber = $('.otherKeyContact').length+1;
 $(document).on('click','.addMore',function(e){
     var otherKey = 'otherkey'+otherkeynumber;
-    $('.keycontacts').append('<div class="form-group otherKeyContact"><input id="" type="hidden" name="keycontacts[others]['+otherKey+'][keyid]" placeholder="Title" value="0" required="required" class="form-control"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control profileUpdate"></div></div>');
+    $('.keycontacts').append('<div class="form-group otherKeyContact"><input id="" type="hidden" name="keycontacts[others]['+otherKey+'][keyid]" placeholder="Title" value="0" required="required" class="form-control"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control keyUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control keyUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control keyUpdate"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control keyUpdate"></div></div>');
     otherkeynumber++;
 });
-
+var keyUrl  =   "{{url('update-info')}}";
 </script>
  <script src="{{ asset('js/profile/profile.js') }}"></script>
 @endsection

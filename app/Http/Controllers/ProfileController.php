@@ -76,25 +76,25 @@ class ProfileController extends Controller
         $billing_contact->email    =   $billingC['email'];
         $billing_contact->save();
 
-       // unset($data['keycontacts']['billingC']);
-        if(isset($data['keycontacts']['others'])):
-            $keycontacts = $data['keycontacts']['others'];
-            foreach ($keycontacts as $key => $value) {
-                if($value['keyid']!=0)
-                    $others           =   KeyContacts::find($value['keyid']) ;
-                else
-                    $others           =  New KeyContacts; 
+       // // unset($data['keycontacts']['billingC']);
+       //  if(isset($data['keycontacts']['others'])):
+       //      $keycontacts = $data['keycontacts']['others'];
+       //      foreach ($keycontacts as $key => $value) {
+       //          if($value['keyid']!=0)
+       //              $others           =   KeyContacts::find($value['keyid']) ;
+       //          else
+       //              $others           =  New KeyContacts; 
                 
-                $others->title    =   $value['title'];
-                $others->user_id  =   $user->id;
-                $others->name     =   $value['name'];
-                $others->phone    =   $value['phone'];
-                $others->email    =   $value['email'];
-                $others->save();
+       //          $others->title    =   $value['title'];
+       //          $others->user_id  =   $user->id;
+       //          $others->name     =   $value['name'];
+       //          $others->phone    =   $value['phone'];
+       //          $others->email    =   $value['email'];
+       //          $others->save();
 
                 
-            }
-        endif;
+       //      }
+       //  endif;
         return redirect(url('profile'));
     }
 
@@ -143,9 +143,26 @@ class ProfileController extends Controller
         //
     }
 
-    public function updateInfo(UpdatePractice $request){
-        $user               =       Auth::user();
-        $user->sender_id    =       $request->sender_id;
-        $user->save();
+    public function updateInfo(Request $request){
+        $data                   =       $request;
+        $keycontacts = $data['keycontacts']['others'];
+        foreach ($keycontacts as $key => $value) {
+            if($value['keyid']!=0)
+                $other           =   KeyContacts::find($value['keyid']) ;
+            else
+                $other           =  New KeyContacts; 
+                    
+            $other->title    =   $value['title'];
+            $other->user_id  =   Auth::user()->id;
+            $other->name     =   $value['name'];
+            $other->phone    =   $value['phone'];
+            $other->email    =   $value['email'];
+            $other->save();
+        }
+        $i = Auth::user()->keyContacts()->where('is_fixed',0)->count();
+        return \Response::view('partials.ajax.profile.keyContacts',compact('i','other'));
+        // $user               =       Auth::user();
+        // $user->sender_id    =       $request->sender_id;
+        // $user->save();
     }
 }

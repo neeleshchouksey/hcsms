@@ -165,8 +165,7 @@ class PatientController extends Controller
     public function getPatientAppointments($code){
         $patient    = Patient::where('code',$code)->first();
          return view('appointments.index',compact('patient'));
-        echo "<pre>";
-        print_r($patient);
+       
 
     }
 }
