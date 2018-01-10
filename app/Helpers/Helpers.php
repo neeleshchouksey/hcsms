@@ -70,10 +70,12 @@ class Helpers
 
     endif;
 
+    $apptlink = url('/appt/'.$patientService->patient->code);
+
+     $message = str_replace('@apptlink', $apptlink, $message);
+
     if($patientService->timeData):
 
-        $apptlink = url('/appt/'.$patientService->patient->code);
-        
         $message = str_replace('@DATE', $patientService->appt_date, $message);
 
         $message = str_replace('@TIME', $patientService->timeData->title, $message);
@@ -81,9 +83,7 @@ class Helpers
         $message = str_replace('@WITH', $patientService->with, $message);
 
         $message = str_replace('@LOCATION', $patientService->location, $message);
-
-        $message = str_replace('@apptlink', $apptlink, $message);
-    
+  
     endif;
     
     if($patientService->reminderTime):
@@ -173,15 +173,22 @@ class Helpers
           $message        =   str_replace('@readingcount', $readingcount, $message);
 
         break;
+
       case 'appointments':
         
           foreach ($patientService->patient->appointments()->where('status',1)->get() as $receiveM) {
-            
-            $receiveMDate     =   $receiveM->appt_date;
+
+            $date = \DateTime::createFromFormat('d/m/Y', $receiveM->appt_date);
+
+            $date = $date->format('d/m');     
+
+            $receiveMDate     =   $date;
 
             $receiveMTime     =   $receiveM->timeData->title;
 
-            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime;
+            $receiveMWith     =   $receiveM->with;
+
+            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMWith;
           
           }
           
@@ -326,12 +333,37 @@ class Helpers
 
             endif;
 
+            /**
+             * initialize empty sender id
+             *
+             * @var        string
+             */
+            $senderId='';
               /**
-               * find sender id of doctor
-               *
-               * @var        <type>
+               * check  if reminder for appointment 
+               * then find docton apppointment sender id
                */
-              $senderId    = $patientService->patient->doctor->sender_id;
+              if($day_id=='appointment'):
+                /**
+                 * find appointment sender id of doctor
+                 *
+                 * @var        <type>
+                 */
+
+                $senderId    = $patientService->patient->doctor->appt_sender_id;
+
+              else:
+                  /**
+                  * find  sender id of doctor
+                  *
+                  * @var        <type>
+                  */
+
+                  $senderId    = $patientService->patient->doctor->sender_id;
+
+              endif;
+              
+
               
               /**
                * if sender id is empty then
