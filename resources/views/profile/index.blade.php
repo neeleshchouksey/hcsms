@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style type="text/css">
+.errors {
+    color:red;
+}
+
+</style>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -8,7 +14,8 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ url('profile') }}">
+                    <div id="formerrors"></div>
+                    <form class="form-horizontal" id="profileUpdate" method="POST" action="{{ url('profile') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -160,7 +167,7 @@
                                         endif;
                                     @endphp
                                     <label class="checkbox-inline">  
-                                        <input id="" type="checkbox"  name="practice_type[]" value="{{ $practiceType->id  }}" {{$checked}}  >
+                                        <input id="" type="checkbox" class="profileUpdate" name="practice_type[]" value="{{ $practiceType->id  }}" {{$checked}}  >
                                         {{$practiceType->name}}
                                     </label>
                                 @endforeach
@@ -285,8 +292,10 @@
 var otherkeynumber = $('.otherKeyContact').length+1;
 $(document).on('click','.addMore',function(e){
     var otherKey = 'otherkey'+otherkeynumber;
-    $('.keycontacts').append('<div class="form-group otherKeyContact"><input id="" type="hidden" name="keycontacts[others]['+otherKey+'][keyid]" placeholder="Title" value="0" required="required" class="form-control"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control"></div></div>');
+    $('.keycontacts').append('<div class="form-group otherKeyContact"><input id="" type="hidden" name="keycontacts[others]['+otherKey+'][keyid]" placeholder="Title" value="0" required="required" class="form-control"><div for="" class="col-md-3"><input id="" type="text" name="keycontacts[others]['+otherKey+'][title]" placeholder="Title" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][name]" placeholder="Name" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="text" name="keycontacts[others]['+otherKey+'][phone]" placeholder="Number" value="" required="required" class="form-control profileUpdate"></div> <div class="col-md-3 "><input id="" type="email" name="keycontacts[others]['+otherKey+'][email]" placeholder="email" value="" required="required" class="form-control profileUpdate"></div></div>');
     otherkeynumber++;
 });
+
 </script>
+ <script src="{{ asset('js/profile/profile.js') }}"></script>
 @endsection
