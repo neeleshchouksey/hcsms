@@ -303,7 +303,7 @@ class CronJobController extends Controller
                 /**
                  * Call helper function for send appointment reminders
                  */
-                Helper::sendAppointmentReminders($user,$day,$time);
+                Helper::sendAppointmentReminders($user,$day,$time,$timezone);
             }
             
 

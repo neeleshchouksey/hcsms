@@ -862,14 +862,18 @@ class Helpers
      * @param      <type>  $user      The user
      * @param      <type>  $dayvalue  The dayvalue
      */
-    public static function sendAppointmentReminders($user,$dayvalue,$time){
+    public static function sendAppointmentReminders($user,$dayvalue,$time,$timezone){
 
       /**
        * Get the date based on dayvalue from now
        *
        * @var        <type>
        */
-      $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->format('d/m/Y');
+      $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->timezone($timezone)->format('d/m/Y');
+
+      if($dayvalue==0){
+        $time  = \Carbon\Carbon::parse($time)->addHours(2)->timezone($timezone)->format('H:i');
+      }
 
       /**
        * Get all patient appointment those are
