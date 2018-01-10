@@ -894,7 +894,7 @@ class Helpers
                         });
                       }
                     )
-                  ->with(['appointments'=>function($q2) use($reminderDate,$dayvalue){
+                  ->with(['appointments'=>function($q2) use($reminderDate,$dayvalue,$time){
                         $q2->where('appt_date',$reminderDate);
                         $q2->where('status',1);
                         $q2->whereHas('apptReminders',function($q3) use($dayvalue){
