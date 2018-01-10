@@ -111,6 +111,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::get('language/ajax/load','LanguageController@ajaxLoad');
 
+        Route::get('customers/ajax/load','CustomerController@ajaxLoad');
+
         Route::put('language/show-on-top/{language}','LanguageController@showOnTop');
 
         Route::resource('sms-message-types','ServiceSmsTypesController');

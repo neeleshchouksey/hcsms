@@ -123,13 +123,13 @@ return [
             // 'label'       => 4,
             'label_color' => 'success',
         ],
-        // [
-        //     'text'        => 'Customers',
-        //     'url'         => 'admin/customers',
-        //     'icon'        => 'user',
-        //     // 'label'       => 4,
-        //     'label_color' => 'success',
-        // ],
+        [
+            'text'        => 'Customers',
+            'url'         => 'admin/customers',
+            'icon'        => 'user',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
