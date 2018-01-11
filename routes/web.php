@@ -129,6 +129,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::get('messages-log/ajax/load','MessagesLogController@ajaxLoad');
 
+        Route::resource('reminders','ActiveRemindersController');
+
+        Route::get('reminders/ajax/load','ActiveRemindersController@ajaxLoad');
+
     });
 });
 Route::get('/appt/{code}','PatientController@getPatientAppointments');

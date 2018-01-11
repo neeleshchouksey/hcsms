@@ -8,7 +8,7 @@ use Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MessagesLogController extends Controller
+class ActiveRemindersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class MessagesLogController extends Controller
     public function index()
     {
         //
-         return view('admin.messages.index');
+        return view('admin.reminders.index');
     }
 
     /**
@@ -161,7 +161,8 @@ class MessagesLogController extends Controller
         /**
          * Return json response of customer records
          */
-        return \Response::json($records);
+        return Response::json($records);
 
     }
+
 }
