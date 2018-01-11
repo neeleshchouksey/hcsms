@@ -111,8 +111,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::get('language/ajax/load','LanguageController@ajaxLoad');
 
-        Route::get('customers/ajax/load','CustomerController@ajaxLoad');
-
         Route::put('language/show-on-top/{language}','LanguageController@showOnTop');
 
         Route::resource('sms-message-types','ServiceSmsTypesController');
@@ -120,6 +118,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::resource('sms-language-message','LanguageSmsMessageController');
 
         Route::resource('customers','CustomerController');
+
+        Route::get('customers/ajax/load','CustomerController@ajaxLoad');
+
+        Route::resource('patients','PatientController');
+
+        Route::get('patients/ajax/load','PatientController@ajaxLoad');
+
+        Route::resource('messages-log','MessagesLogController');
+
+        Route::get('messages-log/ajax/load','MessagesLogController@ajaxLoad');
 
     });
 });

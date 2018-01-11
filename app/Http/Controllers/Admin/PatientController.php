@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Response;
 use Helper;
-use App\User as Customer;
-use App\ReminderSms;
+use App\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CustomerController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,7 @@ class CustomerController extends Controller
     public function index()
     {
         //
-        return view('admin.customers.index');
+        return view('admin.patients.index');
     }
 
     /**
@@ -49,56 +48,10 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Patient $patient)
     {
         //
-
-        /**
-         * check is request action is equal to 
-         * user-popop if yes then return staff 
-         * information view
-         */
-        if(request()->action=='user-popup'){
-            /**
-             * find all staffs of currect  custome
-             *
-             * @var        <type>
-             */
-            $staffs =  $customer->staffs;
-
-            /**
-             * pass staff object to view and return view for ajax response
-             */
-            return Response::view('admin.partials.ajax.customer.staff',compact('staffs'));
-        }
-        else{
-            /**
-             * find other keys  of current customers
-             *
-             * @var        <type>
-             */
-            $others              =   $customer->keyContacts()->where('is_fixed',0)->get();
-
-            /**
-             * find pratice manager key of current customers
-             *
-             * @var        <type>
-             */
-            $practice_manager    =   $customer->keyContacts()->where('title','practice_manager')->first();
-            
-            /**
-             * find billing contact key of current customers
-             *
-             * @var        <type>
-             */
-            $billing_contact     =   $customer->keyContacts()->where('title','billing_contact')->first();
-            
-            /**
-             * pass customer,others, pratice manager and billing_contact in view
-             * and return view for ajax response
-             */
-            return Response::view('admin.partials.ajax.customer.profile',compact('customer','others','practice_manager','billing_contact')); 
-        }
+        return Response::view('admin.partials.ajax.patient.patient',compact('patient'));
     }
 
     /**
@@ -134,19 +87,14 @@ class CustomerController extends Controller
     {
         //
     }
-    /**
-     * ajax funtion which loads all customer
-     *
-     * @return     <type>  ( description_of_the_return_value )
-     */
     public function ajaxLoad(){
 
         /**
-         * get all customers from database
+         * get all patients from database
          *
          * @var        <type>
          */
-        $users      =   Customer::all();
+        $patients      =   Patient::all();
 
         /**
          * initialize empty array records
@@ -162,21 +110,21 @@ class CustomerController extends Controller
          */
         $i          =   0;
 
-        foreach ($users as $user) {
+        foreach ($patients as $patient) {
 
             /**
              * call helper function for find total messages sent
              *
              * @var        <type>
              */
-            $totalreminderSms           =   Helper::totalMessageSent($user);
+            $totalreminderSms           =   Helper::totalMessageSent($patient);
 
             /**
              * call helper function for find last message sent
              *
              * @var        <type>
              */
-            $lastMessage                =   Helper::lastMessageSend($user);
+            $lastMessage                =   Helper::lastMessageSend($patient);
 
             /**
              * initialize lastMessageSendDate variable
@@ -202,13 +150,13 @@ class CustomerController extends Controller
             /**
              * assigning values for record array
              */
-            $records[$i]['company']      =   $user->company;
+            $records[$i]['name']        =   $patient->name;
             
-            $records[$i]['practice']     =   $user->name;
+            $records[$i]['phone']       =   $patient->mobile;
            
-            $records[$i]['users']        =   "<a href='javascript:void(0);' class='user-popup' data-user='".route('customers.show',$user->id)."'>".$user->staffs->count()."</a>";
+            $records[$i]['language']    =   $patient->language->title;
            
-            $records[$i]['patients']     =   $user->patients->count();
+            $records[$i]['practice']    =   $patient->doctor->name;
            
             $records[$i]['reminders']    =   0;
            
@@ -218,7 +166,7 @@ class CustomerController extends Controller
           
             $records[$i]['totalMessage'] =   $totalreminderSms;
           
-            $records[$i]['action']       =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('customers.show',$user->id)."'>Profile</a>";
+            $records[$i]['action']       =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('patients.show',$patient->id)."'>Profile</a>";
             
             $i++;
         }

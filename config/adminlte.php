@@ -130,6 +130,20 @@ return [
             // 'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'Patients',
+            'url'         => 'admin/patients',
+            'icon'        => 'wheelchair',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
+         [
+            'text'        => 'Messages Log',
+            'url'         => 'admin/messages-log',
+            'icon'        => 'envelope',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',

@@ -14,7 +14,7 @@ use App\Country;
 use App\Language;
 use App\ReminderSms;
 use Carbon\Carbon;
-
+use App\User;
 class Helpers
 {
   public static function PracticeTypes(){
@@ -896,24 +896,24 @@ class Helpers
      */
     public static function sendAppointmentReminders($user,$dayvalue,$time,$timezone){
 
-      /**
-       * Get the date based on dayvalue from now
-       *
-       * @var        <type>
-       */
-      $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->timezone($timezone)->format('d/m/Y');
+        /**
+        * Get the date based on dayvalue from now
+        *
+        * @var        <type>
+        */
+        $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->timezone($timezone)->format('d/m/Y');
 
-      if($dayvalue==0){
+        if($dayvalue==0){
         $time  = \Carbon\Carbon::parse($time)->addHours(2)->timezone($timezone)->format('H:i');
-      }
+        }
 
-      /**
-       * Get all patient appointment those are
-       * in reminder date
-       *
-       * @var        <type>
-       */
-      $patients  = $user->patients()
+        /**
+        * Get all patient appointment those are
+        * in reminder date
+        *
+        * @var        <type>
+        */
+        $patients  = $user->patients()
                   ->whereHas('appointments',
                     function($q) use($reminderDate,$dayvalue,$time){ 
                         $q->where('appt_date',$reminderDate);
@@ -1070,5 +1070,89 @@ class Helpers
         endif;
 
         return $textMessage;
+    }
+    /**
+     * function get user object and return last message send
+     *
+     * @param      <type>  $user   The user
+     *
+     * @return     <type>  return last message
+     */
+    public static function lastMessageSend($user){
+        $lastMessageSend    =   ReminderSms::whereHas('parentService',
+                                                    function($q) use($user){
+                                                        $q->whereHas('patient',
+                                                            function($q2) use($user){
+                                                                if($user instanceof User):
+                                                                    $q2->where('user_id',$user->id);
+                                                                else:
+                                                                    $q2->where('id',$user->id);
+                                                                endif;
+                                                            });
+                                                    })
+                                        ->orWhereHas('parentAppt',
+                                                    function($q) use($user){
+                                                        $q->whereHas('patient',
+                                                            function($q2) use($user){
+                                                                if($user instanceof User):
+                                                                    $q2->where('user_id',$user->id);
+                                                                else:
+                                                                    $q2->where('id',$user->id);
+                                                                endif;
+                                                            });
+                                                    })->latest()->first();
+        return $lastMessageSend;
+    }
+
+    /**
+     * function get user object and return total message send
+     *
+     * @param      <type>  $user   The user
+     *
+     * @return     <type>  return total message sent
+     */
+    public static function totalMessageSent($user)
+    {
+         
+         $totalreminderSms     =   ReminderSms::whereHas('parentService',
+                                                            function($q) use($user){
+                                                                $q->whereHas('patient',
+                                                                    function($q2) use($user){
+                                                                        if($user instanceof User):
+                                                                            $q2->where('user_id',$user->id);
+                                                                        else:
+                                                                            $q2->where('id',$user->id);
+                                                                        endif;
+                                                                    });
+                                                            })
+                                                ->orWhereHas('parentAppt',
+                                                            function($q) use($user){
+                                                                $q->whereHas('patient',
+                                                                    function($q2) use($user){
+                                                                        if($user instanceof User):
+                                                                            $q2->where('user_id',$user->id);
+                                                                        else:
+                                                                            $q2->where('id',$user->id);
+                                                                        endif;
+                                                                    });
+                                                            })->count();
+         
+        return $totalreminderSms;
+        
+    }
+    /**
+     * Gets all message logs.
+     *
+     * @param      string  $id     The identifier
+     *
+     * @return     <type>  All message logs.
+     */
+    public static function getAllMessageLogs($id=''){
+
+        $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id',\DB::raw('"receive" AS type'));
+        $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id',\DB::raw('"send" AS type'))
+                                        ->union($ReceiveSms)
+                                        ->orderBy('created_at', 'DESC')->latest()->get();
+        return  $reminderSms;
     }
 }
