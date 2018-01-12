@@ -121,19 +121,27 @@ class ActiveRemindersController extends Controller
 
             if($getmessage->parentService){
 
-                $patient    =     $getmessage->parentService->patient->name;
+                if($getmessage->parentService->patient):
 
-                $practice   =     $getmessage->parentService->patient->doctor->name;
+                    $patient    =     $getmessage->parentService->patient->name;
 
-                $language   =     $getmessage->parentService->patient->language->title;
+                    $practice   =     $getmessage->parentService->patient->doctor->name;
+
+                    $language   =     $getmessage->parentService->patient->language->title;
+
+                endif;
             }
             elseif($getmessage->parentAppt){
 
-                $patient    =     $getmessage->parentAppt->patient->name;
+                if($getmessage->parentService->patient):
 
-                $practice   =     $getmessage->parentAppt->patient->doctor->name;
+                    $patient    =     $getmessage->parentAppt->patient->name;
 
-                $language   =     $getmessage->parentAppt->patient->language->title;
+                    $practice   =     $getmessage->parentAppt->patient->doctor->name;
+
+                    $language   =     $getmessage->parentAppt->patient->language->title;
+                    
+                endif;
             }
 
             /**
