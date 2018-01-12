@@ -34,12 +34,12 @@ class ProfileRequest extends FormRequest
             'appt_sender_id' => 'nullable|alpha_dash|max:13',
             'phone' => 'required|numeric',
             'practice_type' => 'required',
-            'keycontacts.practice_manager.name' => 'required|string|max:255',
-            'keycontacts.practice_manager.phone' => 'required|numeric',
-            'keycontacts.practice_manager.email' => 'required|string|email|max:255',
-            'keycontacts.billing_contact.name' => 'required|string|max:255',
-            'keycontacts.billing_contact.phone' => 'required|numeric',
-            'keycontacts.billing_contact.email' => 'required|string|email|max:255',
+            'keycontacts.practice_manager.name' => 'nullable|string|max:255',
+            'keycontacts.practice_manager.phone' => 'nullable|numeric',
+            'keycontacts.practice_manager.email' => 'nullable|string|email|max:255',
+            'keycontacts.billing_contact.name' => 'nullable|string|max:255',
+            'keycontacts.billing_contact.phone' => 'nullable|numeric',
+            'keycontacts.billing_contact.email' => 'nullable|string|email|max:255',
         ];
     }
     public function messages()
