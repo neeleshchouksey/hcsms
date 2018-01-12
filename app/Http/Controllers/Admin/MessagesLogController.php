@@ -126,6 +126,8 @@ class MessagesLogController extends Controller
              */
             $patient    =   '';
 
+            $patientid  =   '';
+
             /**
              * initialize practice variable
              *
@@ -155,6 +157,14 @@ class MessagesLogController extends Controller
                  */
 
                 if($getmessage->parentService->patient):
+
+                    /**
+                     * assign patient id to patientid varible
+                     *
+                     * @var        <type>
+                     */
+                    $patientid    =     $getmessage->parentService->patient->id;
+
                     /**
                      * assign patient name to patient varible
                      *
@@ -191,6 +201,12 @@ class MessagesLogController extends Controller
                  * or not 
                  */
                 if($getmessage->parentAppt->patient):
+                    /**
+                     * assign patient id to patientid varible
+                     *
+                     * @var        <type>
+                     */
+                    $patientid    =     $getmessage->parentAppt->patient->id;
                     /**
                      * assign patient name to patient varible
                      *
@@ -234,7 +250,7 @@ class MessagesLogController extends Controller
     
             $records[$i]['message']     =   $message->body;
           
-            $records[$i]['action']      =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('messages-log.show',$getmessage->id)."'>Profile</a>";
+            $records[$i]['action']      =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('patientsg.show',$patientid)."'>Profile</a>";
             
             $i++;
         }
