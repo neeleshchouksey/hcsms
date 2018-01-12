@@ -114,29 +114,30 @@ class CronJobController extends Controller
                             $service->save();
                             Helper::sendSmsMessage($service,'end');
                             continue;
-                        }     
-                        if($service->reminderMessage):
+                        }
+                    endif;     
+                    if($service->reminderMessage):
+                    
+                        $cdate     =   Carbon::now();
+                      
+                        $cmessageCount   =   $service->reminderMessage()
+                                                                ->whereHas('parentDay',
+                                                                    function($q) use($day){
+                                                                        $q->where('abbr',$day);
+                                                                    })
+                                                                ->whereHas('parentTime',
+                                                                    function($q) use($time){
+                                                                        $q->where('abbr',$time);
+                                                                    }
+                                                                    )->latest()->first();
+                        $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                        $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
                         
-                            $cdate     =   Carbon::now();
-                          
-                            $cmessageCount   =   $service->reminderMessage()
-                                                                    ->whereHas('parentDay',
-                                                                        function($q) use($day){
-                                                                            $q->where('abbr',$day);
-                                                                        })
-                                                                    ->whereHas('parentTime',
-                                                                        function($q) use($time){
-                                                                            $q->where('abbr',$time);
-                                                                        }
-                                                                        )->latest()->first();
-                            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
-                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
-                            
-                            $diff_in_hours = $to->diffInWeeks($from);
-                            $diff_in_hours;
-                            if($diff_in_hours<$service->perweek)
-                                continue;
-                        endif;
+                        $diff_in_hours = $to->diffInWeeks($from);
+                        $diff_in_hours;
+                        if($diff_in_hours<$service->perweek)
+                            continue;
+                    
                     endif;
                      if($service->service_id==1 && $messageCount==0)
                    
