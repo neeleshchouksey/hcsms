@@ -24,7 +24,7 @@ function showPatients() {
 
             { data: 'reminders' },
             { data: 'lastMessage' },
-            { data: 'nextMessage' },
+            
             { data: 'totalMessage' },
           
           

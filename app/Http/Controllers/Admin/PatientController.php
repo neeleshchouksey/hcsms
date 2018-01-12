@@ -127,6 +127,13 @@ class PatientController extends Controller
             $lastMessage                =   Helper::lastMessageSend($patient);
 
             /**
+             * call helper function for find all active reminders
+             *
+             * @var        <type>
+             */
+            $activeReminders            =       Helper::getActiveReminders($patient);
+
+            /**
              * initialize lastMessageSendDate variable
              *
              * @var        string
@@ -158,7 +165,7 @@ class PatientController extends Controller
            
             $records[$i]['practice']    =   $patient->doctor->name;
            
-            $records[$i]['reminders']    =   0;
+            $records[$i]['reminders']    =   $activeReminders;
            
             $records[$i]['lastMessage']  =   $lastMessageSendDate;
            

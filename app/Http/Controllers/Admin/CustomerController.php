@@ -169,14 +169,22 @@ class CustomerController extends Controller
              *
              * @var        <type>
              */
-            $totalreminderSms           =   Helper::totalMessageSent($user);
+            $totalreminderSms           =       Helper::totalMessageSent($user);
 
             /**
              * call helper function for find last message sent
              *
              * @var        <type>
              */
-            $lastMessage                =   Helper::lastMessageSend($user);
+            $lastMessage                =       Helper::lastMessageSend($user);
+
+            /**
+             * call helper function for find all active reminders
+             *
+             * @var        <type>
+             */
+            $activeReminders            =       Helper::getActiveReminders($user);
+
 
             /**
              * initialize lastMessageSendDate variable
@@ -210,7 +218,7 @@ class CustomerController extends Controller
            
             $records[$i]['patients']     =   $user->patients->count();
            
-            $records[$i]['reminders']    =   0;
+            $records[$i]['reminders']    =   $activeReminders;
            
             $records[$i]['lastMessage']  =   $lastMessageSendDate;
            

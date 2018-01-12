@@ -111,34 +111,106 @@ class MessagesLogController extends Controller
 
         foreach ($messages as $message) {
 
+            /**
+             * call helper fuction to get 
+             * original Message
+             *
+             * @var        <type>
+             */
             $getmessage                    =       Helper::getOriginalMessage($message->message_id);
 
+            /**
+             * intialize patient variable
+             *
+             * @var        string
+             */
             $patient    =   '';
+
+            /**
+             * initialize practice variable
+             *
+             * @var        string
+             */
 
             $practice   =   '';
 
+            /**
+             * initialize  language varible
+             *
+             * @var        string
+             */
+
             $language   =   '';
+
+            /**
+             * check if parent service is exist 
+             * or original messge or not
+             */
 
             if($getmessage->parentService){
 
-                if($patient    =     $getmessage->parentService->patient):
+                /**
+                 * check patient service's patient is exist 
+                 * or not 
+                 */
 
+                if($getmessage->parentService->patient):
+                    /**
+                     * assign patient name to patient varible
+                     *
+                     * @var        <type>
+                     */
                     $patient    =     $getmessage->parentService->patient->name;
+
+                    /**
+                     * assign patient's doctor name as practice name
+                     *
+                     * @var        <type>
+                     */
 
                     $practice   =     $getmessage->parentService->patient->doctor->name;
 
+                    /**
+                     * assign patient's language  to language variable
+                     *
+                     * @var        <type>
+                     */
                     $language   =     $getmessage->parentService->patient->language->title;
 
                 endif;
             }
+
+            /**
+             * check if parent appointment is exist 
+             * or original messge or not
+             */
             elseif($getmessage->parentAppt){
 
-                if($patient    =     $getmessage->parentAppt->patient):
-
+                /**
+                 * check patient appointment's patient is exist 
+                 * or not 
+                 */
+                if($getmessage->parentAppt->patient):
+                    /**
+                     * assign patient name to patient varible
+                     *
+                     * @var        <type>
+                     */
                     $patient    =     $getmessage->parentAppt->patient->name;
 
-                    $practice   =     $getmessage->parentAppt->patient->doctor->name;
+                    /**
+                     * assign patient's doctor name as practice name
+                     *
+                     * @var        <type>
+                     */
 
+                    $practice   =     $getmessage->parentAppt->patient->doctor->name;
+                    
+                    /**
+                     * assign patient's language  to language variable
+                     *
+                     * @var        <type>
+                     */
                     $language   =     $getmessage->parentAppt->patient->language->title;
                     
                 endif;

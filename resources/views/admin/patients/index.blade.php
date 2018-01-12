@@ -26,7 +26,7 @@
                             <th>Practice Name</th>
                             <th>Active Reminders</th>
                             <th>Last Message Sent</th>
-                            <th>Next Message Due</th>
+                            <!-- <th>Next Message Due</th> -->
                             <th>Total Message Sent</th>
                             
                             <th>Action</th>

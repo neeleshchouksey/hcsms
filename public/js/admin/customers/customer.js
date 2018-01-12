@@ -24,7 +24,7 @@ function showCustomers() {
 
             { data: 'reminders' },
             { data: 'lastMessage' },
-            { data: 'nextMessage' },
+           
             { data: 'totalMessage' },
           
           

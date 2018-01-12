@@ -8,6 +8,9 @@ class ReminderDays extends Model
 {
     //
     public function getMessages(){
-    	$this->hasMany('App\ReminderSms','day_id');
+    	return $this->hasMany('App\ReminderSms','day_id');
+    }
+    public function patientDays(){
+    	return $this->hasMany('App\PatientReminderDays','day_id');
     }
 }

@@ -15,229 +15,260 @@ use App\Language;
 use App\ReminderSms;
 use Carbon\Carbon;
 use App\User;
+use App\Patient;
+use App\PatientService;
+use App\PatientAppointment;
+
+
 class Helpers
 {
-  public static function PracticeTypes(){
-    return PracticeType::all();
-  }
-  public static function Status(){
-    return StaffStatus::all();
-  }
-  public static function Permission(){
-    return Permission::where('is_parent',0)->get();
-  }
-  public static function Service(){
-    return Service::all();
-  }
-  public static function serviceBasedOnPracticeType(){
-    
-    $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->get();
-    return $services;
-  }
-  public static function ReminderDays(){
-    return ReminderDays::all();
-  }
-  public static function ReminderTimes(){
-    return RemiderTime::all();
-  }
-  public static function ReminderDuration(){
-    return RemindarDuration::all();
-  }
-  public static function Countries(){
-    return Country::all();
-  }
-  public static function languages(){
-    return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
-  }
-  public static function change_message_variables($message,$patientService,$receiveMessage='',$action=''){
-    // echo $action;
-    // die('checkhisory');
-    
-    
-    $bphistoryurl   =     url('/'.$patientService->token);
-    
-    $site_url       =     url('/');
-    
-    $timezone       =     Self::getPracticeTimeZone($patientService->patient);
 
-    if($patientService->reminderDays):
+    /**
+     * { function_description }
+     *
+     * @return     <type>  ( description_of_the_return_value )
+     */
+    public static function PracticeTypes(){
 
-      $getDays        =     $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
-    
-      $getDays        =     self::customArrayMap(array('day_data','abbr'),$getDays);
-    
-      $message        =     str_replace('@DAYS', $getDays, $message);
+        /**
+         * { item_description }
+         */
+        return PracticeType::all();
 
-    endif;
-
-    $apptlink = url('/appt/'.$patientService->patient->code);
-
-     $message = str_replace('@apptlink', $apptlink, $message);
-
-    if($patientService->timeData):
-
-        $message = str_replace('@DATE', $patientService->appt_date, $message);
-
-        $message = str_replace('@TIME', $patientService->timeData->title, $message);
-
-        $message = str_replace('@WITH', $patientService->with, $message);
-
-        $message = str_replace('@LOCATION', $patientService->location, $message);
-  
-    endif;
-    
-    if($patientService->reminderTime):
-
-        $getTime        =     $patientService->reminderTime()->with('timeData')->orderBy('time_id','asc')->get()->toArray();
-
-        $getTime        =     self::customArrayMap(array('time_data','title'),$getTime);
-
-        $message        =     str_replace('@TIMES', $getTime, $message);
-
-    endif;
-
-    $message = str_replace('@NAME', $patientService->patient->name, $message);
-    
-    $message = str_replace('@DOCTORNAME', $patientService->patient->doctor->name, $message);
-    
-    $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
-    
-    $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
-    
-    $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
-    
-    $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
-    
-    $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
-    
-    $message = str_replace('@PATIENTBSHISTORYLINK', $bphistoryurl, $message);
-    
-    $message = str_replace('@WEBSITE', $site_url, $message);
-
-    $readings = '';
-
-    switch ($action) {
-
-      case 'bphistory':
- 
-          foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
-            # code...
-            $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
-            $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
-            $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
-
-    
-            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
-          }
-          $message = str_replace('@last-ten-reading', $readings, $message);
-        break;
-
-      case 'bshistory':
-         
-          foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
-            
-            $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
-            $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
-            $receiveMReading  =   $receiveM->body;
-
-            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
-          }
-          $message = str_replace('@last-ten-reading', $readings, $message);
-
-        break;
-
-      case 'bpaverage':
-        
-          $tenDayBg       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number'),2);
-          $tenDaySm       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number'),2);
-          $readings      .=   "\r\n Last 10 Days :"." ".$tenDayBg."/".$tenDaySm;
-
-          $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number'),2);
-          $thirtyDaySm    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number'),2);
-          $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
-
-          $message        =   str_replace('@average-reading', $readings, $message);
-
-        break;
-
-      case 'bsaverage':
-        
-          $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('body'),2);
-          
-          $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg;
-
-          $readingcount   =   $patientService->receiveMessage->count();
-
-          $message        =   str_replace('@average-reading', $readings, $message);
-
-          $message        =   str_replace('@readingcount', $readingcount, $message);
-
-        break;
-
-      case 'appointments':
-        
-          foreach ($patientService->patient->appointments()->where('status',1)->get() as $receiveM) {
-
-            $date = \DateTime::createFromFormat('d/m/Y', $receiveM->appt_date);
-
-            $date = $date->format('d/m');     
-
-            $receiveMDate     =   $date;
-
-            $receiveMTime     =   $receiveM->timeData->title;
-
-            $receiveMWith     =   $receiveM->with;
-
-            $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMWith;
-          
-          }
-          
-          $message = str_replace('@scheduled-appointments', $readings, $message);
-
-
-        break;
-
-      
-      default:
-        # code...
-        break;
     }
-    if($patientService->service_id==2):
-        $bsmin          =   $patientService->target-(($patientService->bs_low_alert*$patientService->target)/100);
-        $bsmax          =   $patientService->target+(($patientService->bs_high_alert*$patientService->target)/100);
 
-        $message        =   str_replace('@BSMIN', $bsmin, $message);
-        $message        =   str_replace('@BSMAX', $bsmax, $message);   
-    endif;  
+    /**
+     * { function_description }
+     *
+     * @return     <type>  ( description_of_the_return_value )
+     */
+    public static function Status(){
+
+        /**
+         * { item_description }
+         */
+        return StaffStatus::all();
+
+    }
+    public static function Permission(){
+        return Permission::where('is_parent',0)->get();
+    }
+    public static function Service(){
+        return Service::all();
+    }
+    public static function serviceBasedOnPracticeType(){
+    
+        $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->get();
+        return $services;
+    }
+    public static function ReminderDays(){
+        return ReminderDays::all();
+    }
+    public static function ReminderTimes(){
+        return RemiderTime::all();
+    }
+    public static function ReminderDuration(){
+        return RemindarDuration::all();
+    }
+    public static function Countries(){
+        return Country::all();
+     }
+    public static function languages(){
+        return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
+    }
+    public static function change_message_variables($message,$patientService,$receiveMessage='',$action=''){
+   
+    
+        $bphistoryurl   =     url('/'.$patientService->token);
+    
+        $site_url       =     url('/');
+    
+        $timezone       =     Self::getPracticeTimeZone($patientService->patient);
+
+        if($patientService->reminderDays):
+
+            $getDays        =     $patientService->reminderDays()->with('dayData')->orderBy('day_id','asc')->get()->toArray();
+    
+            $getDays        =     self::customArrayMap(array('day_data','abbr'),$getDays);
+    
+            $message        =     str_replace('@DAYS', $getDays, $message);
+
+        endif;
+
+        $apptlink = url('/appt/'.$patientService->patient->code);
+
+        $message = str_replace('@apptlink', $apptlink, $message);
+
+        if($patientService->timeData):
+
+            $message = str_replace('@DATE', $patientService->appt_date, $message);
+
+            $message = str_replace('@TIME', $patientService->timeData->title, $message);
+
+            $message = str_replace('@WITH', $patientService->with, $message);
+
+            $message = str_replace('@LOCATION', $patientService->location, $message);
+      
+        endif;
+    
+        if($patientService->reminderTime):
+
+            $getTime        =     $patientService->reminderTime()->with('timeData')->orderBy('time_id','asc')->get()->toArray();
+
+            $getTime        =     self::customArrayMap(array('time_data','title'),$getTime);
+
+            $message        =     str_replace('@TIMES', $getTime, $message);
+
+        endif;
+
+        $message = str_replace('@NAME', $patientService->patient->name, $message);
+        
+        $message = str_replace('@DOCTORNAME', $patientService->patient->doctor->name, $message);
+        
+        $message = str_replace('@DOCNUMBER', $patientService->patient->doctor->contact, $message);
+        
+        $message = str_replace('@PRACTICENAME', $patientService->patient->doctor->name, $message);
+        
+        $message = str_replace('@GP', $patientService->patient->doctor->name, $message);
+        
+        $message = str_replace('@PRACTICENUMBER', $patientService->patient->doctor->contact, $message);
+        
+        $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
+        
+        $message = str_replace('@PATIENTBSHISTORYLINK', $bphistoryurl, $message);
+        
+        $message = str_replace('@WEBSITE', $site_url, $message);
+
+        $readings = '';
+
+        switch ($action) {
+
+            case 'bphistory':
+     
+                foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
+                    # code...
+                    $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
+                    $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
+                    $receiveMReading  =   $receiveM->bg_number.'/'.$receiveM->sm_number;
+
+        
+                    $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+                }
+                $message = str_replace('@last-ten-reading', $readings, $message);
+            break;
+
+            case 'bshistory':
+             
+                foreach ($patientService->receiveMessage()->latest()->take(10)->get() as $receiveM) {
+                
+                    $receiveMDate     =   $receiveM->created_at->timezone($timezone)->format('d-m-Y');
+                    $receiveMTime     =   $receiveM->created_at->timezone($timezone)->format('H:i');
+                    $receiveMReading  =   $receiveM->body;
+
+                    $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMReading;
+                }
+                $message = str_replace('@last-ten-reading', $readings, $message);
+
+            break;
+
+            case 'bpaverage':
+            
+                $tenDayBg       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('bg_number'),2);
+                $tenDaySm       =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(10))->avg('sm_number'),2);
+                $readings      .=   "\r\n Last 10 Days :"." ".$tenDayBg."/".$tenDaySm;
+
+                $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('bg_number'),2);
+                $thirtyDaySm    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('sm_number'),2);
+                $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg."/".$thirtyDaySm;
+
+                $message        =   str_replace('@average-reading', $readings, $message);
+
+            break;
+
+            case 'bsaverage':
+            
+                $thirtyDayBg    =   round($patientService->receiveMessage()->where('created_at', '>=', Carbon::now()->subDay(30))->avg('body'),2);
+              
+                $readings      .=   "\r\n Last 30 Days :"." ".$thirtyDayBg;
+
+                $readingcount   =   $patientService->receiveMessage->count();
+
+                $message        =   str_replace('@average-reading', $readings, $message);
+
+                $message        =   str_replace('@readingcount', $readingcount, $message);
+
+            break;
+
+            case 'appointments':
+            
+                foreach ($patientService->patient->appointments()->where('status',1)->get() as $receiveM) {
+
+                    $date = \DateTime::createFromFormat('d/m/Y', $receiveM->appt_date);
+
+                    $date = $date->format('d/m');     
+
+                    $receiveMDate     =   $date;
+
+                    $receiveMTime     =   $receiveM->timeData->title;
+
+                    $receiveMWith     =   $receiveM->with;
+
+                    $readings       .=  "\r\n".$receiveMDate.' '.$receiveMTime.' '.$receiveMWith;
+              
+                }
+              
+                $message = str_replace('@scheduled-appointments', $readings, $message);
 
 
-    if(!empty($receiveMessage)):
+            break;
 
-      $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
-      $timezone       =   \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
-      $timezone       =   $timezone[0];
+          
+            default:
+                # code...
+            break;
+        }
 
-      $message        =   str_replace('@XXX/YY', str_replace(' ', '/', $receiveMessage->body), $message);
-      $message        =   str_replace('@DATE', $receiveMessage->created_at->timezone($timezone)->format('d-m-Y'), $message);
-      $message        =   str_replace('@TIME', $receiveMessage->created_at->timezone($timezone)->format('H:i'), $message);
-      $message        =   str_replace('@BSREADING',  $receiveMessage->body, $message);
+        if($patientService->service_id==2):
+            $bsmin          =   $patientService->target-(($patientService->bs_low_alert*$patientService->target)/100);
+            $bsmax          =   $patientService->target+(($patientService->bs_high_alert*$patientService->target)/100);
+
+            $message        =   str_replace('@BSMIN', $bsmin, $message);
+            $message        =   str_replace('@BSMAX', $bsmax, $message);   
+        endif;  
+
+
+        if(!empty($receiveMessage)):
+
+            $countryCode    =   $patientService->patient->doctor->getCountry->iso_3166_2;
+            $timezone       =   \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+            $timezone       =   $timezone[0];
+
+            $message        =   str_replace('@XXX/YY', str_replace(' ', '/', $receiveMessage->body), $message);
+            $message        =   str_replace('@DATE', $receiveMessage->created_at->timezone($timezone)->format('d-m-Y'), $message);
+            $message        =   str_replace('@TIME', $receiveMessage->created_at->timezone($timezone)->format('H:i'), $message);
+            $message        =   str_replace('@BSREADING',  $receiveMessage->body, $message);
 
       
-    endif;
-    $message = str_replace('@X', $patientService->perweek, $message);
-    return $message;
+        endif;
 
-  }
-  public static function customArrayMap($keyvalue,$array){
+        $message = str_replace('@X', $patientService->perweek, $message);
+
+        return $message;
+
+    }
+    public static function customArrayMap($keyvalue,$array){
+
         foreach ($keyvalue as $key => $value) {
-          $array  =   array_column($array,$value);
-        }
-        return $array    =   implode(',', $array);
-        
-        
 
+            $array  =   array_column($array,$value);
+
+        }
+
+        return $array    =   implode(',', $array);
+ 
   }
-  public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id=''){
+
+    public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id=''){
         /**
          * check patient service send has sms types or not
          */
@@ -246,148 +277,146 @@ class Helpers
           /**
            *  call try function for send sms api function
            */
-          try {
+            try {
 
-              /***
-              * Prepare ClickSend client.
-              */
-              $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
+                /***
+                * Prepare ClickSend client.
+                */
+                $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
 
-              // Get SMS instance.
-              $sms = $client->getSMS();
-
-              /**
-               * find patient selected language
-               *
-               * @var        <type>
-               */
-              $language_id          =   $patientService->patient->language_id;
-
-            /**
-            * Check sms message is exist in selected language or not
-            *
-            * @var        <type>
-            */
-            $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-
-            /**
-            * if sms message is not exists in 
-            * patient preffered language
-            * then find english language message
-            * for send sms
-            */
-            if(empty($smsTypesMessage)){
-              /**
-               * Initialize ennglish language id for 
-               * language_id variable
-               *
-               * @var        integer
-               */
-              $language_id  =1;
-              /**
-               * get english langeuage sms type object for database
-               *
-               * @var        <type>
-               */
-              $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
-
-            }
-            /**
-            * get message object of preferred language
-            *
-            * @var        <type>
-            */
-           
-            $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
-
-            /**
-            * Chack reminder type of service sms type
-            * if reminder type 2 then pass 
-            * language message, patientService,receive sms and action
-            * in change message variable function
-            * day_id = recieve_sms object
-            */
-            if($smsTypesMessage->is_reminder==2):
+                // Get SMS instance.
+                $sms = $client->getSMS();
 
                 /**
-                 * call change message variables function
-                 * to change dyanamic values of messages
-                 * @var        <type>
-                 */
-                $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
-            /**
-            * if message reminder type of servics sms type 
-            * is not equal to 2  then pass
-            * language message, patient service and action
-            * in change msssage variable function
-            * 
-            */
-            else:
+                * find patient selected language
+                *
+                * @var        <type>
+                */
+                $language_id          =   $patientService->patient->language_id;
 
-                 /**
-                 * call change message variables function
-                 * to change dyanamic values of messages
-                 * @var        <type>
-                 */
-                $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
-
-            endif;
-
-            /**
-             * initialize empty sender id
-             *
-             * @var        string
-             */
-            $senderId='';
-              /**
-               * check  if reminder for appointment 
-               * then find docton apppointment sender id
-               */
-              if($day_id=='appointment'):
                 /**
-                 * find appointment sender id of doctor
-                 *
-                 * @var        <type>
-                 */
+                * Check sms message is exist in selected language or not
+                *
+                * @var        <type>
+                */
+                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
 
-                $senderId    = $patientService->patient->doctor->appt_sender_id;
-
-              else:
+                /**
+                * if sms message is not exists in 
+                * patient preffered language
+                * then find english language message
+                * for send sms
+                */
+                if(empty($smsTypesMessage)){
                   /**
-                  * find  sender id of doctor
-                  *
-                  * @var        <type>
-                  */
-
-                  $senderId    = $patientService->patient->doctor->sender_id;
-
-              endif;
-              
-
-              
-              /**
-               * if sender id is empty then
-               * assign default sender id
-               * to sender id varible
-               */
-              if (empty($senderId)) {
-                  /**
-                   * assign defualt id
+                   * Initialize ennglish language id for 
+                   * language_id variable
                    *
-                   * @var        string
+                   * @var        integer
                    */
-                  $senderId   =   '+447520619101';
+                  $language_id  =1;
+                  /**
+                   * get english langeuage sms type object for database
+                   *
+                   * @var        <type>
+                   */
+                  $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
 
-              } 
+                }
+                /**
+                * get message object of preferred language
+                *
+                * @var        <type>
+                */
+               
+                $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
 
-              /**
-               * set message variable
-               * to send sms to patient
-               * mobile number
-               *
-               * @var        array
-               */
-              $messages =  [
+                /**
+                * Chack reminder type of service sms type
+                * if reminder type 2 then pass 
+                * language message, patientService,receive sms and action
+                * in change message variable function
+                * day_id = recieve_sms object
+                */
+                if($smsTypesMessage->is_reminder==2):
+
+                    /**
+                     * call change message variables function
+                     * to change dyanamic values of messages
+                     * @var        <type>
+                     */
+                    $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
+                /**
+                * if message reminder type of servics sms type 
+                * is not equal to 2  then pass
+                * language message, patient service and action
+                * in change msssage variable function
+                * 
+                */
+                else:
+
+                     /**
+                     * call change message variables function
+                     * to change dyanamic values of messages
+                     * @var        <type>
+                     */
+                    $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
+
+                endif;
+
+                /**
+                 * initialize empty sender id
+                 *
+                 * @var        string
+                 */
+                $senderId='';
+                /**
+                * check  if reminder for appointment 
+                * then find docton apppointment sender id
+                */
+                if($day_id=='appointment'):
+                    /**
+                     * find appointment sender id of doctor
+                     *
+                     * @var        <type>
+                     */
+
+                    $senderId    = $patientService->patient->doctor->appt_sender_id;
+
+                else:
+                    /**
+                    * find  sender id of doctor
+                    *
+                    * @var        <type>
+                    */
+
+                    $senderId    = $patientService->patient->doctor->sender_id;
+
+                endif;
+           
+                /**
+                * if sender id is empty then
+                * assign default sender id
+                * to sender id varible
+                */
+                if (empty($senderId)) {
+                    /**
+                    * assign defualt id
+                    *
+                    * @var        string
+                    */
+                    $senderId   =   '+447520619101';
+
+                } 
+
+                /**
+                * set message variable
+                * to send sms to patient
+                * mobile number
+                *
+                * @var        array
+                */
+                $messages =  [
                   [
                       "source" => "php",
                       "from" => $senderId,
@@ -397,67 +426,67 @@ class Helpers
                       "custom_string" => "this is a test"
                   ]
                   
-              ];
-              
-              /**
-               * Call Api function to send
-               * sms and get sms response
-               * and store in response variable
-               *
-               * @var        <type>
-               */
-              $response   =   $sms->sendSms(['messages' => $messages]);
+                ];
+                  
+                /**
+                * Call Api function to send
+                * sms and get sms response
+                * and store in response variable
+                *
+                * @var        <type>
+                */
+                $response   =   $sms->sendSms(['messages' => $messages]);
 
-              /**
-               * Get Send message data from api response
-               *
-               * @var        <type>
-               */
-              $message    =   $response->data->messages[0];
+                /**
+                * Get Send message data from api response
+                *
+                * @var        <type>
+                */
+                $message    =   $response->data->messages[0];
 
-              /**
-               * Initialize send reminder object
-               *
-               * @var        ReminderSms
-               */
-              $reminderSms                         =       new ReminderSms;
-              
-              /**
-               * assign sms date for ReminderSms sms_time
-               */
-              $reminderSms->sms_time               =       $message->date;
-              
-              /**
-               * assign sms to for ReminderSms to
-               */
-              $reminderSms->to                     =       $message->to;
+                /**
+                * Initialize send reminder object
+                *
+                * @var        ReminderSms
+                */
+                $reminderSms                         =       new ReminderSms;
 
-              /**
-               * assign sms from for ReminderSms from
-               */
-              $reminderSms->from                   =       $message->from;
-              
-              /**
-               * assign sms body for ReminderSms body
-               */ 
-              $reminderSms->body                   =       $message->body;
-              
-              /**
-               * assign sms message_id for ReminderSms message_id
-               */
-              $reminderSms->message_id             =       $message->message_id;
-             
-              /**
-               * assign sms type id for ReminderSms sms_type_id
-               */
-              $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+                /**
+                * assign sms date for ReminderSms sms_time
+                */
+                $reminderSms->sms_time               =       $message->date;
 
-              /**
-               * check is reminder type 1
-               * then save day and time id 
-               * in reminder sms table
-               */
-              if($smsTypesMessage->is_reminder==1):
+                /**
+                * assign sms to for ReminderSms to
+                */
+                $reminderSms->to                     =       $message->to;
+
+                /**
+                * assign sms from for ReminderSms from
+                */
+                $reminderSms->from                   =       $message->from;
+
+                /**
+                * assign sms body for ReminderSms body
+                */ 
+                $reminderSms->body                   =       $message->body;
+
+                /**
+                * assign sms message_id for ReminderSms message_id
+                */
+                $reminderSms->message_id             =       $message->message_id;
+
+                /**
+                * assign sms type id for ReminderSms sms_type_id
+                */
+                $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+
+                /**
+                * check is reminder type 1
+                * then save day and time id 
+                * in reminder sms table
+                */
+                if($smsTypesMessage->is_reminder==1):
                 /**
                  * assign day_id for ReminderSms day_id
                  */
@@ -468,62 +497,62 @@ class Helpers
                  */
                 $reminderSms->time_id              =       $time_id;
 
-              endif;
+                endif;
 
-              /**
-               * assign custom_string for ReminderSms custom_string
-               */
-              $reminderSms->custom_string          =       $message->custom_string;
+                /**
+                * assign custom_string for ReminderSms custom_string
+                */
+                $reminderSms->custom_string          =       $message->custom_string;
 
-              /**
-               * Check if action equals to test
-               * then save is live equals to 
-               * zero in database
-               */
-              if($action=='test')
+                /**
+                * Check if action equals to test
+                * then save is live equals to 
+                * zero in database
+                */
+                if($action=='test')
                 /**
                  * assign zero for ReminderSms islive
                  */
                 $reminderSms->islive                 =       0;
 
-              /**
-               * assign user_id for ReminderSms user_id
-               */
-              $reminderSms->user_id                =       $message->user_id;
+                /**
+                * assign user_id for ReminderSms user_id
+                */
+                $reminderSms->user_id                =       $message->user_id;
 
-              /**
-               * check day id equals to appointment
-               * then save patientService id in
-               * patient_appt_id 
-               */
-              if($day_id=='appointment')
+                /**
+                * check day id equals to appointment
+                * then save patientService id in
+                * patient_appt_id 
+                */
+                if($day_id=='appointment')
 
                  /**
                  * assign patientService id for ReminderSms patient_appt_id
                  */
                 $reminderSms->patient_appt_id      =       $patientService->id;
-              /**
-               * other wise
-               * save patientService id in
-               * patient_service_id 
-               */
-              else
+                /**
+                * other wise
+                * save patientService id in
+                * patient_service_id 
+                */
+                else
                 $reminderSms->patient_service_id   =       $patientService->id;
 
-              /**
-               * Save reminder sms object
-               */
-              $reminderSms->save();
-              
-          } catch(\ClickSendLib\APIException $e) {
-              /**
-               * print exception if any issue 
-               * in sending sms
-               */
-              print_r($e->getResponseBody());
+                /**
+                * Save reminder sms object
+                */
+                $reminderSms->save();
+                  
+            } catch(\ClickSendLib\APIException $e) {
+                /**
+                * print exception if any issue 
+                * in sending sms
+                */
+                print_r($e->getResponseBody());
 
-          }
-          endif;
+            }
+        endif;
     }
 
     /**
@@ -548,31 +577,31 @@ class Helpers
      * time zone of country selected by doctor
      */
     public static function getPracticeTimeZone($patient){
-      /**
-       * find doctors country code
-       *
-       * @var        <type>
-       */
-      $countryCode    =   $patient->doctor->getCountry->iso_3166_2;
+        /**
+        * find doctors country code
+        *
+        * @var        <type>
+        */
+        $countryCode    =   $patient->doctor->getCountry->iso_3166_2;
 
-      /**
-       * find time zone based on country code
-       *
-       * @var        <type>
-       */
-      $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+        /**
+        * find time zone based on country code
+        *
+        * @var        <type>
+        */
+        $timezone   = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
 
-      /**
-       * take first index of return array as time zone
-       *
-       * @var        <type>
-       */
-      $timezone   = $timezone[0];
+        /**
+        * take first index of return array as time zone
+        *
+        * @var        <type>
+        */
+        $timezone   = $timezone[0];
 
-      /**
-       * returns time zone
-       */
-      return $timezone;
+        /**
+        * returns time zone
+        */
+        return $timezone;
 
     }
 
@@ -584,12 +613,12 @@ class Helpers
 
     public static function checkReceiveMessageFormat($message){
 
-      /**
-       * check message match with 
-       * blood pressure reading format
-       * or not
-       */
-      if(preg_match('/^\d{1,3}\/\d{1,2}$/', $message)==1 || preg_match('/^\d{1,3}\ \d{1,2}$/', $message)==1){
+        /**
+        * check message match with 
+        * blood pressure reading format
+        * or not
+        */
+        if(preg_match('/^\d{1,3}\/\d{1,2}$/', $message)==1 || preg_match('/^\d{1,3}\ \d{1,2}$/', $message)==1){
 
         /**
          * if receive message format match with 
@@ -599,25 +628,25 @@ class Helpers
         return 1;
 
 
-      }
-      /**
-       * check message match with blood sugar 
-       * reading format or not
-       */
-      elseif(preg_match('/^[+-]?([0-9]*[.])?[0-9]+$/', $message)==1 ){
+        }
+        /**
+        * check message match with blood sugar 
+        * reading format or not
+        */
+        elseif(preg_match('/^[+-]?([0-9]*[.])?[0-9]+$/', $message)==1 ){
         /**
          * if receive message format match
          * with blood sugar reading message 
          * format then return two
          */
         return 2;
-      }
+        }
 
-      /**
-       * return zero if receive message doesn't
-       * match with any service reading format
-       */
-      return 0;
+        /**
+        * return zero if receive message doesn't
+        * match with any service reading format
+        */
+        return 0;
 
     }
     /**
@@ -628,7 +657,7 @@ class Helpers
      * @return     <type>  The service history.
      */
     public static function getServiceHistory($patientService){
-       /**
+        /**
          * get patient recieve messages 
          * for remider services
          *
@@ -645,239 +674,239 @@ class Helpers
 
         if($patientService->service_id==1):
           
-          /**
-           * Get all time averages of bp readings
-           */
-          $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number')).'/'.round($receiveMessage->avg('sm_number'));
+            /**
+            * Get all time averages of bp readings
+            */
+            $averages->allTimeAverage     =     round($receiveMessage->avg('bg_number')).'/'.round($receiveMessage->avg('sm_number'));
 
-          /**
-           * Inialiatize offset value for get averages of 
-           * last 5 days and last 5 records of bp readings
-           *
-           * @var        integer
-           */
-          $offset                       =     5;
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 5 days and last 5 records of bp readings
+            *
+            * @var        integer
+            */
+            $offset                       =     5;
 
-          /**
-           * Get average of last 5 records of 
-           * received bp readings
-           * 
-           */
-          $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-          
-          /**
-           * Get 5 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Get average of last 5 records of 
+            * received bp readings
+            * 
+            */
+            $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
 
-          /**
-           * get avarage of last 5 days rececived readings
-           */
-          $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+            /**
+            * Get 5 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
 
-          /**
-           * Inialiatize offset value for get averages of 
-           * last 10 days and last 10 records of bp readings
-           *
-           * @var        integer
-           */
-          $offset                       =     10;
+            /**
+            * get avarage of last 5 days rececived readings
+            */
+            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
-           /**
-           * Get average of last 10 records  
-           * received bp readings
-           * 
-           */
-          $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-         
-           /**
-           * Get 10 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 10 days and last 10 records of bp readings
+            *
+            * @var        integer
+            */
+            $offset                       =     10;
 
-           /**
-           * get avarage of last 10 days rececived readings
-           */
-          $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+            /**
+            * Get average of last 10 records  
+            * received bp readings
+            * 
+            */
+            $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
 
-          /**
-           * Initialize offset for get avarages of 
-           * last 20 records and last 20 days records
-           *
-           * @var        integer
-           */
-          $offset                       =     20;
+            /**
+            * Get 10 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
 
-          /**
-           * Get averages of last 20 days bp readings
-           */
-          $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-          
-          /**
-           * get   20 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * get avarage of last 10 days rececived readings
+            */
+            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
 
-          /**
-           * get averages of last 20 days bp readings
-           */
-          $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
-         
-          /**
-           * Initialize for get averages of
-           * last 30 and last 30 days bp readings
-           *
-           * @var        integer
-           */
-          $offset                       =     30;
+            /**
+            * Initialize offset for get avarages of 
+            * last 20 records and last 20 days records
+            *
+            * @var        integer
+            */
+            $offset                       =     20;
 
-          /**
-           * Get averages of last 30  bp readings
-           */
-          $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
-          
-          /**
-           * get 30 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Get averages of last 20 days bp readings
+            */
+            $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
 
-          /**
-           * get average of last 30 days average reading
-           */
-          $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
-         
-          /**
-           * { var_description }
-           *
-           * @var        <type>
-           */
-          $latestReading                =     $receiveMessage->first();
-          $averages->latestReading      =     $latestReading->bg_number.'/'.$latestReading->sm_number;
+            /**
+            * get   20 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get averages of last 20 days bp readings
+            */
+            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+
+            /**
+            * Initialize for get averages of
+            * last 30 and last 30 days bp readings
+            *
+            * @var        integer
+            */
+            $offset                       =     30;
+
+            /**
+            * Get averages of last 30  bp readings
+            */
+            $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('bg_number')).'/'.round($receiveMessage->take($offset)->avg('sm_number'));
+
+            /**
+            * get 30 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get average of last 30 days average reading
+            */
+            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number')).'/'.round($receiveMessage->where('created_at','>=',$getdays)->avg('sm_number'));
+
+            /**
+            * { var_description }
+            *
+            * @var        <type>
+            */
+            $latestReading                =     $receiveMessage->first();
+            $averages->latestReading      =     $latestReading->bg_number.'/'.$latestReading->sm_number;
         else:
-          /**
-           * Get all time averages of bs readings
-           */
-          $averages->allTimeAverage     =     round($receiveMessage->avg('body'),2);
+            /**
+            * Get all time averages of bs readings
+            */
+            $averages->allTimeAverage     =     round($receiveMessage->avg('body'),2);
 
-          /**
-           * Inialiatize offset value for get averages of 
-           * last 5 days and last 5 records of bs readings
-           *
-           * @var        integer
-           */
-          $offset                       =     5;
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 5 days and last 5 records of bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     5;
 
-          /**
-           * Get average of last 5 records of 
-           * received bs readings
-           * 
-           */
-          $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('body'),2);
-          
-          /**
-           * Get 5 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Get average of last 5 records of 
+            * received bs readings
+            * 
+            */
+            $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('body'),2);
 
-          /**
-           * get avarage of last 5 days rececived readings
-           */
-          $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+            /**
+            * Get 5 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
 
-          /**
-           * Inialiatize offset value for get averages of 
-           * last 10 days and last 10 records of bs readings
-           *
-           * @var        integer
-           */
-          $offset                       =     10;
+            /**
+            * get avarage of last 5 days rececived readings
+            */
+            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
 
-           /**
-           * Get average of last 10 records  
-           * received bs readings
-           * 
-           */
-          $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('body'),2);
-         
-           /**
-           * Get 10 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 10 days and last 10 records of bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     10;
 
-           /**
-           * get avarage of last 10 days rececived readings
-           */
-          $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+            /**
+            * Get average of last 10 records  
+            * received bs readings
+            * 
+            */
+            $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('body'),2);
 
-          /**
-           * Initialize offset for get avarages of 
-           * last 20 records and last 20 days records
-           *
-           * @var        integer
-           */
-          $offset                       =     20;
+            /**
+            * Get 10 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
 
-          /**
-           * Get averages of last 20 days bs readings
-           */
-          $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('body'),2);
-          
-          /**
-           * get   20 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * get avarage of last 10 days rececived readings
+            */
+            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
 
-          /**
-           * get averages of last 20 days bs readings
-           */
-          $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
-         
-          /**
-           * Initialize for get averages of
-           * last 30 and last 30 days bs readings
-           *
-           * @var        integer
-           */
-          $offset                       =     30;
+            /**
+            * Initialize offset for get avarages of 
+            * last 20 records and last 20 days records
+            *
+            * @var        integer
+            */
+            $offset                       =     20;
 
-          /**
-           * Get averages of last 30  bs readings
-           */
-          $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('body'),2);
-          
-          /**
-           * get 30 days before date
-           *
-           * @var        <type>
-           */
-          $getdays                      =     Carbon::now()->subDay($offset);
+            /**
+            * Get averages of last 20 days bs readings
+            */
+            $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('body'),2);
 
-          /**
-           * get average of last 30 days average reading
-           */
-          $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
-         
-          /**
-           * { var_description }
-           *
-           * @var        <type>
-           */
-          $latestReading                =     $receiveMessage->first();
-          $averages->latestReading      =     $latestReading->body;
+            /**
+            * get   20 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get averages of last 20 days bs readings
+            */
+            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+
+            /**
+            * Initialize for get averages of
+            * last 30 and last 30 days bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     30;
+
+            /**
+            * Get averages of last 30  bs readings
+            */
+            $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('body'),2);
+
+            /**
+            * get 30 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get average of last 30 days average reading
+            */
+            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+
+            /**
+            * { var_description }
+            *
+            * @var        <type>
+            */
+            $latestReading                =     $receiveMessage->first();
+            $averages->latestReading      =     $latestReading->body;
         endif;
 
        /**
@@ -953,11 +982,11 @@ class Helpers
                   ->get()
                   ;
                  
-    /**
-     * use for each loop to send to appointment reminder
-     * messaage
-     */
-      foreach ($patients as $patient) {
+        /**
+         * use for each loop to send to appointment reminder
+         * messaage
+         */
+        foreach ($patients as $patient) {
             
             /**
              * Get patient appointment
@@ -995,7 +1024,7 @@ class Helpers
              * save patient appointment reminder status
              */
             $patientReminder->save();
-      }
+        }
     }
     public static function getSmsActuallMessage($patientService,$type,$action,$language_id){
 
@@ -1013,19 +1042,19 @@ class Helpers
         * for send sms
         */
         if(empty($smsTypesMessage)){
-          /**
-           * Initialize ennglish language id for 
-           * language_id variable
-           *
-           * @var        integer
-           */
-          $language_id  =1;
-          /**
-           * get english langeuage sms type object for database
-           *
-           * @var        <type>
-           */
-          $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+            /**
+            * Initialize ennglish language id for 
+            * language_id variable
+            *
+            * @var        integer
+            */
+            $language_id  =1;
+            /**
+            * get english langeuage sms type object for database
+            *
+            * @var        <type>
+            */
+            $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
 
         }
         /**
@@ -1149,10 +1178,77 @@ class Helpers
      */
     public static function getAllMessageLogs($id=''){
 
+        /**
+         * Get all receive messages
+         * and add temporary column type
+         * for find it's type
+         *
+         * @var        <type>
+         */
         $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id',\DB::raw('"receive" AS type'));
+
+        /**
+         * Get all records of send messsage
+         * and add temporary column type
+         * for find it's type and union
+         * with receive messages
+         * @var        <type>
+         */
         $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id',\DB::raw('"send" AS type'))
                                         ->union($ReceiveSms)
                                         ->orderBy('created_at', 'DESC')->latest()->get();
+        /**
+         * return all send and receive messages
+         */
         return  $reminderSms;
+    }
+    /**
+     * Gets the active reminders.
+     *
+     * @param      <type>   $user   The user
+     *
+     * @return     integer  The active reminders.
+     */
+    public static function getActiveReminders($user){
+
+        /**
+         * get service reminder count
+         *
+         * @var        <type>
+         */
+        $serviceReminderCount        =          PatientService::where('status',1)
+                                                    ->whereHas('patient',
+                                                        function($q) use($user){ 
+                                                            if($user instanceof User):
+                                                                $q->where('user_id',$user->id);
+                                                            else:
+                                                                $q->where('id',$user->id);
+                                                            endif;
+
+                                                        })
+                                                    ->count();
+       /**
+        * get appoinmeent reminder count
+        *
+        * @var        <type>
+        */
+        $appointmentReminderCount    =          PatientAppointment::where('status',1)
+                                                    ->whereHas('patient',
+                                                        function($q) use($user){ 
+                                                            if($user instanceof User):
+                                                                $q->where('user_id',$user->id);
+                                                            else:
+                                                                $q->where('id',$user->id);
+                                                            endif;
+
+                                                        })
+                                                    ->count();
+
+      
+
+        $getActiveReminders             =       $serviceReminderCount+$appointmentReminderCount;
+
+        return $getActiveReminders;
+
     }
 }

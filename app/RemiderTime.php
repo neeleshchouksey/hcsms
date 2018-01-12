@@ -15,4 +15,7 @@ class RemiderTime extends Model
     	return $this->hasMany('App\PatientAppointment','appt_time');
     	
     }
+    public function patientTimes(){
+    	$this->hasMany('App\PatientReminderTime','time_id')
+    }
 }
