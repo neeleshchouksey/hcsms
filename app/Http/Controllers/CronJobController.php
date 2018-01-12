@@ -7,6 +7,7 @@ use App\Patient;
 use App\User;
 use App\PatientService;
 use Helper;
+use Carbon\Carbon;
 
 class CronJobController extends Controller
 {
@@ -88,6 +89,29 @@ class CronJobController extends Controller
                     $timeData   =   $service->reminderTime->first();
                     # code...
                     $messageCount   =   $service->reminderMessage()->whereHas('parentSmsType',function($q){$q->where('name','first-reminder');})->count();
+                    if($service->reminderMessage):
+                        if($service->ongoing==0):  
+                            $cdate     =   Carbon::now();
+                          
+                            echo $cmessageCount   =   $service->reminderMessage()
+                                                                    ->whereHas('parentDay',
+                                                                        function($q) use($day){
+                                                                            $q->where('abbr',$day);
+                                                                        })
+                                                                    ->whereHas('parentTime',
+                                                                        function($q) use($time){
+                                                                            $q->where('abbr',$time);
+                                                                        }
+                                                                        )->first();
+                            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
+                            
+                            $diff_in_hours = $to->diffInWeeks($from);
+                            $diff_in_hours;
+                            if($diff_in_hours<$service->perweek)
+                                continue;
+                        endif;
+                    endif;
                      if($service->service_id==1 && $messageCount==0)
                    
                     # code...
@@ -107,7 +131,7 @@ class CronJobController extends Controller
             echo $timezone   = $timezone[0];
             date_default_timezone_set($timezone);
             echo $day    =   date('D');
-            die;
+            //die;
             echo "<br>";
             echo $time   =   date('H:00');
             echo "<br>";
@@ -177,12 +201,38 @@ class CronJobController extends Controller
                 foreach ($patient->reminderService as $service) {
                     $dayData    =   $service->reminderDays->first();
                     $timeData   =   $service->reminderTime->first();
-                    echo "<pre>";
-                    echo $dayData['day_id'];
+                     echo "<pre>";
+                    // echo $dayData['day_id'];
+                    // echo "<br>";
+                    // echo $timeData['time_id'];
+                     echo "<br>";
+                    echo $service->perweek;
                     echo "<br>";
-                    echo $timeData['time_id'];
-                    echo "<br>";
-                    echo $messageCount   =   $service->reminderMessage()->whereHas('parentSmsType',function($q){$q->where('name','first-reminder');})->count();
+                    
+                    $messageCount   =   $service->reminderMessage()->whereHas('parentSmsType',function($q){$q->where('name','first-reminder');})->count();
+                    if($service->reminderMessage):
+                        if($service->ongoing==0):  
+                            $cdate     =   Carbon::now();
+                          
+                            echo $cmessageCount   =   $service->reminderMessage()
+                                                                    ->whereHas('parentDay',
+                                                                        function($q) use($day){
+                                                                            $q->where('abbr',$day);
+                                                                        })
+                                                                    ->whereHas('parentTime',
+                                                                        function($q) use($time){
+                                                                            $q->where('abbr',$time);
+                                                                        }
+                                                                        )->first();
+                            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
+                            
+                            $diff_in_hours = $to->diffInWeeks($from);
+                            $diff_in_hours;
+                            if($diff_in_hours<$service->perweek)
+                                continue;
+                        endif;
+                    endif;
                     echo "<br>";
                     print_r($service);
                     if($service->service_id==1 && $messageCount==0)
