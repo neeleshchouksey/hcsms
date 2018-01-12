@@ -93,7 +93,7 @@ class CronJobController extends Controller
                         if($service->ongoing==0):  
                             $cdate     =   Carbon::now();
                           
-                            echo $cmessageCount   =   $service->reminderMessage()
+                            $cmessageCount   =   $service->reminderMessage()
                                                                     ->whereHas('parentDay',
                                                                         function($q) use($day){
                                                                             $q->where('abbr',$day);
@@ -102,7 +102,7 @@ class CronJobController extends Controller
                                                                         function($q) use($time){
                                                                             $q->where('abbr',$time);
                                                                         }
-                                                                        )->first();
+                                                                        )->latest()->first();
                             $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
                             $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
                             
