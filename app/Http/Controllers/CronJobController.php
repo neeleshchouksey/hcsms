@@ -89,8 +89,34 @@ class CronJobController extends Controller
                     $timeData   =   $service->reminderTime->first();
                     # code...
                     $messageCount   =   $service->reminderMessage()->whereHas('parentSmsType',function($q){$q->where('name','first-reminder');})->count();
-                    if($service->reminderMessage):
-                        if($service->ongoing==0):  
+                    if($service->ongoing==0): 
+                        $duration   =   $service->period;
+                       
+                        $service->duration;
+                       
+
+                        if($service->duration==1)
+                            $enddate = Carbon::parse($service->start_date)->addDay($duration);
+                        elseif($service->duration==2)
+                            $enddate = Carbon::parse($service->start_date)->addWeek($duration);
+                        else
+                            $enddate = Carbon::parse($service->start_date)->addMonth($duration);
+                        $enddate;
+                        
+                        $cdate      =   Carbon::now();
+                        $to         =   Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                        $from       =   Carbon::createFromFormat('Y-m-d H:i:s', $enddate);
+                                       
+                        $daydiff = $to->diffInDays($from);
+                        
+                        if($daydiff==0){
+                            $service->status=0;
+                            $service->save();
+                            Helper::sendSmsMessage($service,'end');
+                            continue;
+                        }     
+                        if($service->reminderMessage):
+                        
                             $cdate     =   Carbon::now();
                           
                             $cmessageCount   =   $service->reminderMessage()
@@ -250,14 +276,43 @@ class CronJobController extends Controller
     }
     public function endServiceReminder(){
 
-        $patientServices         =       PatientService::where(function($q){$q->where('ongoing',0);})->get();
+        $patientServices         =       PatientService::where('ongoing',0)->where('status',1)->get();
         foreach ($patientServices as $patientService) {
-            echo \Carbon\Carbon::parse($patientService->start_date)->addMonth('3')->format('d-m-Y');
+            if($patientService->patient):
+                $timezone       =   Helper::getPracticeTimeZone($patientService->patient);
+                date_default_timezone_set($timezone);
+                $time=date('H:i');
+                
+                if($time=='10:00'):
+                
+                    $duration   =   $patientService->period;
+                     
+                    $patientService->duration;
+                    
 
+                    if($patientService->duration==1)
+                        $enddate = Carbon::parse($patientService->start_date)->addDay($duration);
+                    elseif($patientService->duration==2)
+                        $enddate = Carbon::parse($patientService->start_date)->addWeek($duration);
+                    else
+                        $enddate = Carbon::parse($patientService->start_date)->addMonth($duration);
+                    $enddate;
+                     
+                    $cdate      =   Carbon::now();
+                    $to         =   Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                    $from       =   Carbon::createFromFormat('Y-m-d H:i:s', $enddate);
+                                 
+                    $daydiff = $to->diffInDays($from);
+                    
+                    if($daydiff==0){
+                        $patientService->status=0;
+                        $patientService->save();
+                       Helper::sendSmsMessage($patientService,'end');
+                    }
+                endif;
+            endif;
         }
-        echo "<pre>";
-        print_r($patientServices);
-        die;
+        
 
     }
     public function checkUpdateservice(){
