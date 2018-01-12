@@ -250,7 +250,7 @@ class MessagesLogController extends Controller
     
             $records[$i]['message']     =   $message->body;
           
-            $records[$i]['action']      =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('patientsg.show',$patientid)."'>Profile</a>";
+            $records[$i]['action']      =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('patients.show',$patientid)."'>Profile</a>";
             
             $i++;
         }
