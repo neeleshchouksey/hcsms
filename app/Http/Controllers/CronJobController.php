@@ -107,9 +107,13 @@ class CronJobController extends Controller
                         $to         =   Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
                         $from       =   Carbon::createFromFormat('Y-m-d H:i:s', $enddate);
                                        
-                        $daydiff = $to->diffInDays($from);
+                        //$daydiff = $to->diffInDays($from);
+                        $date1      =   date_create($cdate);
+                        $date2      =   date_create($enddate);
+                        $diff       =   date_diff($date1,$date2);
+                        $daydiff    =   $diff->format("%R%a days");
                         
-                        if($daydiff==0){
+                        if($daydiff<=0){
                             $service->status=0;
                             $service->save();
                             Helper::sendSmsMessage($service,'end');
@@ -303,12 +307,18 @@ class CronJobController extends Controller
                     $to         =   Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
                     $from       =   Carbon::createFromFormat('Y-m-d H:i:s', $enddate);
                                  
-                    $daydiff = $to->diffInDays($from);
-                    
-                    if($daydiff==0){
+                   // $daydiff = $to->diffInDays($from);
+                    $date1      =   date_create($cdate);
+                    $date2      =   date_create($enddate);
+                    $diff       =   date_diff($date1,$date2);
+                    $daydiff    =   $diff->format("%R%a days");
+
+                    if($daydiff<=0){
+
                         $patientService->status=0;
                         $patientService->save();
-                       Helper::sendSmsMessage($patientService,'end');
+                        Helper::sendSmsMessage($patientService,'end');
+
                     }
                 endif;
             endif;
