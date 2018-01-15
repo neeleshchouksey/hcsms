@@ -134,16 +134,18 @@ class CronJobController extends Controller
                                                                         $q->where('abbr',$time);
                                                                     }
                                                                     )->latest()->first();
-                        $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
-                        $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
-                        
-                        $diff_in_hours = $to->diffInWeeks($from);
-                        $diff_in_hours;
-                        if($diff_in_hours<$service->perweek)
-                            continue;
+                        if(!empty($cmessageCount)):
+                            $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
+                            
+                            $diff_in_hours = $to->diffInWeeks($from);
+                            $diff_in_hours;
+                            if($diff_in_hours<$service->perweek)
+                                continue;
+                        endif;
                     
                     endif;
-                     if($service->service_id==1 && $messageCount==0)
+                    if($service->service_id==1 && $messageCount==0)
                    
                     # code...
                         \Helper::sendSmsMessage($service,'first-reminder',$dayData['day_id'],$timeData['time_id']);
