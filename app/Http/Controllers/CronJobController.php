@@ -120,7 +120,7 @@ class CronJobController extends Controller
                             continue;
                         }
                     endif;     
-                    /*if($service->reminderMessage):
+                    /* if($service->reminderMessage):
                     
                         $cdate     =   Carbon::now();
                       
@@ -134,18 +134,27 @@ class CronJobController extends Controller
                                                                         $q->where('abbr',$time);
                                                                     }
                                                                     )->latest()->first();
-                        if(!empty($cmessageCount)):*/
-                            $cdate     =   Carbon::now();
+                        if(!empty($cmessageCount)):
                             $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
-                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $service->start_date);
+                            $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cmessageCount->created_at);
                             
                             $diff_in_hours = $to->diffInWeeks($from);
                             $diff_in_hours;
-                            if($diff_in_hours%$service->perweek!=0)
+                            if($diff_in_hours<$service->perweek)
                                 continue;
-                       /* endif;
+                        endif;
                     
                     endif;*/
+
+                    $cdate      =   Carbon::now();
+                    $to         =   \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                    $from       =   \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $service->start_date);
+                    
+                    $diff_in_hours = $to->diffInWeeks($from);
+                    $diff_in_hours;
+                    if($diff_in_hours%$service->perweek!=0)
+                        continue;
+
                     if($service->service_id==1 && $messageCount==0)
                    
                     # code...
