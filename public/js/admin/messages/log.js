@@ -67,7 +67,7 @@ $(document).on('click','.profile-popup',function(){
     );
 });
 $(document).on('change','.filter',function(){
-    alert('test');
+    
     var filter = $('.filter').serialize();
     var curl   = url+'?'+filter;
     showPatients(curl);
