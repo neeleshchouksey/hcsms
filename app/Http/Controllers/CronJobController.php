@@ -120,7 +120,7 @@ class CronJobController extends Controller
                             continue;
                         }
                     endif;     
-                    if($service->reminderMessage):
+                   /* if($service->reminderMessage):
                     
                         $cdate     =   Carbon::now();
                       
@@ -144,7 +144,15 @@ class CronJobController extends Controller
                                 continue;
                         endif;
                     
-                    endif;
+                    endif;*/
+                    $cdate      =   Carbon::now();
+                    $to         =   \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $cdate);
+                    $from       =   \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $service->start_date);
+                    
+                    $diff_in_hours = $to->diffInWeeks($from);
+                    $diff_in_hours;
+                    if($diff_in_hours%$service->perweek!=0)
+                        continue;
                     if($service->service_id==1 && $messageCount==0)
                    
                     # code...
