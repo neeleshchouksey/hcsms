@@ -4,13 +4,15 @@ $.ajaxSetup({
         }
 });
 showPatients();
-function showPatients() {
+function showPatients(curl='') {
     //alert('test');
     // body...
+    if(curl=='')
+        curl=url;
     $("#customer_list_table").DataTable({
         destroy:true,
         "ajax": {
-            "url":url,
+            "url":curl,
             "dataSrc": "",
             "type": 'GET',
         },
@@ -63,4 +65,10 @@ $(document).on('click','.profile-popup',function(){
           
         }
     );
+});
+$(document).on('change','.filter',function(){
+    
+    var filter = $('.filter').serialize();
+    var curl   = url+'?'+filter;
+    showPatients(curl);
 });

@@ -85,9 +85,17 @@ class LanguageSmsMessageController extends Controller
      * @param  \App\LanguageSmsMessage  $languageSmsMessage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LanguageSmsMessage $languageSmsMessage)
+    public function update(Request $request, $id)
     {
         //
+        $languageSmsMessage     =   LanguageSmsMessage::find($id);
+       
+        $languageSmsMessage->status     = 1;
+        $languageSmsMessage->verified_by  =   \Auth::guard('admin')->user()->id;
+        $languageSmsMessage->save();
+        echo 'Verified by :'.\Auth::guard('admin')->user()->name;
+        die;
+
     }
 
     /**

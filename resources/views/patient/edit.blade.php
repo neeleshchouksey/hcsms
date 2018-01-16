@@ -17,6 +17,9 @@ option.separator {
 .errors {
     color:red;
 }
+.font-bolder{
+    font-weight: bolder;
+}
 </style>
 
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
@@ -98,10 +101,13 @@ option.separator {
                             <label for="mobile" class="col-md-3">Language</label>
 
                             <div class="col-md-6">
-
+                                @php
+                                    $languages = Helper::languages();
+                                @endphp
                                 <select name="language" class="language patientData form-control">
                                     <option value="">Select Language</option>
-                                    @foreach(Helper::languages() as $language)
+                                    
+                                    @foreach($languages as $language)
                                         @php
                                             $languageSelected='';
                                             if($language->id==$patient->language_id)
@@ -111,7 +117,8 @@ option.separator {
 
                                     @endforeach
                                     
-                                </select>
+                                </select> 
+
     
 
                                 @if($errors->has('language'))
@@ -119,6 +126,11 @@ option.separator {
                                         <strong>{{ $errors->first('language') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                            <div class="col-md-3">  
+                                <a href="javascript:void(0);" class="addLanguagePopup">Add</a>  
+                                <span>| </span>
+                                <a href="javascript:void(0);" class="viewLanguagePopup">View</a>
                             </div>
                         </div>
                         
@@ -223,7 +235,7 @@ option.separator {
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title pull-left text-xs-center">Set Reminder</h4>
                 <span class="pull-right" style="margin-right:5%;">{{$timezone}}</span>
             </div>
@@ -254,9 +266,6 @@ option.separator {
                             <th>To</th>
                             <th>From</th>
                             <th>Message</th>
-                            
-                            
-                     
                         </tr>
                     </thead>
                     <tbody>
@@ -326,8 +335,9 @@ option.separator {
         <div class="modal-content">
             <div class="modal-header">
 
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    View Appointment Message Log
                 </h4>
             </div>
 
@@ -340,9 +350,7 @@ option.separator {
                             <th>Reminder</th>
                             <th>Message</th>
                             <th>Status</th>
-                            
-                            
-                     
+                  
                         </tr>
                     </thead>
                     <tbody>
@@ -362,8 +370,9 @@ option.separator {
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    View Appointment Message Log
                 </h4>
             </div>
 
@@ -376,9 +385,7 @@ option.separator {
                             <th>Reminder</th>
                             <th>Message</th>
                             <th>Status</th>
-                            
-                            
-                     
+                  
                         </tr>
                     </thead>
                     <tbody>
@@ -398,12 +405,108 @@ option.separator {
         <div class="modal-content">
             <div class="modal-header">
                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-xs-center">View Appointment Message Log
+                <h4 class="modal-title text-xs-center">
+                    View Appointment Message Log
                 </h4>
             </div>
 
             <div class="modal-body">
                 
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="addLanguagePopupView" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    Add Language
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 font-bolder ">
+                    <p>
+                        You are welcome to request 
+                        or add a new language
+                    </p>
+                    <p>
+                        What language you would like to add
+                    </p>
+                   
+
+                 </div> 
+                  <div class="form-group">
+                        <label for="mobile" class="col-md-4">Name of Language</label>
+                        <div class="col-md-6">
+                            <input class="form-control addLanguage"  type="text">
+                        </div>
+                         <!-- <div class="col-md-2">
+                            <button>Add</button>
+                        </div> -->
+                </div>
+
+                <div class="col-md-12 addLanguageMessagesData">
+
+                </div>
+                <div class="col-md-12 showLanguageMessagesData">
+
+                </div>
+            </div>
+            <div class="modal-footer text-xs-center">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="viewLanguagePopupView" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    View Language
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 font-bolder ">
+                    <p class="font-bolder"> 
+                        Good communication is important,
+                        which is why we send messages in 
+                        patient preferred language whenever 
+                        possible.
+                    </p>
+                    <p class="">
+                        We currently offer {{$languages->count()}} languages
+                    </p>
+                    <p>
+                        You can request or add a new one here:
+                        <a href="javascript:void(0);" class="addLanguagePopup">Add New</a>
+                    </p>
+                    <p>
+                        or view existing one belew or search here : 
+                        <select name="language" class="showLanguageMessages">
+                            <option value="">Select Language</option>
+                            
+                            @foreach($languages as $language)
+                               
+                                <option value="{{$language->id}}">{{$language->title}}</option>
+
+                            @endforeach
+                            
+                        </select> 
+                    </p>
+                    <div class="showLanguageMessagesData">
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
             <div class="modal-footer text-xs-center">
                

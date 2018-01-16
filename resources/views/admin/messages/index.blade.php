@@ -13,6 +13,25 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Messages List</h3>
+                <div class="pull-right">
+                    <select name="languages" class="filter">
+                        <option value="">Patient Languages</option>
+                        @foreach(Helper::patientsLanguages() as $language)
+                            <option value="{{$language->id}}">{{$language->title}}</option>
+                        @endforeach
+                    </select>
+                    <select name="practices" class="filter">
+                        <option value="">Practice Name</option>
+                        @foreach(Helper::practices() as $practice)
+                                <option value="{{$practice->id}}">{{$practice->name}}</option>
+                        @endforeach
+                    </select>
+                    <label>
+                        Show
+                        <input type="checkbox" name="sent" class="filter"> Sent
+                        <input type="checkbox" name="received" class="filter"> Received
+                    </label>
+                </div>
                 <!-- <a href="{{url('admin/languages/create')}}" class="btn btn-success pull-right"> Add New </a> -->
             </div>
             <!-- /.box-header -->

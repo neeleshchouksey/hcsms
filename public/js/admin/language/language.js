@@ -98,3 +98,17 @@ $(document).on('click','.showOnTop',function(){
         console.log(data);
     });
 });
+$(document).on('change','.languageMessageVerify',function(){
+  var language_id   =   $(this).val();
+  var  verify       =   $(this);
+  $.post({
+      type  :   'put',
+      url   :   language_id
+  },{
+    action:'update'
+  }
+ ).done(function (data){
+     verify.closest('.verified_by').html(data);
+      
+  });
+});

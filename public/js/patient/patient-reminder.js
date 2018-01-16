@@ -829,17 +829,86 @@ $(document).on('change','.doctorSenderId',function(){
         })
         .fail(function (data) {
           if( data.status === 422 ) {
-                                var errors = data.responseJSON.errors;
-                                var errorData= [];
-                                errorHtml='<div class="errors"><ul>';
-                                $.each( errors, function( key, value ) {
-                                     errorHtml += '<li>' + value[0] + '</li>';
-                                     errorData.push(value[0]);
-                               });
-                                errorHtml += '</ul></div>';
-                                $( '#snterrors' ).html( errorHtml );
-                                alert(errorData);
+              var errors = data.responseJSON.errors;
+              var errorData= [];
+              errorHtml='<div class="errors"><ul>';
+              $.each( errors, function( key, value ) {
+                   errorHtml += '<li>' + value[0] + '</li>';
+                   errorData.push(value[0]);
+             });
+              errorHtml += '</ul></div>';
+              $( '#snterrors' ).html( errorHtml );
+              alert(errorData);
 
-                          }
+            }
         });
 });
+$(document).on('click','.addLanguagePopup',function(e){
+  $('#viewLanguagePopupView').modal('hide');
+  $('#addLanguagePopupView').modal('show');
+});
+$(document).on('click','.viewLanguagePopup',function(e){
+  $('#viewLanguagePopupView').modal('show');
+});
+$(document).on('change click','.showLanguageMessages',function(e){
+    alert($(this).attr('value'));
+    $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      language  :   $(this).attr('value'),
+      action    :   'getSmsMessage'
+    })
+    .done(function (data) {
+
+        $('.showLanguageMessagesData').html(data);
+          
+    })
+    .fail(function (data) {
+
+    });
+
+});
+$(document).on('change','.addLanguage',function(e){
+   $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      language  :   $(this).val(),
+      action    :   'addLanguage'
+    })
+    .done(function (data) {
+        $('.showLanguageMessagesData').empty();
+        $('.addLanguageMessagesData').html(data);
+          
+    })
+    .fail(function (data) {
+
+    });
+
+});
+ $('#addLanguagePopupView,#viewLanguagePopupView').on('hidden.bs.modal', function () {
+  $('.addLanguageMessagesData').empty();
+  $('.showLanguageMessagesData').empty();
+  $('.addLanguage').val('');
+ });
+ $(document).on('click','.saveLanguageMessage',function(){
+    var language =  $(this).closest('tr').find('.languageData');
+    var html     =  language.html();
+    var data     =  language.find('.input').serializeArray();
+   $.post({
+        type: 'post',
+        url: url
+    },
+    data
+    )
+    .done(function (data) {
+                
+    })
+    .fail(function (data) {
+
+    });
+
+ });

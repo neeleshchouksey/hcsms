@@ -18,12 +18,19 @@
             $languageMessage            =   $message->languageMessage()->where('language_id',$language->id)->first();
             $defaultLanguageMessage     =   $message->languageMessage()->where('language_id',1)->first();
             $textMessage = '';
-            if(!empty($languageMessage))
+            $smsUserAdded = '';
+            if(!empty($languageMessage)):
                 $textMessage = $languageMessage['message'];
+                if($languageMessage['role']==2)
+                    $smsUserAdded  =  $languageMessage->smsUser;
+
+            endif;
+
             $defaultTextMessage = '';
             if(!empty($defaultLanguageMessage))
                 $defaultTextMessage = $defaultLanguageMessage['message'];
         @endphp
+
     
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">{{$message->label}}:</label>
@@ -34,13 +41,25 @@
                 </div>
                 <div class="col-sm-5">
                     <textarea  class="form-control smsLangMessage" data-smslang="{{$message->id}}" name="smsMessage[{{$message->name}}]">{{$textMessage}}</textarea>
-                    
+                    @if(!empty($smsUserAdded))
+                        Added by: {{$smsUserAdded->name}}, on {{$languageMessage->created_at->format('d-m-Y')}},
+                        @if($languageMessage->verified_by==0) 
+                            <span class="verified_by"> 
+                                Verify : <input type="checkbox" class="languageMessageVerify" value="{{route('sms-language-message.update',$languageMessage->id)}}">
+                            </span>
+                        @else
+                            Verified by: {{$languageMessage->adminUser->name}}
+                        @endif
+                    @endif
                 </div>
             @else
-             <div class="col-sm-10">
+                <div class="col-sm-10">
                     <textarea  class="form-control smsLangMessage" data-smslang="{{$message->id}}" name="smsMessage[{{$message->name}}]">{{$textMessage}}</textarea>
                     
                 </div>
+                
+                    
+               
             @endif
         </div>
     @endforeach

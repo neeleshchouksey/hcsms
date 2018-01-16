@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
 use Helper;
 use App\ReminderSms;
+use App\LanguageSmsMessage;
 use App\ReminderDays;
 use App\RemiderTime;
 use App\RemindarDuration;
 use App\Service;
 use App\Patient;
+use App\ServiceSmsTypes;
+use App\Language;
 use App\PatientService;
 use App\PatientReminderDays;
 use App\PatientReminderTime;
@@ -178,8 +182,63 @@ class PatientServiceController extends Controller
              * Patient service and return its history
              */
            return Helper::getServiceHistory($patientService);
-           
+        /**
+         * check current action is serviceHistory
+         * if action is history then return its receive messages history
+         */
+        elseif ($request->action=='getSmsMessage'):
+            
+            $language       =   Language::find($request->language);
+            $smsTypes       =   ServiceSmsTypes::all();
 
+            /**
+             * Call Helper function which takes
+             * Patient service and return its history
+             */
+            return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));
+         /**
+         * check current action is serviceHistory
+         * if action is history then return its receive messages history
+         */
+        elseif ($request->action=='addLanguage'):
+            
+            $language       =   Language::where('title',$request->language)->first();
+
+            if(empty($language)):
+                
+                $language           =   new Language;
+
+                $language->title    =   $request->language;
+
+                $language->user_id  =   Auth::user()->id;
+
+                $language->role     =   Auth::user()->role;
+
+                $language->status   =   2;
+
+                $language->save();
+
+                $smsTypes           =   ServiceSmsTypes::all();
+
+                /**
+                 * Call Helper function which takes
+                 * Patient service and return its history
+                 */
+                return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));   
+            else:
+                echo "We already have this language,click <a herf='javascript:void(0);' class='showLanguageMessages' value='".$language->id."'>here</a> to view it;";   
+            endif;
+        elseif($request->action=='addLanguageMessage'):
+            $smsTypes               =   new LanguageSmsMessage;
+            $smsTypes->service_id   =   $request->service_id;
+            $smsTypes->language_id  =   $request->language_id;
+            $smsTypes->sms_type_id  =   $request->sms_type_id;
+            $smsTypes->message      =   $request->message;
+            $smsTypes->status       =   0;
+            $smsTypes->verified_by  =   0;
+            $smsTypes->user_id      =   Auth::user()->id;
+            $smsTypes->role         =   Auth::user()->role;
+            $smsTypes->save();
         /**
          * Check curent action 
          * if current action is update then

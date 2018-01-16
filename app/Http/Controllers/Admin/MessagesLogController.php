@@ -87,13 +87,14 @@ class MessagesLogController extends Controller
         //
     }
     public function ajaxLoad(){
-
+        
+         $query = request()->query();
         /**
          * get all messages from database
          *
          * @var        <type>
          */
-        $messages     =   Helper::getAllMessageLogs();
+        $messages     =   Helper::getAllMessageLogs($query);
 
         /**
          * initialize empty array records

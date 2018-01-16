@@ -89,12 +89,42 @@ class PatientController extends Controller
     }
     public function ajaxLoad(){
 
+       
+        $query = request()->query();
+        
         /**
          * get all patients from database
          *
          * @var        <type>
          */
-        $patients      =   Patient::all();
+
+        $patients      =   Patient::where(
+                                function($q) use($query){
+                                    if(!empty($query)){
+                                        if(isset($query['languages']) && !empty($query['languages'])){
+                                            $q->where('language_id',$query['languages']);
+                                        }
+                                        if(isset($query['practices']) && !empty($query['practices'])){
+                                            $q->where('user_id',$query['practices']);
+                                        }
+                                        if(isset($query['activeReminder'])){
+                                            $q->whereHas('reminderService',function($q2){
+                                                $q2->where('status',1);
+                                            });
+                                            $q->orWhereHas('appointments',function($q2){
+                                                $q2->where('status',1);
+                                            });
+                                        }
+                                        if(isset($query['languages']) && !empty($query['languages'])){
+                                            $q->where('language_id',$query['languages']);
+                                        }
+                                        if(isset($query['practices']) && !empty($query['practices'])){
+                                            $q->where('user_id',$query['practices']);
+                                        }
+                                    }
+
+                                })
+                            ->get();
 
         /**
          * initialize empty array records

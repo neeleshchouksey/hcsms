@@ -76,6 +76,15 @@ class Helpers
     public static function languages(){
         return Language::where('status',1)->orderBy('on_top', 'desc')->orderBy('title', 'asc')->get();
     }
+    public static function patientsLanguages(){
+        return Language::where('status',1)
+                        ->has('patients', '>=', 1)
+                        ->orderBy('on_top', 'desc')
+                        ->orderBy('title', 'asc')->get();
+    }
+    public static function practices(){
+        return User::all();
+    }
     public static function change_message_variables($message,$patientService,$receiveMessage='',$action=''){
    
     
@@ -1176,7 +1185,7 @@ class Helpers
      *
      * @return     <type>  All message logs.
      */
-    public static function getAllMessageLogs($id=''){
+    public static function getAllMessageLogs($query=''){
 
         /**
          * Get all receive messages
@@ -1185,7 +1194,37 @@ class Helpers
          *
          * @var        <type>
          */
-        $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id',\DB::raw('"receive" AS type'));
+       if(request()->query('received')!=null && request()->query('sent')!=null || request()->query('received')==null && request()->query('sent')==null):
+        $ReceiveSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id',\DB::raw('"receive" AS type'))
+                                         ->where(function($que) use($query){
+                                                if(!empty($query)):
+                                                    $que->whereHas('remindMessage',function($q) use($query){
+                                                    $q->whereHas('parentService',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                    if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+
+                                                                    if(!empty($query['practices']) )   
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+                                                        });
+                                                    $q->orWhereHas('parentAppt',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                  if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+                                                        });
+                                                    }
+                                                    );
+                                                endif;
+                                            });
 
         /**
          * Get all records of send messsage
@@ -1195,12 +1234,111 @@ class Helpers
          * @var        <type>
          */
         $reminderSms        =       ReminderSms::select('created_at','to','from','body','message_id',\DB::raw('"send" AS type'))
+                                         ->where(function($que) use($query){
+                                                if(!empty($query)):
+                                                    $que->whereHas('parentService',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                    if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))   
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+
+                                                        }
+                                                    )
+                                                    ->orWhereHas('parentAppt',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                    if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+
+                                                        }
+                                                    );
+                                                endif;
+                                            })
                                         ->union($ReceiveSms)
-                                        ->orderBy('created_at', 'DESC')->latest()->get();
+                                        ->orderBy('created_at', 'DESC')->latest();
+
+        elseif(isset($query['received'])):
+            $reminderSms        =      \App\ReceiveSms::select('created_at','to','from','body','original_message_id as message_id',\DB::raw('"receive" AS type'))
+                                            ->where(function ($que)use($query){
+                                                if(!empty($query)):
+                                                    $que->whereHas('remindMessage',function($q) use($query){
+                                                        $q->whereHas('parentService',
+                                                            function($q1) use($query){
+                                                                $q1->whereHas('patient',
+                                                                    function($q2) use($query){
+                                                                     if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                    });
+                                                            });
+                                                        $q->orWhereHas('parentAppt',
+                                                            function($q1) use($query){
+                                                                $q1->whereHas('patient',
+                                                                    function($q2) use($query){
+                                                                         if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                    });
+                                                            });
+                                                        }
+                                                    );
+                                                endif;
+                                            })
+                                            ->orderBy('created_at', 'DESC')->latest();
+        elseif(isset($query['sent'])):
+            $reminderSms        =      \App\ReminderSms::select('created_at','to','from','body','message_id',\DB::raw('"send" AS type'))
+                                             ->where(function($que) use($query){
+                                                if(!empty($query)):
+                                                        $que->whereHas('parentService',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                     if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+
+                                                        }
+                                                    )
+                                                    ->orWhereHas('parentAppt',
+                                                        function($q1) use($query){
+                                                            $q1->whereHas('patient',
+                                                                function($q2) use($query){
+                                                                    if(!empty($query['languages']))
+                                                                        $q2->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))    
+                                                                        $q2->where('user_id',$query['practices']);
+                                                                });
+
+                                                        }
+                                                    );
+                                                endif;
+                                            })
+
+                                            ->orderBy('created_at', 'DESC')->latest();
+        endif;
+
         /**
          * return all send and receive messages
          */
-        return  $reminderSms;
+        return  $reminderSms->get();
     }
     /**
      * Gets the active reminders.
