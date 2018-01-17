@@ -491,7 +491,7 @@ option.separator {
                     </p>
                     <p>
                         or view existing one belew or search here : 
-                        <select name="language" class="showLanguageMessages">
+                        <select name="language" class="form-control showLanguageMessages">
                             <option value="">Select Language</option>
                             
                             @foreach($languages as $language)

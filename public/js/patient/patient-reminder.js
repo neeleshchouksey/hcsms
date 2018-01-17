@@ -851,13 +851,19 @@ $(document).on('click','.viewLanguagePopup',function(e){
   $('#viewLanguagePopupView').modal('show');
 });
 $(document).on('change click','.showLanguageMessages',function(e){
-    alert($(this).attr('value'));
+    var language    =   '';
+    if(event.type=='click'){
+        language      =     $(this).attr('value');
+    }
+    else{
+        language    =     $(this).val();
+    }
     $.post({
         type: 'post',
         url: url
     },
     {
-      language  :   $(this).attr('value'),
+      language  :   language,
       action    :   'getSmsMessage'
     })
     .done(function (data) {
