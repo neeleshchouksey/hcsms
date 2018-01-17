@@ -224,9 +224,9 @@ class PatientServiceController extends Controller
                  * Call Helper function which takes
                  * Patient service and return its history
                  */
-                return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));   
+                return \Response::view('partials.ajax.addLanguageMessage',compact('language','smsTypes'));   
             else:
-                echo "We already have this language,click <a herf='javascript:void(0);' class='showLanguageMessages' value='".$language->id."'>here</a> to view it;";   
+                echo "We already have this language,click <a herf='javascript:void(0);' class='showLanguageMessages' value='".$language->id."'>here</a> to view it";   
             endif;
         elseif($request->action=='addLanguageMessage'):
             $smsTypes               =   new LanguageSmsMessage;

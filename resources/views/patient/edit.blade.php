@@ -430,27 +430,29 @@ option.separator {
             </div>
 
             <div class="modal-body">
-                <div class="col-md-12 font-bolder ">
-                    <p>
-                        You are welcome to request 
-                        or add a new language
-                    </p>
-                    <p>
-                        What language you would like to add
-                    </p>
-                   
-
-                 </div> 
-                  <div class="form-group">
-                        <label for="mobile" class="col-md-4">Name of Language</label>
-                        <div class="col-md-6">
-                            <input class="form-control addLanguage"  type="text">
+                <form class="form-horizontal">
+                    <div class="col-md-12 font-bolder ">
+                        <p>
+                            You are welcome to request 
+                            or add a new language
+                        </p>
+                        <p>
+                            What language you would like to add
+                        </p>
+                        <div class="form-group">
+                            <label for="mobile" class="col-md-4">Name of Language</label>
+                            <div class="col-md-6">
+                                <input class="form-control addLanguage"  type="text">
+                            </div>
+                             <!-- <div class="col-md-2">
+                                <button>Add</button>
+                            </div> -->
                         </div>
-                         <!-- <div class="col-md-2">
-                            <button>Add</button>
-                        </div> -->
-                </div>
 
+                    </div> 
+                    
+                </form>
+                <div class="clearfix"></div>
                 <div class="col-md-12 addLanguageMessagesData">
 
                 </div>
