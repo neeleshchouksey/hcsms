@@ -200,6 +200,22 @@ class PatientServiceController extends Controller
          * check current action is serviceHistory
          * if action is history then return its receive messages history
          */
+        elseif ($request->action=='getServiceSmsMessage'):
+            
+            $language       =   Language::find($request->language);
+            $smsTypes       =   ServiceSmsTypes::where('service_id',$request->service)->get();
+
+            /**
+             * Call Helper function which takes
+             * Patient service and return its history
+             */
+            return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));
+        
+
+         /**
+         * check current action is serviceHistory
+         * if action is history then return its receive messages history
+         */
         elseif ($request->action=='addLanguage'):
             
             $language       =   Language::where('title',$request->language)->first();

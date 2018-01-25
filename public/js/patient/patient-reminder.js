@@ -886,6 +886,32 @@ $(document).on('change click','.showLanguageMessages',function(e){
     });
 
 });
+$(document).on('change click','.showLanguageServiceMessages',function(e){
+    
+    
+    language    =     $('.showLanguageMessages1').val();
+    service     =     $('.showServiceMessages').val();
+    if(service!='' && language!=''){
+        $.post({
+            type: 'post',
+            url: url
+        },
+        {
+          language  :   language,
+          service   :   service,
+          action    :   'getServiceSmsMessage'
+        })
+        .done(function (data) {
+
+            $('.showLanguageMessagesData').html(data);
+              
+        })
+        .fail(function (data) {
+
+        });
+    }
+
+});
 $(document).on('change','.addLanguage',function(e){
    $.post({
         type: 'post',

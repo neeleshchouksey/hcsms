@@ -499,13 +499,23 @@ option.separator {
                         <a href="javascript:void(0);" class="addLanguagePopup">Add New</a>
                     </p>
                     <p>
-                        or view existing one belew or search here : 
-                        <select name="language" class="form-control showLanguageMessages">
+                        or view existing one below or search here : 
+                        <select name="language" class="showLanguageServiceMessages showLanguageMessages1">
                             <option value="">Select Language</option>
                             
                             @foreach($languages as $language)
                                
                                 <option value="{{$language->id}}">{{$language->title}}</option>
+
+                            @endforeach
+                            
+                        </select> 
+                        <select name="service" class=" showLanguageServiceMessages showServiceMessages">
+                            <option value="">Select Service</option>
+                            
+                            @foreach(Helper::Service() as $service)
+                               
+                                <option value="{{$service->id}}">{{$service->name}}</option>
 
                             @endforeach
                             

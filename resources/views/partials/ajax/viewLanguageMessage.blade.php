@@ -13,7 +13,7 @@
 		@php
 			$defaultLanguage 		=	$sms->languageMessage()->where('language_id',1)->first();
 			$selectedLanguage 		=	$sms->languageMessage()->where('language_id',$language->id)->first();
-			$textMessage 			= 	'Translation Not Available Yet';
+			$textMessage 			= 	'Translation Pending';
 			
 			if(!empty($selectedLanguage))
 				$textMessage 		=	$selectedLanguage->message;
