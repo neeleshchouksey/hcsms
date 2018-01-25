@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Mail;
 use App\Mail\WelcomeMail;
 use App\User;
+use App\Staff;
+
 use App\KeyContacts;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -68,6 +70,11 @@ class RegisterController extends Controller
             'company' => 'required|string|max:255',
             'country'=>'required',
             'phone' => 'required|numeric',
+            'title' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'job_title' => 'required|string|max:255',
+            'landline' => 'required|numeric',
             'practice_type' => 'required',
             'keycontacts.practice_manager.name' => 'required|string|max:255',
             'keycontacts.practice_manager.phone' => 'required|numeric',
@@ -92,6 +99,21 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             
         ]);
+
+        $staff              =   new Staff;
+        $staff->email       =   $data['email'];
+        $staff->title       =   $data['title'];
+        $staff->job_title   =   $data['job_title'];
+        $staff->first_name  =   $data['first_name'];
+        $staff->last_name   =   $data['last_name'];
+        $staff->password    =   bcrypt($data['password']);
+        $staff->mobile      =   $data['phone'];
+        $staff->landline    =   $data['landline'];
+        $staff->user_id     =   $user->id;
+        $staff->permission  =   4;
+        $staff->status      =   1;
+        $staff->save();
+
         $user->company  = $data['company'];
         $user->address  = $data['address'];
         $user->country  = $data['country'];

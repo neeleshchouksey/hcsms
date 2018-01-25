@@ -734,6 +734,7 @@ $(document).on('click','.viewapptlog',function(e){
 
     
  });
+var modalName   = '';
 $(document).on('click','.view-reminder-messages',function(e){
         //alert('test');
         e.preventDefault();
@@ -746,9 +747,18 @@ $(document).on('click','.view-reminder-messages',function(e){
           type: 'get',
           url: purl
         },{action:'getapptlog'}).done(function (data) {
+          if(appt.hasClass('has-service')==true){
+            modalName = 'ModalLoginForm';
+           
+          }
+          else{
+            modalName = 'manageServiceModal';
+            
+          }
+          
           $('#viewApptMessageLog .modal-body').html(data);
-          $('#manageServiceModal').modal('hide');
-          $('#viewApptMessageLog').modal('show');
+            $('#'+modalName).modal('hide');
+            $('#viewApptMessageLog').modal('show');
         })
         .fail(function (data) {
           
@@ -757,7 +767,7 @@ $(document).on('click','.view-reminder-messages',function(e){
     
  });
  $('#viewApptLog,#viewApptMessageLog').on('hidden.bs.modal', function () {
-  $('#manageServiceModal').modal('show');
+  $('#'+modalName).modal('show');
  });
 $(document).on('change','.appt-toggle',function(e){
         //alert('test');

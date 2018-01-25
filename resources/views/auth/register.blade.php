@@ -53,7 +53,58 @@
                                 @endif
                             </div>
                         </div>
+                          <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+                            <label for="title" class="col-md-3  ">Title</label>
 
+                            <div class="col-md-6">
+                                <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
+
+                                @if ($errors->has('title'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-3  ">First Name</label>
+
+                            <div class="col-md-6">
+                                <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required >
+
+                                @if ($errors->has('first_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('first_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+                            <label for="last_name" class="col-md-3  ">Last Name</label>
+
+                            <div class="col-md-6">
+                                <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required >
+
+                                @if ($errors->has('last_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('job_title') ? ' has-error' : '' }}">
+                            <label for="job_title" class="col-md-3  ">Job Title</label>
+
+                            <div class="col-md-6">
+                                <input id="job_title" type="text" class="form-control" name="job_title" value="{{ old('job_title') }}" required >
+
+                                @if ($errors->has('job_title'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('job_title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-3  ">Password</label>
 
@@ -126,6 +177,19 @@
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                         <div class="form-group{{ $errors->has('landline') ? ' has-error' : '' }}">
+                            <label for="landline" class="col-md-3">Landline Number</label>
+
+                            <div class="col-md-6">
+                                <input id="landline" type="text" class="form-control" name="landline" value="{{ old('landline') }}" required >
+
+                                @if($errors->has('landline'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('landline') }}</strong>
                                     </span>
                                 @endif
                             </div>
