@@ -77,12 +77,35 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@push('scripts')
 
+@push('scripts')
+<div id="editReminderPopup" class="modal  fade">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title pull-left text-xs-center">Set Reminder</h4>
+                <span class="pull-right" style="margin-right:5%;"></span>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
   <script type="text/javascript">
     
     var url         =    "{{url('admin/patients/ajax/load')}}";
-  
+    var  purl       =    "{{url('patient-service')}}";
+    var  updUrl     =     "{{url('update-info')}}";
+    var durl        =     "{{url('patient-service-days')}}";
+    var turl        =     "{{url('patient-service-time')}}";
+
+    var messageUrl  =     "{{url('reminder-sms')}}";
+    var replyUrl    =     "{{url('receive-sms/ajax')}}";
   </script>
    
 

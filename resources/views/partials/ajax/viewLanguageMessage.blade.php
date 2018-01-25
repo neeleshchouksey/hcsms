@@ -1,10 +1,10 @@
 <table class="table table-striped table-bordered">
 	<tr>
-		<th>Reminder Section</th>
-		<th>Message Name</th>
+		<th width="10%">Reminder Section</th>
+		<th width="10%">Message Name</th>
 		<th>English Message</th>
 		@if($language->id!=1)
-			<th>{{$language->title}} Message</th>
+			<th width="40%">{{$language->title}} Message</th>
 		@endif
 		
 		
