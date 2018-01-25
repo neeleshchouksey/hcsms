@@ -433,12 +433,9 @@ option.separator {
                 <form class="form-horizontal">
                     <div class="col-md-12 font-bolder ">
                         <p>
-                            You are welcome to request 
-                            or add a new language
+                            If you would like us to send messages in a language that we do not yet offer, please complete the form below:
                         </p>
-                        <p>
-                            What language you would like to add
-                        </p>
+                       
                         <div class="form-group">
                             <label for="mobile" class="col-md-4">Name of Language</label>
                             <div class="col-md-6">
@@ -448,7 +445,12 @@ option.separator {
                                 <button>Add</button>
                             </div> -->
                         </div>
-
+                        <p>
+                            We will usually add the translations within 5 working days.
+                        </p>
+                        <p>
+                            If this is very urgent, please email support@healthchecksms.com
+                        </p>
                     </div> 
                     
                 </form>
@@ -479,13 +481,18 @@ option.separator {
             <div class="modal-body">
                 <div class="col-md-12 font-bolder ">
                     <p class="font-bolder"> 
-                        Good communication is important,
-                        which is why we send messages in 
-                        patient preferred language whenever 
-                        possible.
+                       Good communication is important, 
+                       which is why we send messages in the 
+                       patients preferred language whenever possible.
                     </p>
                     <p class="">
-                        We currently offer {{$languages->count()}} languages
+                        We currently offer {{$languages->count()}} languages, 
+                        and are adding more based on customer feedback and languages selected.
+                        
+                    </p>
+                    <p>
+                        If you select a language that is not yet fully translated, 
+                        we will send messages in English until the translation is complete.
                     </p>
                     <p>
                         You can request or add a new one here:
