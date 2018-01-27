@@ -7,6 +7,11 @@
 @stop
 
 @section('content')
+<style type="text/css">
+#editReminderPopup {
+    overflow-y:scroll;
+}</style>
+
 <div class="row">
     <div class="col-xs-12">
           
@@ -77,10 +82,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-@push('scripts')
 <div id="editReminderPopup" class="modal  fade">
-    <div class="modal-dialog modal-lg ">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -96,10 +99,12 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+@push('scripts')
+
   <script type="text/javascript">
     
-    var url         =    "{{url('admin/patients/ajax/load')}}";
-    var  purl       =    "{{url('patient-service')}}";
+    var paurl       =    "{{url('admin/patients/ajax/load')}}";
+    var  url        =    "{{url('patient-service')}}";
     var  updUrl     =     "{{url('update-info')}}";
     var durl        =     "{{url('patient-service-days')}}";
     var turl        =     "{{url('patient-service-time')}}";

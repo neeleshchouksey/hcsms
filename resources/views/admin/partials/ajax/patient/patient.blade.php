@@ -30,8 +30,11 @@
 </table>
 @php
     $services   = $patient->reminderService()->where('status',1)->get();
+    $services2   = $patient->appointments()->where('status',1)->get();
+    
 @endphp
 @if(count($services)!=0)
+<h3>Live Reminders</h3>
     <table class="table table-bordered table-striped">
         <tr>
             <th>Services</th>

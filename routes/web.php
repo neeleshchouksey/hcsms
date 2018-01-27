@@ -72,6 +72,16 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('receive-sms/ajax','ReceiveSmsController@ajaxLoad');
 
 });
+Route::group(['middleware' => 'admin.auth'], function() {
+
+    Route::resource('patient-service','PatientServiceController');
+
+    Route::resource('patient-service-days','PatientReminderDaysController');
+
+    Route::resource('patient-service-time','PatientReminderTimeController');
+
+    Route::resource('reminder-sms','ReminderSmsController');
+});
 
 Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {
 
