@@ -104,13 +104,13 @@
   <script type="text/javascript">
     
     var paurl       =    "{{url('admin/patients/ajax/load')}}";
-    var  url        =    "{{url('patient-service')}}";
+    var  url        =    "{{url('admin/patient-service')}}";
     var  updUrl     =     "{{url('update-info')}}";
-    var durl        =     "{{url('patient-service-days')}}";
-    var turl        =     "{{url('patient-service-time')}}";
+    var durl        =     "{{url('admin/patient-service-days')}}";
+    var turl        =     "{{url('admin/patient-service-time')}}";
 
-    var messageUrl  =     "{{url('reminder-sms')}}";
-    var replyUrl    =     "{{url('receive-sms/ajax')}}";
+    var messageUrl  =     "{{url('admin/reminder-sms')}}";
+    var replyUrl    =     "{{url('admin/receive-sms/ajax')}}";
   </script>
    
 

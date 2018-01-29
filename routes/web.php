@@ -74,13 +74,13 @@ Route::group(['middleware' => 'auth'], function() {
 });
 Route::group(['middleware' => 'admin.auth'], function() {
 
-    Route::resource('patient-service','PatientServiceController');
+    Route::resource('admin/patient-service','PatientServiceController');
 
-    Route::resource('patient-service-days','PatientReminderDaysController');
+    Route::resource('admin/patient-service-days','PatientReminderDaysController');
 
-    Route::resource('patient-service-time','PatientReminderTimeController');
+    Route::resource('admin/patient-service-time','PatientReminderTimeController');
 
-    Route::resource('reminder-sms','ReminderSmsController');
+    Route::resource('admin/reminder-sms','ReminderSmsController');
 });
 
 Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {
