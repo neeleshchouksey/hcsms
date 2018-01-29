@@ -954,3 +954,47 @@ $(document).on('change','.addLanguage',function(e){
     });
 
  });
+ $(document).on('click','.view-message-dairy',function(){
+     
+      $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      patient   :   $(this).attr('patient-id'),
+      action    :   'getScheduledSmsMessage'
+    })
+    .done(function (data) {
+
+        $('#viewSchduledMessageLog .modal-body').html(data);
+        $('#viewSchduledMessageLog').modal('show');   
+    })
+    .fail(function (data) {
+
+    });
+ });
+$(document).on('click','.view-message-dairy-service',function(){
+     
+      $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      service   :   $('.service').val(),
+      patient   :   $('.patient').val(),
+      action    :   'getScheduledSmsMessage'
+    })
+    .done(function (data) {
+
+        $('#viewSchduledMessageLogService .modal-body').html(data);
+        
+        $('#ModalLoginForm').modal('hide'); 
+        $('#viewSchduledMessageLogService').modal('show');   
+    })
+    .fail(function (data) {
+
+    });
+ });
+ $('#viewSchduledMessageLogService').on('hidden.bs.modal', function () {
+  $('#ModalLoginForm').modal('show'); 
+ });

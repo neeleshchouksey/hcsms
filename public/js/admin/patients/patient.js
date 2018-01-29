@@ -8,7 +8,7 @@ function showPatients(curl='') {
     //alert('test');
     // body...
     if(curl=='')
-        curl=url;
+        curl=paurl;
     $("#customer_list_table").DataTable({
         destroy:true,
         "ajax": {
@@ -69,13 +69,13 @@ $(document).on('click','.profile-popup',function(){
 $(document).on('change','.filter',function(){
     
     var filter = $('.filter').serialize();
-    var curl   = url+'?'+filter;
+    var curl   = paurl+'?'+filter;
     showPatients(curl);
 });
 $(document).on('click','.editReminderPopup',function(){
     $.post({
       type: 'post',
-      url: purl
+      url: url
     },
     {
         service:$(this).attr('service'),
@@ -91,6 +91,9 @@ $(document).on('click','.editReminderPopup',function(){
     
     });
 });
+ $('#editReminderPopup').on('hidden.bs.modal', function () {
+ $('#profileDetailsPopup').modal('show');
+ });
 $(document).on('click','.days',function(){
   var service = $('.service').val();
     if($(this).hasClass('btn-success')){

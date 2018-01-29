@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "81791caee890dbb29751cf26d4662ab9",
-    "content-hash": "aee45945605ad5e05113058ef99105d0",
+    "hash": "54aa33cddddb01d12ebfafea6627beab",
+    "content-hash": "9f93a179189612928d08c281f89f3ac3",
     "packages": [
         {
             "name": "apimatic/jsonmapper",
@@ -1657,6 +1657,56 @@
                 "random"
             ],
             "time": "2017-09-27 21:40:39"
+        },
+        {
+            "name": "plummer/calendarful",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benplummer/calendarful.git",
+                "reference": "a58317832b32bf321fe8d04d42ac3c4526488649"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benplummer/calendarful/zipball/a58317832b32bf321fe8d04d42ac3c4526488649",
+                "reference": "a58317832b32bf321fe8d04d42ac3c4526488649",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Plummer\\Calendarful\\": [
+                        "src",
+                        "tests"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Plummer",
+                    "email": "ben@benplummer.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Calendar generator that allows for recurring events.",
+            "homepage": "http://benplummer.co.uk",
+            "keywords": [
+                "calendar",
+                "events",
+                "recurrence"
+            ],
+            "time": "2016-01-10 13:09:00"
         },
         {
             "name": "propaganistas/laravel-phone",

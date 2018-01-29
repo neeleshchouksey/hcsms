@@ -1389,4 +1389,122 @@ class Helpers
         return $getActiveReminders;
 
     }
+    /**
+     * Gets the patient scheduled messages.
+     *
+     * @param      <type>  $patient  The patient
+     */
+    public static function getPatientScheduledMessages($patient,$serviceId=0){
+        $messages   =   array();
+        $i=0;
+        if($serviceId==0)
+            $patientServices    =   $patient->reminderService()->where('status',1)->get();
+        else
+            $patientServices    =   $patient->reminderService()->where('status',1)->where('id',$serviceId)->get();
+        foreach ($patientServices as $service) {
+            # code...
+            $day    =  $service->reminderDays()->pluck('day_id')->toArray();
+
+            $ranges     =   array();
+
+            $startDate      =   Carbon::parse($service->start_date)->format('Y-m-d');
+
+            if($service->ongoing==0):
+
+                
+
+                $period         =   $service->period;
+
+                if($service->duration==1)
+                
+                    $endDate   =   Carbon::parse($startDate)->addDay($period)->format('Y-m-d');
+
+                elseif($service->duration==2)
+
+                    $endDate   =   Carbon::parse($startDate)->addWeek($period)->format('Y-m-d');
+                
+                else
+
+                    $endDate   =   Carbon::parse($startDate)->addMonth($period)->format('Y-m-d');
+
+                $ranges[0] =   array(
+                                    'start' =>  $startDate,
+                                    'end'   =>  $endDate,
+                            );
+            else:
+                $endDate    =   date("Y-n-j", PHP_INT_MAX);
+                $ranges[0] =   array(
+                                    'start' =>  $startDate,
+                                    'end'   => $endDate
+                            );
+
+            endif;
+
+            $exception      =   array(
+                                        'weeks' =>  2
+                                );
+            foreach ($service->reminderTime as $time) {
+                # code...
+                $messages[$i]   =    array(
+                                            'title' => $service->serviceData->name,
+                                            'id'    =>$service->id,
+                                            'start'=>$time->timeData->abbr,
+                                            'startDate'=>$startDate,
+                                            'end'=> Carbon::parse($time->timeData->abbr)->addHour(1)->format('H:i'),
+                                            'dow'=>$day,
+                                            'ranges'=>$ranges,
+                                            'repeats' => 10,
+                                            'className' => 'scheduler_basic_event',
+                                            'repeat_freq' => $service->perweek,
+                                            'duration' => $exception
+                                            );
+                 $i++;
+            }
+            
+           
+        }
+        
+        echo $response = json_encode($messages);
+    }
+    function recurringEvents($type, $interval, $date) {
+
+     $startdate = date('Y-m-d', strtotime($date));
+     $day = explode('-', $startdate);
+     $datetotime = mktime(0,0,0,$day[1], $day[2], $day[0]);
+
+     $dates = array();
+     
+     //If interval type is daily
+     if($type == 'D') {
+          for($i=1;$i<$interval-1;$i++) {
+               $newdate = '+ '. $i .' day';
+               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+          }
+     }
+     
+     //If interval type is weekly
+     if($type == 'W') {
+          for($i=1;$i<$interval;$i++) {
+               $newdate = '+ '. $i .' week';               
+               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+          }          
+     }
+     
+     //If interval type is monthly
+     if($type == 'M') {
+          for($i=1;$i<$interval;$i++) {
+               $newdate = '+ '. $i .' month';               
+               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+          }
+     }
+     
+     //If interval type is yearly
+     if($type == 'Y') {
+          for($i=1;$i<$interval;$i++) {
+               $newdate = '+ '. $i .' year';               
+               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+          }          
+     }
+     return $dates;     
+}
 }

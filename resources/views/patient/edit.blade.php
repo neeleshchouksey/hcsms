@@ -173,7 +173,12 @@ option.separator {
                         </div>
                     </form>
                     <div class="col-md-12">
-                        <h3>Set remindars</h3>
+                        <h3 class="pull-left">Set remindars</h3>
+                        <span class="pull-right">
+                            <button class="btn btn-primary view-message-dairy" patient-id="{{$patient->id}}"> 
+                                View Message Diary
+                            </button>
+                        </span>
 
                     </div>
                      @php
@@ -230,6 +235,7 @@ option.separator {
         </div>
     </div>
 </div>
+
 <!-- Modal HTML Markup -->
 <div id="ModalLoginForm" class="modal  fade">
     <div class="modal-dialog ">
@@ -533,6 +539,44 @@ option.separator {
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div id="viewSchduledMessageLog" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    View Appointment Message Log
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="viewSchduledMessageLogService" class="modal  fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-xs-center">
+                    View Appointment Message Log
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer text-xs-center">
+               
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @push('scripts')
 
   <script type="text/javascript">
@@ -546,9 +590,8 @@ option.separator {
     var replyUrl    =     "{{url('receive-sms/ajax')}}";
 
   </script>
-   
-
     <script src="{{ asset('js/patient/patient-reminder.js') }}"></script>
+
 @endpush
 
 
