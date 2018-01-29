@@ -20,8 +20,19 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <!-- full calender css -->
+    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fullcalendar.print.css') }}" rel="stylesheet" media="print">
+
+    <!-- full calender js -->
+    <script src="{{asset('js/moment.min.js') }}"></script>
+    <script src="{{asset('js/fullcalendar.js') }}"></script>
+    
+
+
 </head>
 <body>
     <div id="app">

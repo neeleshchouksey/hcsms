@@ -266,6 +266,10 @@
             </div>
         
     </div>
-
+    <div class="form-group">
+        <input type="button" class="btn btn-primary col-xs-6 col-xs-offset-3  view-message-dairy-service"  value=" View Message Diary"> 
+                               
+         
+    </div>
 
 </form>

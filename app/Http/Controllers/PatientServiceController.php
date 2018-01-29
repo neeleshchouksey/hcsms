@@ -196,6 +196,7 @@ class PatientServiceController extends Controller
              * Patient service and return its history
              */
             return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));
+
          /**
          * check current action is serviceHistory
          * if action is history then return its receive messages history
@@ -211,6 +212,23 @@ class PatientServiceController extends Controller
              */
             return \Response::view('partials.ajax.viewLanguageMessage',compact('language','smsTypes'));
         
+        elseif ($request->action=='getScheduledSmsMessage'):
+            
+            
+
+            /**
+             * Call Helper function which takes
+             * Patient service and return its history
+             */
+            $requestType = 2;
+            if(!isset($request->service)):
+                $patient        =   Patient::find($request->patient);
+                $requestType    =   1;
+                return \Response::view('partials.ajax.viewScheduledMessage',compact('patient','requestType'));  
+            else:  
+                $patient    =   Patient::find($request->patient);
+                return \Response::view('partials.ajax.viewScheduledMessage',compact('patientService','requestType'));  
+            endif;
 
          /**
          * check current action is serviceHistory
