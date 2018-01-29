@@ -28,18 +28,15 @@ function showPatients(curl='') {
             { data: 'language' },
             { data: 'message' },
             
-          
-          
             { data: 'action'}
-         
         ]
       
     });
 }
 
 $(document).on('click','.profile-popup',function(){
-    var userid  =   $(this).attr('data-user');
-   
+    var userid          =   $(this).attr('data-user');
+    var serviceType     =   $(this).attr('service-type');
       $.post(
         {
             type: 'get',
@@ -51,10 +48,9 @@ $(document).on('click','.profile-popup',function(){
         function (data) {
            
                 $('#profileDetailsPopup .modal-body').html(data);
+                $('#profileDetailsPopup .modal-body table tbody').append('<tr><td>Service</td><td>'+serviceType+'</td></tr>');
                 $('#profileDetailsPopup').modal('show'); 
-                //alert('test');
-           
-          
+     
         }
     )
     .fail(

@@ -96,3 +96,4 @@ Stack trace:
 #5 /home/whitebrains/public_html in /home/whitebrains/public_html/dev/hcsms/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 752
 [27-Dec-2017 16:20:24 UTC] PHP Fatal error:  Cannot use Helper as Helper because the name is already in use in /home/whitebrains/public_html/dev/hcsms/app/Http/Controllers/PatientServiceController.php on line 15
 [27-Dec-2017 16:20:41 UTC] PHP Fatal error:  Cannot use Helper as Helper because the name is already in use in /home/whitebrains/public_html/dev/hcsms/app/Http/Controllers/PatientServiceController.php on line 15
+[25-Jan-2018 06:54:29 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/whitebrains/public_html/dev/hcsms/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php on line 47
