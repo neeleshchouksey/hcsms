@@ -505,8 +505,8 @@ option.separator {
                         <a href="javascript:void(0);" class="addLanguagePopup">Add New</a>
                     </p>
                     <p>
-                        or view existing one below or search here : 
-                        <select name="language" class="showLanguageServiceMessages showLanguageMessages1">
+                        <span style="width:50%;" >or view existing one below or search here : 
+                        <select name="language" style="width:25%;" class="showLanguageServiceMessages showLanguageMessages1">
                             <option value="">Select Language</option>
                             
                             @foreach($languages as $language)
@@ -516,7 +516,7 @@ option.separator {
                             @endforeach
                             
                         </select> 
-                        <select name="service" class=" showLanguageServiceMessages showServiceMessages">
+                        <select name="service"  style="width:25%"  class=" showLanguageServiceMessages showServiceMessages">
                             <option value="">Select Service</option>
                             
                             @foreach(Helper::Service() as $service)

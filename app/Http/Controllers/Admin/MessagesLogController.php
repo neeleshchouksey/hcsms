@@ -187,7 +187,8 @@ class MessagesLogController extends Controller
                      * @var        <type>
                      */
                     $language   =     $getmessage->parentService->patient->language->title;
-
+                    
+                    $serviceAbbr =      $getmessage->parentService->serviceData->data;
                 endif;
             }
 
@@ -229,10 +230,13 @@ class MessagesLogController extends Controller
                      * @var        <type>
                      */
                     $language   =     $getmessage->parentAppt->patient->language->title;
-                    
+
+                    $serviceAbbr =      $getmessage->parentAppt->serviceData->data;
                 endif;
             }
-
+            $smsLabel   =   '';
+            if($getmessage->parentSmsType()->exists())
+                $smsLabel   = $getmessage->parentSmsType->label;
             /**
              * assigning values for record array
              */
@@ -251,7 +255,7 @@ class MessagesLogController extends Controller
     
             $records[$i]['message']     =   $message->body;
           
-            $records[$i]['action']      =   "<a href='javascript:void(0);' class='profile-popup' data-user='".route('patients.show',$patientid)."'>Profile</a>";
+            $records[$i]['action']      =   "<a href='javascript:void(0);' service-type='". $serviceAbbr.' '.$smsLabel."' class='profile-popup' data-user='".route('patients.show',$patientid)."'>Profile</a>";
             
             $i++;
         }
