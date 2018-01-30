@@ -1432,7 +1432,7 @@ class Helpers
                                     'end'   =>  $endDate,
                             );
             else:
-                $endDate    =   date("Y-n-j", PHP_INT_MAX);
+                $endDate    =   '2039-01-01';
                 $ranges[0] =   array(
                                     'start' =>  $startDate,
                                     'end'   => $endDate
