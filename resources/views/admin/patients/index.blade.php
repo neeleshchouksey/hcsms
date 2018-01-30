@@ -99,6 +99,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+@include('modals.viewSheduleService')
+@include('modals.viewApptMessageLog')
 @push('scripts')
 
   <script type="text/javascript">
@@ -111,6 +113,7 @@
 
     var messageUrl  =     "{{url('admin/reminder-sms')}}";
     var replyUrl    =     "{{url('admin/receive-sms/ajax')}}";
+    var viewMessage =     "{{url('admin/appt-reminder-services')}}"
   </script>
    
 

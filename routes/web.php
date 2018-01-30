@@ -81,6 +81,8 @@ Route::group(['middleware' => 'admin.auth'], function() {
     Route::resource('admin/patient-service-time','PatientReminderTimeController');
 
     Route::resource('admin/reminder-sms','ReminderSmsController');
+
+    Route::get('admin/appt-reminder-services/{service}/{patient}','PatientAppointmentController@getReminderServiceMessages');
 });
 
 Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {

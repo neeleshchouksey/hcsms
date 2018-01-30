@@ -582,3 +582,59 @@ $(document).on('click','.send_test_message',function(){
       });
 
 });
+$(document).on('click','.view-message-dairy-service',function(){
+     
+      $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      service   :   $('.service').val(),
+      patient   :   $('.patient').val(),
+      action    :   'getScheduledSmsMessage'
+    })
+    .done(function (data) {
+
+        $('#viewSchduledMessageLogService .modal-body').html(data);
+        
+        $('#ModalLoginForm').modal('hide'); 
+        $('#viewSchduledMessageLogService').modal('show');   
+    })
+    .fail(function (data) {
+
+    });
+ });
+ $('#viewSchduledMessageLogService').on('hidden.bs.modal', function () {
+  $('#ModalLoginForm').modal('show'); 
+ });
+ var modalName   = '';
+$(document).on('click','.view-reminder-messages',function(e){
+        alert('test');
+        e.preventDefault();
+        var appt = $(this);
+        
+        
+        var purl        = viewMessage+'/'+$('.service').val()+'/'+$('.patient').val();
+      
+        $.post({
+          type: 'get',
+          url: purl
+        },{action:'getapptlog'}).done(function (data) {
+         
+            modalName = 'ModalLoginForm';
+           
+          
+          
+          $('#viewApptMessageLog .modal-body').html(data);
+            $('#'+modalName).modal('hide');
+            $('#viewApptMessageLog').modal('show');
+        })
+        .fail(function (data) {
+          
+        });
+
+    
+ });
+ $('#viewApptLog,#viewApptMessageLog').on('hidden.bs.modal', function () {
+  $('#'+modalName).modal('show');
+ });

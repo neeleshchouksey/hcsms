@@ -99,7 +99,7 @@
         @if($patientService->service_id==3)
             <div class="col-md-5">
                 <span >
-                    <button type="submit" action="{{url('appt-reminder-services/'.$patientService->service_id.'/'.$patientService->patient_id)}}" class="btn view-reminder-messages has-service btn-primary">
+                    <button type="button" action="{{url('appt-reminder-services/'.$patientService->service_id.'/'.$patientService->patient_id)}}" class="btn view-reminder-messages has-service btn-primary">
                         View Messages
                     </button>
                 </span>
