@@ -99,7 +99,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@include('modals.viewSheduleService')
+@include('modals.viewSheduleServiceAll')
 @include('modals.viewApptMessageLog')
 @push('scripts')
 

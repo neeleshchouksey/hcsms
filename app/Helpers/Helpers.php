@@ -1394,13 +1394,19 @@ class Helpers
      *
      * @param      <type>  $patient  The patient
      */
-    public static function getPatientScheduledMessages($patient,$serviceId=0){
+    public static function getPatientScheduledMessages($patient,$serviceId){
         $messages   =   array();
         $i=0;
-        if($serviceId==0)
-            $patientServices    =   $patient->reminderService()->where('status',1)->get();
-        else
-            $patientServices    =   $patient->reminderService()->where('status',1)->where('id',$serviceId)->get();
+
+        $appointments    =   $patient->appointments()->where('status',1)->whereIn('service_id',$serviceId)->get();
+
+        if(empty($serviceId)):
+            $messages[$i]  = array();
+            echo $response = json_encode($messages);
+        
+        else:
+            $patientServices    =   $patient->reminderService()->where('status',1)->whereIn('service_id',$serviceId)->get();
+
         foreach ($patientServices as $service) {
             # code...
             $day    =  $service->reminderDays()->pluck('day_id')->toArray();
@@ -1453,7 +1459,7 @@ class Helpers
                                             'end'=> Carbon::parse($time->timeData->abbr)->addHour(1)->format('H:i'),
                                             'dow'=>$day,
                                             'ranges'=>$ranges,
-                                            'repeats' => 10,
+                                            'repeats' => 1,
                                             'className' => 'scheduler_basic_event',
                                             'repeat_freq' => $service->perweek,
                                             'duration' => $exception
@@ -1463,8 +1469,83 @@ class Helpers
             
            
         }
+        foreach ($appointments as $appointment) {
+            # code...
+            $reminders    =  $appointment->apptReminders;
+
+            foreach($reminders as $reminder):
+
+                /***
+                * numeric digit from reminder name
+                */
+                $day  =     (int) preg_replace('/\D/', '',$reminder->smsTypeData->name);
+
+                /***
+                * change appointment date format
+                */
+                $date = \DateTime::createFromFormat('d/m/Y', $appointment->appt_date);
+
+                $date = $date->format('Y-m-d');
+
+                /***
+                * substract reminder name numeric digit
+                * day from appointment date and find 
+                * remider sent date
+                */
+                $reminderDate = \Carbon\Carbon::parse($date)->subDay($day)->format('Y-m-d');
+
+                /***
+                * check reminder status 
+                * if status is 3 then find
+                * find reminder send date form
+                * reminder sent log
+                */
+                if($reminder->status==3){
+
+                    /***
+                    * find latest message of send reminder
+                    * in send reminder log
+                    */
+                    $reminderMessage = $appointment->reminderMessage()->where('sms_type_id',$reminder->reminder_id)->latest()->first();
+                
+                    /***
+                    * if reminder sms log is not emty
+                    * then set reminder sms log created date
+                    * reminder date
+                    */
+                    if(!empty($reminderMessage))
+                        $reminderDate = $reminderMessage->created_at->format('Y-m-d');
+                }
+                /***
+                * else check if reminder id equals to 34 and
+                * status is equal to not active then set reminder
+                * create date as reminder sent date
+                */
+                elseif($reminder->status==2 && $reminder->reminder_id==34)
+                    $reminderDate = $reminder->created_at->format('Y-m-d');
+
+                $startDate      =    $reminderDate.'T'.Carbon::parse($appointment->timeData->abbr)->format('H:i:s');
+                $endDate        =    $reminderDate.'T'.Carbon::parse($appointment->timeData->abbr)->addHour(1)->format('H:i');
+                $messages[$i]   =    array(
+                                            'title' => $reminder->smsTypeData->parentService->name,
+                                            'id'    => $reminder->id,
+                                            'start' => $startDate,
+                                            'startDate'=>$startDate,
+                                            'end'=>  $endDate  ,
+                                            'repeats' => 0,
+                                            );
+                 $i++;
+            
+            endforeach;
+
+         
+            
+            
+           
+        }
+
         
-        echo $response = json_encode($messages);
+        echo $response = json_encode($messages);endif;
     }
     function recurringEvents($type, $interval, $date) {
 

@@ -954,47 +954,84 @@ $(document).on('change','.addLanguage',function(e){
     });
 
  });
- $(document).on('click','.view-message-dairy',function(){
-     
-      $.post({
+ var checkScheduledPopup = 0;
+ var scheduledPatient;
+ $(document).on('click','.view-message-dairy, .view-message-dairy-service',function(){
+    var $this   = $(this);
+   
+    if ($this.hasClass('view-message-dairy')) {
+
+          // do stuff
+          $("#viewSchduledMessageLog .scheduledMessageFilter").prop('checked',true);
+          var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get();
+          scheduledPatient    =   $(this).attr('patient-id');
+          checkScheduledPopup =  0;
+
+      } else {
+
+          // do other stuff
+          $("#viewSchduledMessageLog .scheduledMessageFilter").prop('checked',false);
+          $('#viewSchduledMessageLog input[value="' + $('.service').val() + '"]').prop('checked', 'checked');
+          var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get(); 
+          scheduledPatient    =      $('.patient').val();
+          checkScheduledPopup =     1;
+      }
+    
+   
+    $.post({
         type: 'post',
         url: url
     },
     {
-      patient   :   $(this).attr('patient-id'),
+      patient   :   scheduledPatient,
+      services  :   services,
       action    :   'getScheduledSmsMessage'
     })
     .done(function (data) {
-
+        
         $('#viewSchduledMessageLog .modal-body').html(data);
+        if(checkScheduledPopup==1){
+           alert(checkScheduledPopup);
+          $('#ModalLoginForm').modal('hide'); 
+        }  
         $('#viewSchduledMessageLog').modal('show');   
     })
     .fail(function (data) {
 
     });
  });
-$(document).on('click','.view-message-dairy-service',function(){
-     
-      $.post({
+
+
+ $('#viewSchduledMessageLog').on('hidden.bs.modal', function () {
+    if(checkScheduledPopup ==1){
+      $('#ModalLoginForm').modal('show'); 
+    }  
+ });
+$(document).on('click','.scheduledMessageFilter', function () {
+  var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get();
+
+  $.post({
         type: 'post',
         url: url
     },
     {
-      service   :   $('.service').val(),
-      patient   :   $('.patient').val(),
+      patient   :   scheduledPatient,
+      services  :   services,
       action    :   'getScheduledSmsMessage'
     })
     .done(function (data) {
-
-        $('#viewSchduledMessageLogService .modal-body').html(data);
-        
-        $('#ModalLoginForm').modal('hide'); 
-        $('#viewSchduledMessageLogService').modal('show');   
+        checkScheduledPopup = 0;  
+        $('#viewSchduledMessageLog .modal-body').html(data);
+        $('#viewSchduledMessageLog').modal('show');   
     })
     .fail(function (data) {
 
     });
- });
- $('#viewSchduledMessageLogService').on('hidden.bs.modal', function () {
-  $('#ModalLoginForm').modal('show'); 
- });
+  
+});

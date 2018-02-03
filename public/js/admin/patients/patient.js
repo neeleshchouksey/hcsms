@@ -582,23 +582,51 @@ $(document).on('click','.send_test_message',function(){
       });
 
 });
-$(document).on('click','.view-message-dairy-service',function(){
-     
-      $.post({
+ var checkScheduledPopup = 0;
+ var scheduledPatient;
+ $(document).on('click','.view-message-dairy, .view-message-dairy-service',function(){
+    var $this   = $(this);
+   
+    if ($this.hasClass('view-message-dairy')) {
+
+          // do stuff
+          $("#viewSchduledMessageLog .scheduledMessageFilter").prop('checked',true);
+          var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get();
+          scheduledPatient    =   $(this).attr('patient-id');
+          checkScheduledPopup =  0;
+
+      } else {
+
+          // do other stuff
+          $("#viewSchduledMessageLog .scheduledMessageFilter").prop('checked',false);
+          $('#viewSchduledMessageLog input[value="' + $('.service').val() + '"]').prop('checked', 'checked');
+          var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get(); 
+          scheduledPatient    =      $('.patient').val();
+          checkScheduledPopup =     1;
+      }
+    
+   
+    $.post({
         type: 'post',
         url: url
     },
     {
-      service   :   $('.service').val(),
-      patient   :   $('.patient').val(),
+      patient   :   scheduledPatient,
+      services  :   services,
       action    :   'getScheduledSmsMessage'
     })
     .done(function (data) {
-
-        $('#viewSchduledMessageLogService .modal-body').html(data);
         
-        $('#ModalLoginForm').modal('hide'); 
-        $('#viewSchduledMessageLogService').modal('show');   
+        $('#viewSchduledMessageLog .modal-body').html(data);
+        if(checkScheduledPopup==1){
+           alert(checkScheduledPopup);
+          $('#ModalLoginForm').modal('hide'); 
+        }  
+        $('#viewSchduledMessageLog').modal('show');   
     })
     .fail(function (data) {
 
@@ -638,3 +666,27 @@ $(document).on('click','.view-reminder-messages',function(e){
  $('#viewApptLog,#viewApptMessageLog').on('hidden.bs.modal', function () {
   $('#'+modalName).modal('show');
  });
+ $(document).on('click','.scheduledMessageFilter', function () {
+  var services = $("#viewSchduledMessageLog .scheduledMessageFilter:checked").map(function() {
+              return $(this).val();
+          }).get();
+
+  $.post({
+        type: 'post',
+        url: url
+    },
+    {
+      patient   :   scheduledPatient,
+      services  :   services,
+      action    :   'getScheduledSmsMessage'
+    })
+    .done(function (data) {
+        checkScheduledPopup = 0;  
+        $('#viewSchduledMessageLog .modal-body').html(data);
+        $('#viewSchduledMessageLog').modal('show');   
+    })
+    .fail(function (data) {
+
+    });
+  
+});
