@@ -1398,7 +1398,7 @@ class Helpers
         $messages   =   array();
         $i=0;
 
-        $appointments    =   $patient->appointments()->where('status',1)->whereIn('service_id',$serviceId)->get();
+        
 
         if(empty($serviceId)):
             $messages[$i]  = array();
@@ -1406,7 +1406,7 @@ class Helpers
         
         else:
             $patientServices    =   $patient->reminderService()->where('status',1)->whereIn('service_id',$serviceId)->get();
-
+            $appointments    =   $patient->appointments()->where('status',1)->whereIn('service_id',$serviceId)->get();
         foreach ($patientServices as $service) {
             # code...
             $day    =  $service->reminderDays()->pluck('day_id')->toArray();

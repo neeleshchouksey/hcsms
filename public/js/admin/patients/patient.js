@@ -623,7 +623,7 @@ $(document).on('click','.send_test_message',function(){
         
         $('#viewSchduledMessageLog .modal-body').html(data);
         if(checkScheduledPopup==1){
-           alert(checkScheduledPopup);
+           
           $('#ModalLoginForm').modal('hide'); 
         }  
         $('#viewSchduledMessageLog').modal('show');   

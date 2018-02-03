@@ -995,7 +995,7 @@ $(document).on('change','.addLanguage',function(e){
         
         $('#viewSchduledMessageLog .modal-body').html(data);
         if(checkScheduledPopup==1){
-           alert(checkScheduledPopup);
+           
           $('#ModalLoginForm').modal('hide'); 
         }  
         $('#viewSchduledMessageLog').modal('show');   
