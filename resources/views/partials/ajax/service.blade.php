@@ -1,6 +1,6 @@
 @if($service->id<4):
 
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-6 col-xs-6">
         <h4>{{$service->name}}</h4>
 
         Remindar set for
@@ -57,22 +57,22 @@
            
 
     </div>
-    <div class="col-md-6">
-        <div class="col-md-offset-6 col-md-6">
+    <div class="col-md-6 col-xs-6">
+        <div class="col-md-offset-6 col-md-6 col-xs-offset-6 col-xs-6 col-sm-offset-6 col-sm-6">
         <input type="checkbox" class="service-toggle pull-right" service="{{$service->id}}" patient="{{$patient->id}}" {{$checked}} data-toggle="toggle">
         </div>
         <br><br>
         @if($service->ishistory==1)
-            <button class="btn btn-success pull-left col-md-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
+            <button class="btn btn-success pull-left col-md-6 col-sm-6  col-xs-6 getBPHistory" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >History</button>
         @endif 
-       <button class="btn btn-success pull-right col-md-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
+       <button class="btn btn-success pull-right col-md-5 col-sm-5  col-xs-5 editService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Edit</button>
      </div>
 @else:
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <h4>{{$service->name}}</h4>
             Live Appointments:{{$patient->appointments->where('status',1)->count()}}
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
            
                 <button class="btn btn-success pull-right  manageService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Manage</button>
             

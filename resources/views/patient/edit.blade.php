@@ -176,7 +176,7 @@ option.separator {
                             </div> -->
                         </div>
                     </form>
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-xs-12">
                         <h3 class="pull-left">Set remindars</h3>
                         <span class="pull-right">
                             <button class="btn btn-primary view-message-dairy" patient-id="{{$patient->id}}"> 
@@ -190,7 +190,7 @@ option.separator {
                      @endphp
 
                      @foreach(Helper::serviceBasedOnPracticeType() as $service)
-                     <div class="col-md-6 service_{{$service->id}} custom-border">
+                     <div class="col-md-6  col-xs-12 col-sm-6 service_{{$service->id}} custom-border">
                             
                         @include('partials.ajax.service')
                     </div>
