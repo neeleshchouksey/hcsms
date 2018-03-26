@@ -983,9 +983,10 @@ class Helpers
                             $q4->where('name',$smsTypesName);
                           });
                         });
-                        $q2->whereHas('timeData',function($q3) use($time){
-                          $q3->where('abbr',$time);
-                        });
+                        // $q2->whereHas('timeData',function($q3) use($time){
+                        //   $q3->where('abbr',$time);
+                        // });
+                        $q2->where('appt_time',$time);
                   },'appointments.apptReminders'=>function($q3) use($dayvalue){
                           $q3->where('status',1);
                           $q3->whereHas('smsTypeData',function($q4) use($dayvalue){
