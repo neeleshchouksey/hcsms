@@ -214,6 +214,7 @@ option.separator {
                             Received
                         </span>
                         <div class="clearfix"></div>
+                        <div class="table-responsive">
                         <table id="message_log_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -232,6 +233,7 @@ option.separator {
                             </tbody>
                             
                         </table>
+                        </div>
                     </div>
                    
                 </div>
