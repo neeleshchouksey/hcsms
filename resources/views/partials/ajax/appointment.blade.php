@@ -16,12 +16,15 @@
             <label class="col-xs-4">Time</label>
             <div class="col-xs-8">
                 
-                <select id="appt_time" class="form-control" name="appt_time">
+               <!--  <select id="appt_time" class="form-control" name="appt_time">
                     <option value="">Selected Time</option>
                     @foreach($times as $time)
                         <option value="{{$time->id}}">{{$time->abbr}}</option>
                     @endforeach
-                </select>
+                </select> -->
+
+                <input type="text" id="end_date" class="form-control" name="appt_time" value="">
+                  
             </div>
         </div>
         <div class="form-group">
@@ -123,7 +126,7 @@
             @endphp
             <tr>
                 <td width="12%">{{$appointment->appt_date}}</td>
-                <td>{{$appointment->apptTimeData->title}}</td>
+                <td>{{$appointment->appt_time}}</td>
                 <td>{{$appointment->with}}</td>
                 <td>{{$appointment->location}}</td>
                 @foreach($appointment->apptReminders as $serviceReminders)

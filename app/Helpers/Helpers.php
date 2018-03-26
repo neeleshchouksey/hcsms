@@ -112,7 +112,7 @@ class Helpers
 
             $message = str_replace('@DATE', $patientService->appt_date, $message);
 
-            $message = str_replace('@TIME', $patientService->timeData->title, $message);
+            $message = str_replace('@TIME', date('H:i A',strtotime($patientService->appt_time)), $message);
 
             $message = str_replace('@WITH', $patientService->with, $message);
 
@@ -940,9 +940,13 @@ class Helpers
         * @var        <type>
         */
         $reminderDate = \Carbon\Carbon::now()->addDay($dayvalue)->timezone($timezone)->format('d/m/Y');
+        $currentTime=\Carbon\Carbon::now()->timezone($timezone)->format('G');
 
         if($dayvalue==0){
-        $time  = \Carbon\Carbon::parse($time)->addHours(2)->timezone($timezone)->format('H:i');
+            if($currentTime<10)
+                $time  = \Carbon\Carbon::parse($time)->addHours(1)->timezone($timezone)->format('H:i');
+            else
+                $time  = \Carbon\Carbon::parse($time)->addHours(2)->timezone($timezone)->format('H:i');
         }
 
         /**
@@ -963,9 +967,10 @@ class Helpers
                             $q4->where('name',$smsTypesName);
                           });
                         });
-                        $q->whereHas('timeData',function($q3) use($time){
-                          $q3->where('abbr',$time);
-                        });
+                        // $q->whereHas('timeData',function($q3) use($time){
+                        //   $q3->where('abbr',$time);
+                        // });
+                        $q->where('appt_time',$time);
                       }
                     )
                   ->with(['appointments'=>function($q2) use($reminderDate,$dayvalue,$time){

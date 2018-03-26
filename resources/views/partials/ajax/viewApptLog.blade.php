@@ -54,7 +54,7 @@
 
 	<td>{{$reminderDate}}</td>
 	
-	<td>{{$patientAppointment->timeData->title}}</td>
+	<td>{{date('H:i A',strtotime($patientAppointment->appt_time))}}</td>
 	
 	<td>{{$reminder->smsTypeData->label}}</td>
 

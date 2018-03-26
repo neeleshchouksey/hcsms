@@ -643,10 +643,14 @@ function manageService(service,patient){
         $('#manageServiceModal .modal-body').html(data);
         $('#manageServiceModal').modal('show');
         $('#start_date').datepicker({format: 'dd/mm/yyyy'});
+       
         $("#start_date").datepicker("setDate", new Date());
         $('#appointment_log_table').DataTable();
         $('.appt-toggle').bootstrapToggle();   
-        //$('#appt_time').datepicker({format: 'hh:ii'});
+         $('#end_date').datetimepicker({format: 'HH:mm',disabledTimeIntervals: [
+      [moment().hour(0).minutes(0), moment().hour(8).minutes(0)],
+      [moment().hour(22).minutes(59), moment().hour(24).minutes(0)]
+   ]});
     
     });
 }
@@ -706,6 +710,10 @@ $(document).on('click','.editAppointment',function(e){
           $('#appointment').replaceWith(data);
           $('#start_date').datepicker({format: 'dd/mm/yyyy'});
           $('#manageServiceModal').animate({ scrollTop: 0 }, 'slow');
+          $('#end_date').datetimepicker({format: 'HH:mm',disabledTimeIntervals: [
+      [moment().hour(0).minutes(0), moment().hour(8).minutes(0)],
+      [moment().hour(22).minutes(59), moment().hour(24).minutes(0)]
+   ]});
         })
         .fail(function (data) {
           

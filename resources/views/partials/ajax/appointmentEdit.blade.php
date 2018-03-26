@@ -20,18 +20,7 @@
             <label class="col-xs-4">Time</label>
             <div class="col-xs-8">
                 
-                <select id="appt_time" class="form-control" name="appt_time">
-                    <option value="">Selected Time</option>
-                    @foreach($times as $time)
-                        @php
-                            $selected   = "";
-                            if($patientAppointment->appt_time==$time->id){
-                                $selected = "selected";
-                            }
-                        @endphp
-                        <option value="{{$time->id}}" {{$selected}}>{{$time->abbr}}</option>
-                    @endforeach
-                </select>
+                <input type="text" id="end_date" class="form-control" name="appt_time" value="{{$patientAppointment->appt_time}}">
             </div>
         </div>
         <div class="form-group">
