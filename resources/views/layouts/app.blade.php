@@ -35,7 +35,15 @@
     <script src="{{asset('js/moment.min.js') }}"></script>
     <script src="{{asset('js/fullcalendar.js') }}"></script>
     
-
+<style type="text/css">
+div.goog-te-gadget {
+    color:#fff;
+    padding-top:12px; 
+    }
+    .skiptranslate div{
+        color: #000;
+        }
+        .skiptranslate span{display: none}</style>
 
 </head>
 <body>
