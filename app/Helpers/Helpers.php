@@ -108,7 +108,7 @@ class Helpers
 
         $message = str_replace('@apptlink', $apptlink, $message);
 
-        if($patientService->timeData):
+        if($patientService->appt_date):
 
             $message = str_replace('@DATE', $patientService->appt_date, $message);
 
