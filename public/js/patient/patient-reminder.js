@@ -1057,7 +1057,9 @@ $(document).on('submit','#sendMessagePatient',function(e){
         patientData).done(function (data) {
           $('.ongoing').removeClass('btn-success');
           $('#sendMessageErrors').empty();
-          
+          $('#message').empty();
+          $('#message').val('');
+          $('#sendSmsMessageModel').modal('hide');
         })
         .fail(function(data) {
           console.log(data.responseJSON.errors);
