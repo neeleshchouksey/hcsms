@@ -25,13 +25,9 @@ class SimpleMessageRequest extends FormRequest
     {
         return [
             //
-            'sendto' => 'required',
+            
             'message' => 'required',
         ];
     }
-    public function messages(){
-        return [
-            'sendto.required' => 'The send to field is required.'
-        ];
-    }
+    
 }

@@ -563,7 +563,7 @@ class Helpers
             }
         endif;
     }
-    public static function  sendSimpleSmsMessage($message,$phonenumber,$patient){
+    public static function  sendSimpleSmsMessage($message,$patient){
         
 
           /**
@@ -646,7 +646,7 @@ class Helpers
                       "source" => "php",
                       "from" => $senderId,
                       "body" => $textMessage,
-                      "to" => $phonenumber,
+                      "to" => $patient->mobile,
                       //"schedule" => 1536874701,
                       "custom_string" => "this is a test"
                   ]

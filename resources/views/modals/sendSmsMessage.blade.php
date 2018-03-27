@@ -14,9 +14,9 @@
                 <form class="form-horizontal" method="post" action="{{url('send-simple-sms')}}" id="sendMessagePatient">
                   <div class="form-group">
                     <label class="control-label col-sm-2" for="sendto">Send TO:</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="sendto" name="sendto"placeholder="Enter Phone number" value="{{$patient->mobile}}">
-                    </div>
+                    <p class=" col-sm-10" style="margin-top:1%;">
+                      {{$patient->name}} ({{$patient->mobile}})
+                    </p>
                   </div>
                   <div class="form-group">
                     <label class="control-label col-sm-2" for="message">Message:</label>
@@ -26,7 +26,8 @@
                   </div>
                  <input type="hidden" name="patient_id" value="{{$patient->id}}">
                   <div class="form-group"> 
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <label class="control-label col-sm-10" style="font-size:13px;">The message you type here will not be translated into the patient language.</label>
+                    <div class=" col-sm-2">
                       <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                   </div>

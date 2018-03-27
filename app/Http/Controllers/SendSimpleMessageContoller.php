@@ -12,7 +12,7 @@ class SendSimpleMessageContoller extends Controller
     public function index(SimpleMessageRequest $request){
 
     	$patient 	=	Patient::find($request->patient_id);
-    	Helper::sendSimpleSmsMessage($request->message,$request->sendto,$patient);
+    	Helper::sendSimpleSmsMessage($request->message,$patient);
 
     }
 }
