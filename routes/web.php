@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('receive-sms/ajax','ReceiveSmsController@ajaxLoad');
 
+    Route::post('send-simple-sms','SendSimpleMessageContoller@index');
+
 });
 Route::group(['middleware' => 'admin.auth'], function() {
 

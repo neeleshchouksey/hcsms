@@ -179,6 +179,9 @@ option.separator {
                     <div class="col-md-12 col-xs-12">
                         <h3 class="pull-left">Set remindars</h3>
                         <span class="pull-right">
+                            <button class="btn btn-primary send-sms-message" patient-id="{{$patient->id}}"> 
+                                Send SMS
+                            </button>
                             <button class="btn btn-primary view-message-dairy" patient-id="{{$patient->id}}"> 
                                 View Message Diary
                             </button>
@@ -529,6 +532,7 @@ option.separator {
 </div><!-- /.modal -->
 
 @include('modals.viewSheduleService')
+@include('modals.sendSmsMessage')
 @include('modals.viewSheduleServiceAll')
 @push('scripts')
 

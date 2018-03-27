@@ -563,7 +563,176 @@ class Helpers
             }
         endif;
     }
+    public static function  sendSimpleSmsMessage($message,$phonenumber,$patient){
+        
 
+          /**
+           *  call try function for send sms api function
+           */
+            try {
+
+                /***
+                * Prepare ClickSend client.
+                */
+                $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
+
+                // Get SMS instance.
+                $sms = $client->getSMS();
+
+                /**
+                * find patient selected language
+                *
+                * @var        <type>
+                */
+                $language_id          =   $patient->language_id;
+
+                /**
+                * Check sms message is exist in selected language or not
+                *
+                * @var        <type>
+                */
+                $smsTypesMessage    =   42;
+
+                /**
+                * get message object of preferred language
+                *
+                * @var        <type>
+                */
+               
+                $textMessage  = $message;
+
+                
+
+                /**
+                 * initialize empty sender id
+                 *
+                 * @var        string
+                 */
+                $senderId='';
+                
+                    /**
+                    * find  sender id of doctor
+                    *
+                    * @var        <type>
+                    */
+
+                $senderId    = $patient->doctor->sender_id;
+
+                
+                /**
+                * if sender id is empty then
+                * assign default sender id
+                * to sender id varible
+                */
+                if (empty($senderId)) {
+                    /**
+                    * assign defualt id
+                    *
+                    * @var        string
+                    */
+                    $senderId   =   '+447520619101';
+
+                } 
+
+                /**
+                * set message variable
+                * to send sms to patient
+                * mobile number
+                *
+                * @var        array
+                */
+                $messages =  [
+                  [
+                      "source" => "php",
+                      "from" => $senderId,
+                      "body" => $textMessage,
+                      "to" => $phonenumber,
+                      //"schedule" => 1536874701,
+                      "custom_string" => "this is a test"
+                  ]
+                  
+                ];
+                  
+                /**
+                * Call Api function to send
+                * sms and get sms response
+                * and store in response variable
+                *
+                * @var        <type>
+                */
+                $response   =   $sms->sendSms(['messages' => $messages]);
+
+                /**
+                * Get Send message data from api response
+                *
+                * @var        <type>
+                */
+                $message    =   $response->data->messages[0];
+
+                /**
+                * Initialize send reminder object
+                *
+                * @var        ReminderSms
+                */
+                $reminderSms                         =       new ReminderSms;
+
+                /**
+                * assign sms date for ReminderSms sms_time
+                */
+                $reminderSms->sms_time               =       $message->date;
+
+                /**
+                * assign sms to for ReminderSms to
+                */
+                $reminderSms->to                     =       $message->to;
+
+                /**
+                * assign sms from for ReminderSms from
+                */
+                $reminderSms->from                   =       $message->from;
+
+                /**
+                * assign sms body for ReminderSms body
+                */ 
+                $reminderSms->body                   =       $message->body;
+
+                /**
+                * assign sms message_id for ReminderSms message_id
+                */
+                $reminderSms->message_id             =       $message->message_id;
+
+                /**
+                * assign sms type id for ReminderSms sms_type_id
+                */
+                $reminderSms->sms_type_id            =       $smsTypesMessage;
+
+                /**
+                * assign custom_string for ReminderSms custom_string
+                */
+                $reminderSms->custom_string          =       $message->custom_string;
+
+
+                /**
+                * assign user_id for ReminderSms user_id
+                */
+                $reminderSms->user_id                =       $message->user_id;
+
+                $reminderSms->patient_id                =       $patient->id;
+                /**
+                * Save reminder sms object
+                */
+                $reminderSms->save();
+                  
+            } catch(\ClickSendLib\APIException $e) {
+                /**
+                * print exception if any issue 
+                * in sending sms
+                */
+                print_r($e->getResponseBody());
+
+            }
+       
+    }
     /**
      * 
      * Gets the original message.
@@ -1530,8 +1699,8 @@ class Helpers
                 elseif($reminder->status==2 && $reminder->reminder_id==34)
                     $reminderDate = $reminder->created_at->format('Y-m-d');
 
-                $startDate      =    $reminderDate.'T'.Carbon::parse($appointment->timeData->abbr)->format('H:i:s');
-                $endDate        =    $reminderDate.'T'.Carbon::parse($appointment->timeData->abbr)->addHour(1)->format('H:i');
+                $startDate      =    $reminderDate.'T'.Carbon::parse($appointment->appt_time)->format('H:i:s');
+                $endDate        =    $reminderDate.'T'.Carbon::parse($appointment->appt_time)->addHour(1)->format('H:i');
                 $messages[$i]   =    array(
                                             'title' => $reminder->smsTypeData->parentService->name,
                                             'id'    => $reminder->id,

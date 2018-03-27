@@ -127,6 +127,14 @@ class ReminderSmsController extends Controller
 
                                             }
                                         )
+                                        ->orWhereHas('patient',
+                                            function($q1) use($id){
+                                              
+                                                        $q1->where('id',$id);
+                                                    
+
+                                            }
+                                        )
                                         ->union($ReceiveSms)
                                         ->orderBy('created_at', 'DESC')->get();
         elseif(request()->query('received')!=null):
@@ -189,7 +197,9 @@ class ReminderSmsController extends Controller
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
-            if($message->parentService)
+            if($message->patient_id && $message->patient!=null)
+                $records[$i]['service']     =      $smsLabel;
+            elseif($message->parentService)
                 $records[$i]['service']     =       $message->parentService->serviceData->data.' '.$smsLabel;
             else
                 $records[$i]['service']     =       $message->parentAppt->serviceData->data.' '.$smsLabel;

@@ -25,4 +25,7 @@ class ReminderSms extends Model
     public function parentTime() {
         return $this->belongsTo('App\RemiderTime','time_id');
     }
+    public function patient() {
+        return $this->belongsTo('App\Patient','patient_id');
+    }
 }
