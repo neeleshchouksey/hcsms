@@ -58,7 +58,9 @@ class LoginController extends Controller
         if ($user && $user->status!=1) {
             $errorMessage = 'Your profile is susbended , Please contact admin.'; 
         }
-       
+        else {
+            $errorMessage = trans('auth.failed');
+        }
 
         $errors = ['email' => $errorMessage];
 
