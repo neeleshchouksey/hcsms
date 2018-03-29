@@ -80,7 +80,7 @@ class UsersController extends Controller
 
             $adminPages->save();
         }
-        return redirect()->back();
+        return redirect('admin/users');
     }
 
     /**
@@ -161,8 +161,10 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
+
         $user->userPages()->delete();
         $user->delete();
+       return redirect('admin/users');
     }
     public function ajaxLoad(){
 
@@ -180,7 +182,7 @@ class UsersController extends Controller
             // Edit action button
             $action     .=  "<a href='".url("admin/users/$admin->id/edit")."' class='btn btn-info'><i class='fa fa-eye'></i></a> ";
 
-             $action     .=  " <a href='".route("users.destroy",['id'=>$admin->id])."' data-method='delete' class='btn btn-danger delete_user' value='".$admin->id."'><i class='fa  fa-times'></i></a>";
+            // $action     .=  '  <input type="checkbox" class="user-toggle pull-right" user_id="'.$admin->id.'" {{$checked}} data-toggle="toggle">';
             
             $records[$i]['first_name']      =       $admin->first_name;
 

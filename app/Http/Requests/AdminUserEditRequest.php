@@ -29,7 +29,7 @@ class AdminUserEditRequest extends FormRequest
             'last_name'         => 'required',
             'mobile'            => 'required',
             'job_title'         => 'required',
-            'notes'             => 'required',
+            
             'password'          => 'nullable|string|min:6|confirmed',
             'status'            => 'required',
             'email'             => 'required|unique:admins,email,'.$this->user->id,

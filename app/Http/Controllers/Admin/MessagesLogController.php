@@ -24,7 +24,7 @@ class MessagesLogController extends Controller
          if(\Auth::guard('admin')->user()->role==2 && !\Auth::guard('admin')->user()->checkPer($this->slug)){
             //die;
           return redirect()->to('admin/dashboard');
-        }public 
+        } 
          return view('admin.messages.index');
     }
 

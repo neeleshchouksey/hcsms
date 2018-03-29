@@ -170,10 +170,16 @@
 
                                   </tbody>
                                 </table>
-                                <input type="submit" id="submit-all" class="btn btn-info pull-right m_t10" name="submit" value="Submit">
+
+                                <input type="button" id="delete-user" class="btn btn-default pull-right m_t10" style="margin-left:2%" name="submit" value="Delete">
+                                <input type="submit" id="submit-all" class="btn btn-info pull-right m_t10" name="submit" value="Update">&nbsp;&nbsp;&nbsp;&nbsp;
+
                               </div>
                             </form>
-                           
+                           <form action="{{route('users.destroy',$user->id)}}" id="deleteUser" method="post">  
+                              <input type="hidden" name="_method" value="delete">
+                                {{ csrf_field() }}
+                              </form>
                            
                         </div>
                     </div>
@@ -182,5 +188,16 @@
         </div>
     </div>
 </div>
+@push('scripts')
+
+  <script type="text/javascript">
+    
+    var url         =    "{{url('admin/user/ajax/load')}}";
+    
+  </script>
+   
+
+    <script src="{{ asset('js/admin/users/users.js') }}"></script>
+@endpush
 
 @endsection

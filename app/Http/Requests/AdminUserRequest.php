@@ -30,7 +30,7 @@ class AdminUserRequest extends FormRequest
             'last_name'         => 'required',
             'mobile'            => 'required',
             'job_title'         => 'required',
-            'notes'             => 'required',
+            
             'password'          => 'required|string|min:6|confirmed',
             'status'            => 'required',
             'email'             => 'required|unique:admins,email',

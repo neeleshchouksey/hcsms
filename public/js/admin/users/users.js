@@ -6,6 +6,7 @@ showUsers();
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
 });
+
 $(document).on('click', 'a.delete_user', function(e) {
     e.preventDefault(); // does not go through with the link.
 
@@ -38,7 +39,15 @@ function showUsers() {
                 data: d.records,
                 columns: d.columns
             });
+            $('.user-toggle').bootstrapToggle();
         }
     });
 
 }
+$(document).on('click','#delete-user',function(e){
+  e.preventDefault();
+  //alert('test');
+   if(confirm('Are you sure want to delete this user ??')){
+      $('#deleteUser').submit();
+   }
+})
