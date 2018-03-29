@@ -116,7 +116,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('logout', 'Auth\LoginController@logout')->name('admin.logout');
 
     Route::group(['middleware' => 'admin.auth'], function() {
-
+        
         Route::resource('dashboard', 'DashboardController');
 
         Route::resource('profile','ProfileController',['names'=>'admin.profile']);
@@ -126,6 +126,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('language/ajax/load','LanguageController@ajaxLoad');
 
         Route::put('language/show-on-top/{language}','LanguageController@showOnTop');
+
+        Route::resource('users','UsersController');
+
+        Route::get('user/ajax/load','UsersController@ajaxLoad');
 
         Route::resource('sms-message-types','ServiceSmsTypesController');
 

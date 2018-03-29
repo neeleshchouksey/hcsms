@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-use App\Admin;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminProfile;
-use Auth;
+namespace App\Http\Controllers;
 
-class ProfileController extends Controller
+use App\AdminPermissions;
+use Illuminate\Http\Request;
+
+class AdminPermissionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +15,6 @@ class ProfileController extends Controller
     public function index()
     {
         //
-         return view('admin.profile.index');
     }
 
     /**
@@ -36,30 +33,18 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminProfile $request)
+    public function store(Request $request)
     {
         //
-        $user               =   Auth::guard('admin')->user();
-        $user->email        =   $request->email;
-        $user->first_name   =   $request->first_name;
-        $user->last_name    =   $request->last_name;
-        $user->job_title    =   $request->job_title;
-        $user->mobile       =   $request->mobile;
-        $user->notes        =   $request->notes;
-        if($request->newpassword!=''){
-            $user->password     = bcrypt($request->newpassword);   
-        }
-        $user->save();
-        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\AdminPermissions  $adminPermissions
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(AdminPermissions $adminPermissions)
     {
         //
     }
@@ -67,10 +52,10 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\AdminPermissions  $adminPermissions
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(AdminPermissions $adminPermissions)
     {
         //
     }
@@ -79,22 +64,21 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\AdminPermissions  $adminPermissions
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminProfile $request, $id)
+    public function update(Request $request, AdminPermissions $adminPermissions)
     {
         //
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\AdminPermissions  $adminPermissions
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AdminPermissions $adminPermissions)
     {
         //
     }

@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-use Auth;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminProfile extends FormRequest
+class AdminUserEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AdminProfile extends FormRequest
      */
     public function authorize()
     {
-           return true;
+        return true;
     }
 
     /**
@@ -30,16 +30,11 @@ class AdminProfile extends FormRequest
             'mobile'            => 'required',
             'job_title'         => 'required',
             'notes'             => 'required',
-            'email'             => 'required|unique:admins,email,'.Auth::guard('admin')->user()->id,
-            'confirmpassword'   => 'required_with:newpassword|same:newpassword',
-            
-
-           
-        ];
-    }
-    public function messages(){
-        return [
-         'oldpassword.old_password' => 'Old Password Not Matched!'
+            'password'          => 'nullable|string|min:6|confirmed',
+            'status'            => 'required',
+            'email'             => 'required|unique:admins,email,'.$this->user->id,
+            'permissions'       =>  'required',
+            'password_confirmation'   => 'required_with:password|same:password',
         ];
     }
 }

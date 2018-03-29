@@ -93,7 +93,28 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    @if(Auth::guard('admin')->user()->role==1)
+                        @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    @else
+
+                        <li class="header">MAIN NAVIGATION</li>
+                        @foreach(Auth::guard('admin')->user()->userPages as $pages)
+                            <li class="">
+                                <a href="{{url('admin/'.$pages->permissions->slug)}}">
+                                    <i class="fa fa-fw fa-{{$pages->permissions->icon}} "></i>
+                                    <span>{{$pages->permissions->label}}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                        <li class="header">ACCOUNT SETTINGS</li>
+                        <li class="">
+                            <a href="{{url('admin/profile')}}">
+                                <i class="fa fa-fw fa-user "></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                                    
+                    @endif
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'staff.guest' => StaffRedirectIfAuthenticated::class,
         'admin.auth' => AdminRedirectIfNotAuthenticated::class,
         'admin.guest' => AdminRedirectIfAuthenticated::class,
+        'subadmin'=> \App\Http\Middleware\Subadmin::class,
     ];
 }

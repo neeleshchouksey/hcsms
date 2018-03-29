@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
+    public $slug = 'customers';
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +20,11 @@ class CustomerController extends Controller
     public function index()
     {
         //
+                
+         if(\Auth::guard('admin')->user()->role==2 && !\Auth::guard('admin')->user()->checkPer($this->slug)){
+            //die;
+          return redirect()->to('admin/dashboard');
+        }
         return view('admin.customers.index');
     }
 

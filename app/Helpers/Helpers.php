@@ -18,7 +18,8 @@ use App\User;
 use App\Patient;
 use App\PatientService;
 use App\PatientAppointment;
-
+use App\AdminStatus;
+use App\AdminPermissions;
 
 class Helpers
 {
@@ -49,6 +50,21 @@ class Helpers
          */
         return StaffStatus::all();
 
+    }
+    public  function isAuthorized($slug){
+       
+    }
+    /**
+     * Return admin status records
+     */
+    public static function adminStatus(){
+        return AdminStatus::all();
+    }
+    /**
+     * Return admin status records
+     */
+    public static function adminPermissions(){
+        return AdminPermissions::all();
     }
     public static function Permission(){
         return Permission::where('is_parent',0)->get();

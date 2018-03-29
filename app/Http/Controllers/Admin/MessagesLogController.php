@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class MessagesLogController extends Controller
 {
+    public $slug   =   'messages-log';
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +19,12 @@ class MessagesLogController extends Controller
     public function index()
     {
         //
+
+        
+         if(\Auth::guard('admin')->user()->role==2 && !\Auth::guard('admin')->user()->checkPer($this->slug)){
+            //die;
+          return redirect()->to('admin/dashboard');
+        }public 
          return view('admin.messages.index');
     }
 

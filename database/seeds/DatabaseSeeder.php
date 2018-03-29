@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(RemindarDaysTableSeeder::class);
         // $this->call('CountriesSeeder');
         // $this->command->info('Seeded the countries!'); 
-        $this->call(AppointmentReminderTableSeeder::class);
+       // $this->call(AppointmentReminderTableSeeder::class);
+        //$this->call(AdminPermissionSeeder::class);
+       $this->call(AdminStatusSeeder::class);
         	
     }
 }

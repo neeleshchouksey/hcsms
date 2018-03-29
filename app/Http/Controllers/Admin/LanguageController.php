@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 class LanguageController extends Controller
 {
+    public $slug   =   'languages';
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +17,11 @@ class LanguageController extends Controller
     public function index()
     {
         //
+
+         if(\Auth::guard('admin')->user()->role==2 && !\Auth::guard('admin')->user()->checkPer($this->slug)){
+            //die;
+          return redirect()->to('admin/dashboard');
+        }
         return view('admin.languages.index');
     }
 

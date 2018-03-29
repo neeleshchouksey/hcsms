@@ -137,6 +137,13 @@ return [
             // 'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'Admin Users',
+            'url'         => 'admin/users',
+            'icon'        => 'user',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
          [
             'text'        => 'Messages Log',
             'url'         => 'admin/messages-log',

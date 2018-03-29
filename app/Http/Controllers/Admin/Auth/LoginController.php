@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Admin;
 
 class LoginController extends Controller
 {
@@ -38,7 +39,37 @@ class LoginController extends Controller
     {
         $this->middleware('admin.guest')->except('logout');
     }
+     protected function credentials(Request $request)
+    {
+        
 
+        return [
+            'email' => $request->email,
+            'password' => $request->password, 
+            'status' => 1,
+            
+        ];
+    }
+        // Function to get response of verified user message
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $user = Admin::where('email', $request->input('email'))->first();
+
+        if ($user && $user->status!=1) {
+            $errorMessage = 'Your profile is susbended , Please contact admin.'; 
+        }
+       
+
+        $errors = ['email' => $errorMessage];
+
+        if ($request->expectsJson()) {
+            return response()->json($errors, 422);
+        }
+
+        return redirect()->back()
+            ->withInput($request->only('email', 'remember'))
+            ->withErrors($errors);
+    }   
     public function showLoginForm()
     {
         //die('test');
