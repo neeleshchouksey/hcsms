@@ -30,53 +30,6 @@
                                     </div>
                                 </div>
                                 <ul class="nav navbar-nav" id="nav_filter">
-                                                                           <li><div id="google_translate_element"></div></li>
-                        @auth
-                            <li><a href="{{ route('patient.index') }}">Patients</a></li>
-                            <li><a href="{{ route('staff.index') }}">Staff</a></li>
-                            <li><a href="{{ url('profile') }}">Profile</a></li>
-                            <!--   <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a> -->
-
-                                <!-- <ul class="dropdown-menu"> -->
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                <!-- </ul> -->
-                            <!-- </li> -->
-                        @else 
-                        @auth('staff')
-                            <li><a href="{{ route('profile.index') }}">Profile</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::guard('staff')->user()->title }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('staffs.logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('staffs.logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @else
                                     <li><a href="{{url('/')}}">index</a></li>
                                     <li><a href="{{url('/about-us')}}">about us</a></li>
                                    <li class="dropdown">
@@ -116,10 +69,61 @@
                                         <li><a href="{{url('/appointment')}}">appointment </a></li>
                                       </ul>
                                     </li>
-                                   
-                                    @endauth
+                                    <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users</a>
+                                      <ul class="dropdown-menu hovr_nav_tab">
+                                         <li><div id="google_translate_element"></div></li>
+                        @auth
+                            <li><a href="{{ route('patient.index') }}">Patients</a></li>
+                            <li><a href="{{ route('staff.index') }}">Staff</a></li>
+                            <li><a href="{{ url('profile') }}">Profile</a></li>
+                            <!--   <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a> -->
+
+                                <!-- <ul class="dropdown-menu"> -->
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                <!-- </ul> -->
+                            <!-- </li> -->
+                        @else @auth('staff')
+                            <li><a href="{{ route('profile.index') }}">Profile</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    {{ Auth::guard('staff')->user()->title }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('staffs.logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('staffs.logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
                         @endauth
-                        
+                        @endauth
+                                      </ul>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- /.navbar-collapse -->
@@ -161,8 +165,48 @@
                             <div id="toggle_close">&times;</div>
                             <div id='cssmenu' class="wd_single_index_menu">
                                 <ul>
-                                    
-                                                                              <li><div id="google_translate_element"></div></li>
+                                    <li class='has-sub'><a href='#'>index</a>
+                                       <ul>
+                                           <li><a href="{{url('/')}}">index 1</a></li>
+                                           <li><a href="{{url('/')}}">index 2</a></li>
+                                        </ul>
+                                     </li>
+                                     <li><a href="{{url('/about')}}">about us</a></li>
+                                     <li class='has-sub'><a href='#'>services</a>
+                                       <ul>
+                                           <li><a href="{{url('/service')}}">services</a></li>
+                                           <li><a href="{{url('/event')}}">events</a></li>
+                                           <li><a href="{{url('/pricing')}}">pricing</a></li>
+                                        </ul>
+                                     </li>
+                                      <li class='has-sub'><a href='#'>doctors</a>
+                                       <ul>
+                                           <li><a href="{{url('/doctor')}}">doctor single</a></li>
+                                           <li><a href="{{url('/our-doctor')}}">our doctors</a></li>
+                                        </ul>
+                                     </li>
+                                     <li class='has-sub'><a href='#'>gallery</a>
+                                       <ul>
+                                           <li><a href="{{url('/gallery')}}">gallery 2</a></li>
+                                           <li><a href="{{url('/gallery-2')}}">gallery 3</a></li>
+                                           <li><a href="{{url('/gallery-3')}}">gallery 4</a></li>
+                                        </ul>
+                                     </li>
+                                    <li class='has-sub'><a href='#'>blog</a>
+                                       <ul>
+                                           <li><a href="{{url('/blog')}}">blog category</a></li>
+                                           <li><a href="{{url('/blog-single')}}">blog single</a></li>
+                                        </ul>
+                                     </li>
+                                    <li class='has-sub'><a href='#'>contact</a>
+                                       <ul>
+                                           <li><a href="{{url('/contact-us')}}">contact us</a></li>
+                                           <li><a href="{{url('/appointment')}}">appointment </a></li>
+                                        </ul>
+                                     </li>
+                                     <li class='has-sub'><a href='#'>Users</a>
+                                       <ul>
+                                                               <li><div id="google_translate_element"></div></li>
                         @auth
                             <li><a href="{{ route('patient.index') }}">Patients</a></li>
                             <li><a href="{{ route('staff.index') }}">Staff</a></li>
@@ -208,49 +252,12 @@
                                 </ul>
                             </li>
                         @else
-                        <li class='has-sub'><a href='#'>index</a>
-                                       <ul>
-                                           <li><a href="{{url('/')}}">index 1</a></li>
-                                           <li><a href="{{url('/')}}">index 2</a></li>
-                                        </ul>
-                                     </li>
-                                     <li><a href="{{url('/about')}}">about us</a></li>
-                                     <li class='has-sub'><a href='#'>services</a>
-                                       <ul>
-                                           <li><a href="{{url('/service')}}">services</a></li>
-                                           <li><a href="{{url('/event')}}">events</a></li>
-                                           <li><a href="{{url('/pricing')}}">pricing</a></li>
-                                        </ul>
-                                     </li>
-                                      <li class='has-sub'><a href='#'>doctors</a>
-                                       <ul>
-                                           <li><a href="{{url('/doctor')}}">doctor single</a></li>
-                                           <li><a href="{{url('/our-doctor')}}">our doctors</a></li>
-                                        </ul>
-                                     </li>
-                                     <li class='has-sub'><a href='#'>gallery</a>
-                                       <ul>
-                                           <li><a href="{{url('/gallery')}}">gallery 2</a></li>
-                                           <li><a href="{{url('/gallery-2')}}">gallery 3</a></li>
-                                           <li><a href="{{url('/gallery-3')}}">gallery 4</a></li>
-                                        </ul>
-                                     </li>
-                                    <li class='has-sub'><a href='#'>blog</a>
-                                       <ul>
-                                           <li><a href="{{url('/blog')}}">blog category</a></li>
-                                           <li><a href="{{url('/blog-single')}}">blog single</a></li>
-                                        </ul>
-                                     </li>
-                                    <li class='has-sub'><a href='#'>contact</a>
-                                       <ul>
-                                           <li><a href="{{url('/contact-us')}}">contact us</a></li>
-                                           <li><a href="{{url('/appointment')}}">appointment </a></li>
-                                        </ul>
-                                     </li>
-                                    
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
                         @endauth
                         @endauth
-                                       
+                                        </ul>
+                                     </li>
                                     <!-- <li><a href="#">Log In / Sign Up</a></li> -->
                                 </ul>
                             </div>

@@ -85,7 +85,7 @@
 
                         <div class="cat_txt cont_cat_txt">
                             <h1>22, margatnet. 2212</h1>
-                            <p>Marylebone,London</p>
+                            <p>ISLINGTON, London</p>
 
                         </div>
                     </div>
@@ -98,7 +98,7 @@
 
 
                         <div class="cat_txt cont_cat_txt">
-                            <h1>+1800 1256-12365</h1>
+                            <h1>+44 7929 000 321</h1>
                             <p>Mon-Fri 8:30am - 9:30pm</p>
 
                         </div>
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="cat_txt cont_cat_txt cont_last_child">
-                            <a href="#"><h1>dummy@exmaple.com</h1></a>
+                            <a href="#"><h1>help@healthchecksms.com,/h1></a>
                             <p>24 / 7online help support</p>
 
                         </div>

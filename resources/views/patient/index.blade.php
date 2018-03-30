@@ -18,6 +18,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+              <div class="table-responsive">
               <table id="patient_list_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -36,6 +37,7 @@
                 </tbody>
                 
               </table>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>

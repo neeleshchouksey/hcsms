@@ -86,8 +86,8 @@ div.goog-te-gadget {
     <script>
         function initMap() {
             var uluru = {
-                lat: -36.742775,
-                lng: 174.731559
+                lat: 51.504564,
+                lng: -0.101889
             };
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
