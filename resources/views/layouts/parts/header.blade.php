@@ -30,8 +30,9 @@
                                     </div>
                                 </div>
                                 <ul class="nav navbar-nav" id="nav_filter">
-                                                                           <li><div id="google_translate_element"></div></li>
+                                                                           
                         @auth
+                        <li><div id="google_translate_element"></div></li>
                             <li><a href="{{ route('patient.index') }}">Patients</a></li>
                             <li><a href="{{ route('staff.index') }}">Staff</a></li>
                             <li><a href="{{ url('profile') }}">Profile</a></li>
