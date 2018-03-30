@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
@@ -35,7 +33,37 @@ Route::get('/appointment-reminders', 'CronJobController@sendAppointmentReminders
 
 Route::get('history/{id}','PatientServiceController@getPatientHistory');
 
+Route::group(['namespace' => 'Sites'], function () {
 
+    Route::get('/','HomeController@index')->name('site-home');
+
+    Route::get('/about-us','AboutUsController@index')->name('site-about');
+
+    Route::get('/service','ServiceController@index')->name('site-service');
+
+    Route::get('/event','ServiceController@event')->name('site-event');
+
+    Route::get('/pricing','ServiceController@pricing')->name('site-pricing');
+
+    Route::get('/doctor','DoctorController@index')->name('site-doctor');
+
+    Route::get('/our-doctor','DoctorController@ourDoctor')->name('site-our-doctor');
+
+    Route::get('/gallery','GalleryController@index')->name('site-gallery');
+
+    Route::get('/gallery-2','GalleryController@gallery2')->name('site-gallery-2');
+
+    Route::get('/gallery-3','GalleryController@gallery3')->name('site-gallery-3');
+
+    Route::get('/blog','BlogController@index')->name('site-blog');
+
+    Route::get('/blog-single','BlogController@single')->name('site-blog-single');
+
+    Route::get('/contact-us','ContactController@index')->name('site-contact');
+
+    Route::get('/appointment','ContactController@appointment')->name('site-appointment');
+
+});
 
 Route::group(['middleware' => 'auth'], function() {
 
@@ -110,6 +138,8 @@ Route::group(['prefix' => 'staffs', 'namespace' => 'Staff'], function () {
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     Route::get('/', 'Auth\LoginController@showLoginForm');
+
+    Route::get('/login', 'Auth\LoginController@showLoginForm');
 
     Route::post('login', 'Auth\LoginController@login')->name('admin.login');
 
