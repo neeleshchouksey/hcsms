@@ -14,7 +14,7 @@
                                     <div class="cc_slider_cont1">
                                         <div class="medi">
                                             <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>COMMUNICATIONS</span></h1></div>
-                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">Helping Patients Monitor Their Health/h2>
+                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">Helping Patients Monitor Their Health</h2>
                                         <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Automated messages and easy to read data helps patients understand more about their own health.</p>
                                         <ul>
                                             <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">READ MORE</a></li>
