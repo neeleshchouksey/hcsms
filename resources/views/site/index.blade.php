@@ -14,11 +14,11 @@
                                     <div class="cc_slider_cont1">
                                         <div class="medi">
                                             <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>COMMUNICATIONS</span></h1></div>
-                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">total health care solution</h2>
-                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibdum auctor, nisi elit consequat ipsum, nec sagittis sem.</p>
+                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">Helping Patients Monitor Their Health/h2>
+                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Automated messages and easy to read data helps patients understand more about their own health.</p>
                                         <ul>
                                             <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">READ MORE</a></li>
-                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">PURCHASE</a></li>
+                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="{{url('contact-us')}}">Contact Us</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -33,12 +33,12 @@
                                 <div class="cc_slider_cont1_wrapper">
                                     <div class="cc_slider_cont1">
                                         <div class="medi">
-                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>services</span></h1></div>
-                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">total health care solution</h2>
-                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibdum auctor, nisi elit consequat ipsum, nec sagittis sem.</p>
+                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>COMMUNICATIONS</span></h1></div>
+                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">Automated Appointment Reminders</h2>
+                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Improve appointment attendance with friendly reminders, sent in your patients preferred language.</p>
                                         <ul>
                                             <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">READ MORE</a></li>
-                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">PURCHASE</a></li>
+                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="{{url('contact-us')}}">Contact Us</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -53,12 +53,12 @@
                                 <div class="cc_slider_cont1_wrapper">
                                     <div class="cc_slider_cont1">
                                         <div class="medi">
-                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>services</span></h1></div>
-                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">total health care solution</h2>
-                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibdum auctor, nisi elit consequat ipsum, nec sagittis sem.</p>
+                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>COMMUNICATIONS</span></h1></div>
+                                        <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">Aligner Reminders Made Easy</h2>
+                                        <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Help your patients to have the perfect smile with automatic reminders to adjust their aligners.</p>
                                         <ul>
                                             <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">READ MORE</a></li>
-                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="#">PURCHASE</a></li>
+                                            <li data-animation-in="bounceInLeft" data-animation-out="animate-out bounceOutLeft"><a href="{{url('contact-us')}}">Contact Us</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -25,7 +25,7 @@
                             <img src="images/icon_2.png" alt="img" class="img-responsive">
                         </div>
                         <div class="cat_txt">
-                            <h1>APPOINTMENT REMINDERS</h1>
+                            <h1>APPOINTMENT Sms</h1>
                             <p>Our SMS reminders will help to improve your appointment attendance levels.</p>
                             <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
                         </div>
