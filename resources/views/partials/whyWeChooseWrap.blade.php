@@ -13,13 +13,14 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading desktop">
                                         <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftone" aria-expanded="false">- Our service are cost effective</a>
+                                                    <a data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftone" aria-expanded="false">- Our Services Are Cost Effective</a>
                                                 </h4>
                                     </div>
                                     <div id="collapseFifteenLeftone" class="panel-collapse collapse in" aria-expanded="true" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Everything we do is aimed to help you save time and to be mote cost effect.</p>
+                                                <p>Everything we do is aimed to help you communicate well and at a low cost.
+                                                    Our system has helped many medical organisations to reduce costs by upto 80% as we move from post to SMS.</p>
                                             </div>
                                         </div>
                                     </div>

@@ -447,7 +447,7 @@
                     <div class="booking_box_2">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="booking_box_img">
-                                <img src="images/booking_call.png" alt="img" class="img-circle">
+                                <img src="images/MC-logo-WH.png" alt="img" class="img-circle">
                             </div>
                             <div class="booking_chat">
                                 <h1>+44 7929 000 321</h1>

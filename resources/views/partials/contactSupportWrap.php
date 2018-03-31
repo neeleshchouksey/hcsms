@@ -18,11 +18,11 @@
                     <div class="appoint_form">
                         <ul>
                             <li><a href="#">Email : support@mediccomms.com</a></li>
-                            <li> Fax : 1800 1245 1253</li>
+                            <li> Phone : +44 7929 000 321</li>
                         </ul>
                     </div>
                     <h2><i class="flaticon-24-hours-phone-service"></i>
-                                                Systems Running 24/7 +44 7929 000 321</h2>
+                                                Systems Running 24/7 </h2>
                 </div>
             </div>
         </div>

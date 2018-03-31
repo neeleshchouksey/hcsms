@@ -398,7 +398,7 @@ textarea:focus {
 	width:100%;
 	position: absolute;
 	z-index:10;
-	top:-20px;
+	/*top:-20px;*/
 }
 .logo_hidn h1{
 	float:left; width:100%;
@@ -1120,7 +1120,7 @@ color: #777777;
 	font-size:16px;
 	color:#757575;
 	font-family:'Open Sans', sans-serif;
-	text-transform:capitalize;
+	/*text-transform:capitalize;*/
 	line-height:26px;
 }
 .abt_chk{

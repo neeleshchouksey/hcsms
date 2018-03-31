@@ -3,12 +3,12 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="abt_img abt_box">
-                        <img src="images/abt_img.jpg" alt="img">
+                        <img src="images/text reminders.png" alt="img">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 abt_section">
                     <div class="abt_heading_wrapper">
-                        <h1 class="med_bottompadder20">ABOUT MEDIC COMSS</h1>
+                        <h1 class="med_bottompadder20">ABOUT MEDIC COMMS</h1>
                         <img src="images/line.png" alt="title" class="med_bottompadder20">
                     </div>
                     <div class="abt_txt">
