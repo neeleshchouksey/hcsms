@@ -261,6 +261,9 @@
                 loop: true,
                 margin: 10,
 				autoplay:true,
+				slideSpeed: 1000,
+                 paginationSpeed: 5000,
+                 smartSpeed: 1000,
                 responsiveClass: true,
 				navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
                 responsive: {
@@ -285,6 +288,7 @@
 			$(document).ready(function() {
               $('.partner_slider_img .owl-carousel').owlCarousel({
                 loop: true,
+
                 margin: 10,
                                 autoplay:true,
                 responsiveClass: true,
