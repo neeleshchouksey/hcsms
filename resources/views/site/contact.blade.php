@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="cat_txt cont_cat_txt cont_last_child">
-                            <a href="#"><h1>help@healthchecksms.com,/h1></a>
+                            <a href="#"><h1>support@mediccomms.com</h1></a>
                             <p>24 / 7online help support</p>
 
                         </div>

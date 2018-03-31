@@ -5,13 +5,13 @@
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                     <div class="newsletter_text wow fadeOut" data-wow-delay="0.5s">
-                        <h3>Your First Step Towards Oral Health For Life Starts Here :</h3>
+                        <h3>THE FIRST STEP TOWARDS IMPROVING YOUR COMMUNICATIONS, STARTS HERE :</h3>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                     <div class="contect_btn_news">
                         <ul>
-                            <li><a href="#">Enquiry</a></li>
+                            <li><a href="{{url('/contact-us')}}">Enquiry</a></li>
                         </ul>
                     </div>
                 </div>
@@ -26,15 +26,15 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="address_main">
                             <div class="footer_widget_add">
-                                <a href=""><img src="{{asset('images/footer_logo.png')}}" class="img-responsive" alt="footer_logo" /></a>
+                                <a href=""><img src="{{asset('images/Medic-Comms-Logo-in-White.png')}}" class="img-responsive" alt="footer_logo" /></a>
                                 <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                             <div class="footer_box_add">
                                 <ul>
-                                    <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>Address : </span>-512/fonia,canada</li>
-                                    <li><i class="fa fa-phone" aria-hidden="true"></i><span>Call us : </span>+61 5001444-122</li>
-                                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#"><span>Email :</span> dummy@example.com</a></li>
+                                    <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>Address : </span>London UK</li>
+                                    <li><i class="fa fa-phone" aria-hidden="true"></i><span>Call us : </span>+44 7929 000 321</li>
+                                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#"><span>Email :</span> support@mediccomms.com</a></li>
                                 </ul>
                             </div>
                         </div>

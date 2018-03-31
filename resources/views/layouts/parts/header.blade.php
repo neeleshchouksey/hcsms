@@ -3,7 +3,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-2 col-xs-12 wow bounceInDown" data-wow-delay="0.6s">
                     <div class="header_logo">
-                        <a href="{{url('/')}}" class="hidden-xs"><img src="{{asset('images/logo.png')}}" alt="logo" title="logo" class="img-responsive"></a>
+                        <a href="{{url('/')}}" class="hidden-xs"><img src="{{asset('images/MC-logo-WH.png')}}" alt="logo" title="logo" class="img-responsive"></a>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
