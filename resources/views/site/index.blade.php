@@ -13,7 +13,7 @@
                                 <div class="cc_slider_cont1_wrapper">
                                     <div class="cc_slider_cont1">
                                         <div class="medi">
-                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>services</span></h1></div>
+                                            <h1 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">medical<span>COMMUNICATIONS</span></h1></div>
                                         <h2 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutDown">total health care solution</h2>
                                         <p data-animation-in="zoomIn" data-animation-out="animate-out zoomIn">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibdum auctor, nisi elit consequat ipsum, nec sagittis sem.</p>
                                         <ul>
