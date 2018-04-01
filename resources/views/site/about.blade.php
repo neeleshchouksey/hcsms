@@ -213,8 +213,8 @@
                                 <img src="images/icon_11.png" alt="img" class="img-responsive">
                             </div>
                             <div class="cat_txt">
-                                <h1>Heart Surgery</h1>
-                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin at the good health for you.</p>
+                                <h1>HEALTH CHECK SMS</h1>
+                                <p>We help you monitor your patients with our unique SMS service.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
@@ -228,8 +228,8 @@
                                 <img src="images/icon_2.png" alt="img" class="img-responsive">
                             </div>
                             <div class="cat_txt">
-                                <h1>Emergency Care</h1>
-                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin at the good health for you.</p>
+                                <h1>APPOINTMENT Sms</h1>
+                                <p>Our SMS reminders will help to improve your appointment attendance levels.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
@@ -243,8 +243,8 @@
                                 <img src="images/icon_3.png" alt="img" class="img-responsive">
                             </div>
                             <div class="cat_txt">
-                                <h1>Dental Care</h1>
-                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin at the good health for you.</p>
+                                <h1>DENTAL REMINDERS</h1>
+                                <p>Remind patients to adjust braces by SMS automatically and get live feedback.</p>
                                 <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
