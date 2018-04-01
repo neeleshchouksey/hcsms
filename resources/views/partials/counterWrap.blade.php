@@ -26,7 +26,7 @@
                                 <a href=""><img src="images/png/success.png" alt="img" class="img-responsive"></a>
                             </div>
                             <div class="count-description">
-                                <span class="timer">3400</span>
+                                <span class="timer">3924</span>
                                 <h5 class="con2">Appointment Reminders</h5>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 <a href=""><img src="images/png/heart.png" alt="img" class="img-responsive"></a>
                             </div>
                             <div class="count-description">
-                                <span class="timer">1540</span>
+                                <span class="timer">15482</span>
                                 <h5 class="con4">Health Reminders</h5>
                             </div>
                         </div>

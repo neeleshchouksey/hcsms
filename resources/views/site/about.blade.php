@@ -32,23 +32,23 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 med_toppadder70">
                     <div class="abt_heading_wrapper abt_2_heading">
-                        <h1 class="med_bottompadder20">about medical</h1>
+                        <h1 class="med_bottompadder20">ABOUT MEDIC COMMS</h1>
                         <img src="images/line.png" alt="title" class="med_bottompadder20">
                     </div>
                     <div class="abt_txt">
-                        <h3>Specialty Medicine with Compassion and Car Proin gravida nibh vel velit</h3>
-                        <p class="med_toppadder20">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi el ipsum, nec sagittis sem nibh id elit. Dui Duis sed odiit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate..</p>
+                        <h3>We help healthcare companies to improve patient communication.</h3>
+                        <p class="med_toppadder20">We save you time and money by introducing automated messaging and using modern technology effectively.  We work with hospitals, medical centres, private doctors, dentists, opticians, therapists and many other healthcare professionals.</p>
                     </div>
                     <div class="abt_chk med_toppadder30">
                         <div class="content">
                             <ul>
-                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Health Care For All Types</span>
+                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Reduce Communication Costs</span>
                                 </li>
-                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Emergency Services</span>
+                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Improve Effectiveness</span>
                                 </li>
-                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Dental Care Dentist.</span>
+                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Save Time</span>
                                 </li>
-                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>24/7 Services</span>
+                                <li><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Track Messages</span>
                                 </li>
                             </ul>
                         </div>
@@ -58,8 +58,8 @@
                         <img src="images/line.png" alt="title" class="med_bottompadder20">
                     </div>
                     <div class="abt_txt">
-                        <p class="med_toppadder20">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctoruis sed odio sit amet nibh vulputate..</p>
-                        <p class="med_toppadder10">Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum  ipsum, nec sagittis sem nibh id elit. Dui Duis sed odi consequat ipsum, nec sagittis sem nibh id elit. Dui Duis sed odio sit.</p>
+                        <p class="med_toppadder20">We are committed to helping our clients to be more effective and to reduce their communication costs.  </p>
+                        <p class="med_toppadder10">Many healthcare companies still use post for most of their communications, this is expensive, slow, and ineffective.  We designed a better way, we use SMS, SMS Post and only send a letter if the patient does not have a mobile number or does not read the SMS Post. </p>
                     </div>
                 </div>
             </div>
@@ -67,56 +67,7 @@
     </div>
     <!--about us section end-->
     <!-- counter wrapper start-->
-    <div class="counter_section">
-        <div class="counter_overlay">
-            <section class="counter-section section-padding" data-stellar-background-ratio="0.5">
-                <div class="container text-center">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="icon">
-                                <a href=""><img src="images/png/patient.png" alt="img" class="img-responsive">
-                                </a>
-                            </div>
-                            <div class="count-description">
-                                <span class="timer">2340</span>
-                                <h5 class="con1">Satisfied Patients</h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="icon">
-                                <a href=""><img src="images/png/doctor.png" alt="img" class="img-responsive">
-                                </a>
-                            </div>
-                            <div class="count-description">
-                                <span class="timer">335</span>
-                                <h5 class="con2">doctor's team</h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="icon">
-                                <a href=""><img src="images/png/success.png" alt="img" class="img-responsive">
-                                </a>
-                            </div>
-                            <div class="count-description">
-                                <span class="timer">1305</span>
-                                <h5 class="con2">success mission</h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="icon">
-                                <a href=""><img src="images/png/heart.png" alt="img" class="img-responsive">
-                                </a>
-                            </div>
-                            <div class="count-description">
-                                <span class="timer">1540</span>
-                                <h5 class="con4">Successfull Surgeries</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
+        @include('partials.counterWrap')
     <!-- counter wrapper end-->
     <!-- abt service wrapper start-->
     <div class="abt_service_section med_toppadder100">
@@ -124,9 +75,9 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2">
                     <div class="team_heading_wrapper med_bottompadder50">
-                        <h1 class="med_bottompadder20">we give you the best </h1>
+                        <h1 class="med_bottompadder20">How We Help You </h1>
                         <img src="images/Icon_team.png" alt="line" class="med_bottompadder20">
-                        <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate.</p>
+                        <p>So, you want to reduce costs and improve effectiveness of your communications.  With our automation and smart SMS systems we can help you do both! .</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -134,8 +85,8 @@
                         <img src="images/abt_img_bg.jpg" alt="img" class="img-responsive">
                     </div>
                     <div class="abt_txt">
-                        <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate..</p>
-                        <p class="med_toppadder10">Aenea nit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio s sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Dui Duis sed odio sit.</p>
+                        <p>Great communications with patients is our number one goal.  Sending engaging messages improves patient response and appointment attendance.</p>
+                        <p class="med_toppadder10">Saving you money comes next.  We do this by reducing the cost of sending messages, reducing missed appointments and saving you time.</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -145,13 +96,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading desktop">
                                         <h4 class="panel-title">
-													<a data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftone" aria-expanded="false">- Global Health Specialists</a>
+													<a data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftone" aria-expanded="false">- Reduce Costs by upto 85%</a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftone" class="panel-collapse collapse in" aria-expanded="true" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>You could save 85% on your current patient communications costs and be more effective at the same time.  How much do you spend sending letters to patients each month?</p>
                                             </div>
                                         </div>
                                     </div>
@@ -160,13 +111,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading horn">
                                         <h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftTwo" aria-expanded="false">- Who has access to my Health Records</a>
+													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftTwo" aria-expanded="false">- Save Money by improving appointment attendance</a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>Missed appointments are a huge drain on all resources..  The NHS estimates the cost of a missed appointment to be around £50 each.  The first cost is wasted time, the second cost is time and money booking a new appointment.   We can reduce this using our appointment reminder SMS service.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -175,13 +126,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading bell">
                                         <h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftThree" aria-expanded="false">- Obstetrices & Gynecology Hospital</a>
+													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftThree" aria-expanded="false">-Health Monitoring</a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>We have a great monitoring service that reminds patients their health and update the system by replying to the SMS.  This is great for monitoring Blood Pressure, Blood Sugar, Weight and more.   With great data like this, patient reviews can be more effective and as a result will be needed less often.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -190,13 +141,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading bell">
                                         <h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftFour" aria-expanded="false">- Obstetrices & Gynecology Hospital</a>
+													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftFour" aria-expanded="false">- Highly Effective Messaging</a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftFour" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>Our SMS and letter services have been designed to help patients to understand and respond to messages.  We send messages in the preferred language of the patient. Sending an appointment reminder in English when a patient does not read English is frankly a waste of money and time.  </p>
                                             </div>
                                         </div>
                                     </div>
@@ -205,13 +156,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading bell">
                                         <h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftfive" aria-expanded="false">- Oral & Maxillofacial Surgery in hosiptal </a>
+													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftfive" aria-expanded="false">- Payment Collection Service </a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftfive" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>We will soon help you collect payments due for missed appointments and medical fees.  If you are interested in this please let your account manager know or email collections@mediccomms.com</p>
                                             </div>
                                         </div>
                                     </div>
@@ -220,13 +171,13 @@
                                 <div class="panel panel-default sidebar_pannel">
                                     <div class="panel-heading bell">
                                         <h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftsix" aria-expanded="false">- Obstetrices & Gynecology Hospital</a>
+													<a class="collapsed" data-toggle="collapse" data-parent="#accordionFifteenLeft" href="#collapseFifteenLeftsix" aria-expanded="false">- Customisation Services</a>
 												</h4>
                                     </div>
                                     <div id="collapseFifteenLeftsix" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;" role="tabpanel">
                                         <div class="panel-body">
                                             <div class="panel_cont">
-                                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, aks lorem quis bibendum auctor, nisi elit c nibh vulputate..</p>
+                                                <p>If you would like us to develop a new service or customer an existing one for you, please let us know.  Our team are here to help you and will be happy to explore new ideas and solutions with you.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -481,57 +432,6 @@
     </div>
     <!-- event wrapper end-->
     <!--testimonial wrapper start-->
-    <div class="testimonial_wrapper med_toppadder100">
-        <div class="test_overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="test_heading_wrapper">
-                        <h1 class="med_bottompadder20">What Patients Are Saying</h1>
-                        <img src="images/line.png" alt="title" class="med_bottompadder60">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="test_slider_wrapper">
-                        <div class="owl-carousel owl-theme">
-                            <div class="item">
-                                <div class="t_icon_wrapper">
-                                    <div class="t_client_cont_wrapper2">
-                                        <p>“ Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat. ”</p>
-                                        <div class="client_img_abt">
-                                            <img class="img-circle" src="images/test_img_1.png" alt="img" style="width:90px;height:90px;">
-                                            <h5>- Aditi Suryavanshi</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="t_icon_wrapper">
-                                    <div class="t_client_cont_wrapper2">
-                                        <p>“ Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat. ”</p>
-                                        <div class="client_img_abt">
-                                            <img class="img-circle" src="images/test_img_1.png" alt="img" style="width:90px;height:90px;">
-                                            <h5>- Aditi Suryavanshi</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="t_icon_wrapper">
-                                    <div class="t_client_cont_wrapper2">
-                                        <p>“ Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat. ”</p>
-                                        <div class="client_img_abt">
-                                            <img class="img-circle" src="images/test_img_1.png" alt="img" style="width:90px;height:90px;">
-                                            <h5>- Aditi Suryavanshi</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        @include('partials.testimonialWrap')
     @include('layouts.parts.partner')
 @endsection
