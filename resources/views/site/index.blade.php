@@ -455,8 +455,8 @@
                             </div>
                             <div class="booking_btn">
                                 <ul>
-                                    <li><a href="#">LIVE CHAT</a>Powered by SMS</li>
-                                    
+                                    <li><a href="#">LIVE CHAT</a><span style="margin-left:-10px;">Powered by SMS</span></li>
+
                                 </ul>
                             </div>
                         </div>
