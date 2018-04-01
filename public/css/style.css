@@ -2640,7 +2640,7 @@ color: #777777;
 }
 .footer_box_add ul li{
 	float:left;
-	width:auto;
+	width:100%;
 	color:white; margin-bottom:10px;
 	list-style:none;
 }

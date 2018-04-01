@@ -32,9 +32,9 @@
                             </div>
                             <div class="footer_box_add">
                                 <ul>
-                                    <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>Address : </span>London UK</li>
-                                    <li><i class="fa fa-phone" aria-hidden="true"></i><span>Call us : </span>+44 7929 000 321</li>
-                                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#"><span>Email :</span> support@mediccomms.com</a></li>
+                                    <li><i class="fa fa-map-marker" aria-hidden="true"></i><span> </span>London UK</li>
+                                    <li><i class="fa fa-phone" aria-hidden="true"></i><span> </span>+44 7929 000 321</li>
+                                    <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#"><span></span> support@mediccomms.com</a></li>
                                 </ul>
                             </div>
                         </div>
