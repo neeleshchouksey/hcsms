@@ -27,7 +27,7 @@
                         <div class="address_main">
                             <div class="footer_widget_add">
                                 <a href=""><img src="{{asset('images/Medic-Comms-Logo-in-White.png')}}" class="img-responsive" alt="footer_logo" /></a>
-                                <p>Helping healthcare professionals to communicate with patients more effectively.</p>
+                                <p>Helping healthcare professionals to communicate with patients  effectively.</p>
                                 <a href="{{url('about-us')}}">Read More <i class="fa fa-long-arrow-right"></i></a>
                             </div>
                             <div class="footer_box_add">
@@ -100,7 +100,7 @@
                         <div class="footer_botm_wrapper">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="bottom_footer_copy_wrapper">
-                                    <span>Copyright © 2018- <a href="{{url('/')}}">Medical Communication Services.</a>Design by <a href="#">Webstrot.</a></span>
+                                    <span>Copyright © {{date('Y')}}- <a href="{{url('/')}}">Medical Communication Services.</a></span>
                                 </div>
                                 <div class="footer_btm_icon">
                                     <ul>
