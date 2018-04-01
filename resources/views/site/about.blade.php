@@ -2,7 +2,7 @@
 
 @section('content')
      <!--med_tittle_section-->
-    <div class="med_tittle_section">
+    <div class="med_tittle_section" style="background:url({{asset('images/IMG_01042018_134758_0.png')}})">
         <div class="med_img_overlay"></div>
         <div class="container">
             <div class="row">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="abt_left_section med_bottompadder20">
-                        <img src="images/abt_img_bg.jpg" alt="img" class="img-responsive">
+                        <img src="{{asset('images/IMG_01042018_134314_0.png')}}" alt="img" class="img-responsive">
                     </div>
                     <div class="abt_txt">
                         <p>Great communications with patients is our number one goal.  Sending engaging messages improves patient response and appointment attendance.</p>
