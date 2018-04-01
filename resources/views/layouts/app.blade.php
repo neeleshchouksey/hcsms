@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/responsive.css')}}" />
     <!-- favicon link-->
-    <link rel="shortcut icon" type="image/icon" href="images/icon121.png" />
+    <link rel="shortcut icon" type="image/icon" href="{{asset('images/icon121.png')}}" />
      
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
