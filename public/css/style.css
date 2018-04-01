@@ -2625,6 +2625,9 @@ color: #777777;
 .footer_widget_add a{
 	font-size:14px;
 }
+.booking_btn ul li a{
+  margin-bottom: 5%; 
+}
 .footer_box_add{
 	float:left;
 	margin-top:35px;
