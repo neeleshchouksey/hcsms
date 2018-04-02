@@ -2641,6 +2641,17 @@ color: #777777;
 	float:left;
 	font-size:14px;
 }
+.dashboard-wrapper {
+    float: left;
+    width: 100%;
+    background-color: white;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    color: #000;
+}
+.dashboard-wrapper h4 {
+  color: #000;
+}
 div.goog-te-gadget {
     color:transparent;
     padding-top:12px; 
@@ -5020,7 +5031,7 @@ th {
 	text-align:center;
 	margin-bottom:-25px;
 }
-.pagination>li>a, .pagination>li>span {
+/*.pagination>li>a, .pagination>li>span {
     position: relative;
     float: left;
 	width:50px;
@@ -5064,7 +5075,7 @@ th {
 	color:white;
     border-bottom-right-radius: 0px;
 	background-color:#2ec8a6;
-}
+}*/
 /*******--------blog single css------**********/
 .blog_single_txt{
 	float:left; width:100%;

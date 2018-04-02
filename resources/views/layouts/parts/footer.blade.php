@@ -1,5 +1,6 @@
   
     <!--news wrapper start-->
+    @guest
     <div class="newsletter_wrapper med_toppadder80 med_bottompadder70">
         <div class="container">
             <div class="row">
@@ -18,6 +19,7 @@
             </div>
         </div>
     </div>
+    @endguest
     <!--news wrapper end-->
   <div class="footer_wrapper">
         <div class="container">

@@ -9,7 +9,7 @@ patient();
           "dataSrc": "",
           "type": 'GET',
       },
-      
+      pageLength:100,
       "order": [[ 0, "desc" ]],
       columns: [
           { data: 'code' },
@@ -19,9 +19,20 @@ patient();
           { data: 'update_at' },
           { data: 'action'}
          
-      ]
+      ],
+      fnDrawCallback: function() {
+          var $paginate = this.siblings('.dataTables_paginate');
+
+          if (this.api().data().length <= this.fnSettings()._iDisplayLength){
+              $('#patient_list_table_wrapper div.dataTables_paginate').hide();
+          }
+          else{
+              $('#patient_list_table_wrapper div.dataTables_paginate').show();
+          }
+ 
+      }
       
-  });
+    });
   }
   
   $.ajaxSetup({

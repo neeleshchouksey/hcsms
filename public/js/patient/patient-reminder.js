@@ -554,6 +554,7 @@ patient();
    var patient_id = $('.messagePatientLog').val();
     $("#message_log_table").DataTable({
     destroy:true,
+    pageLength:100,
     "ajax": {
           "url":messageUrl+'/ajax/'+patient_id+queryString,
           "dataSrc": "records",
@@ -569,7 +570,21 @@ patient();
           { data: 'service' },
          
          
-      ]
+      ],
+        fnDrawCallback: function() {
+          var $paginate = this.siblings('.dataTables_paginate');
+
+          if (this.api().data().length <= this.fnSettings()._iDisplayLength){
+              $('#message_log_table_wrapper div.dataTables_paginate').hide();
+          }
+          else{
+              $('#message_log_table_wrapper div.dataTables_paginate').show();
+          }
+ 
+      }
+      
+    
+
       
   });
   }
