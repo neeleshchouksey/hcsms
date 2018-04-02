@@ -51,11 +51,8 @@ option.separator {
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Patient</div>
-
-                <div class="panel-body">
+        <div class="col-md-12 ">
+            
                     <div id="formerrors"></div>
                     <form class="form-horizontal" method="POST" id="patientData" action="{{ route('patient.update',$patient->id) }}">
                         {{ csrf_field() }}
@@ -190,6 +187,46 @@ option.separator {
                             </div> -->
                         </div>
                     </form>
+                     <div class="event_wrapper med_toppadder100 med_bottompadder70">
+      
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="choose_heading_wrapper">
+                        <h1 class="med_bottompadder20">Patient Reminders</h1>
+                        <img src="{{url('images/line.png')}}" alt="title" class="med_bottompadder20">
+                        <h4 class="med_bottompadder20">Reminders will be  sent in language name</h4>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="event_slider_wrapper event_response_wrapper">
+                        <div class="owl-carousel1 owl-theme1">
+                            <div class="item">
+                                <div class="row">
+                                     @php
+                        $j = 1
+                     @endphp
+
+                     @foreach(Helper::serviceBasedOnPracticeType() as $service)
+                     
+                        @include('partials.ajax.service')
+                   
+                    @if($j%2==0)
+                        <div class="clearfix"></div>
+                    @endif
+                    @php
+                     $j++
+                    @endphp
+                    @endforeach
+
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
                     <div class="col-md-12 col-xs-12">
                         <h3 class="pull-left">Set remindars</h3>
                         <span class="pull-right">
@@ -202,22 +239,7 @@ option.separator {
                         </span>
 
                     </div>
-                     @php
-                        $j = 1
-                     @endphp
-
-                     @foreach(Helper::serviceBasedOnPracticeType() as $service)
-                     <div class="col-md-6  col-xs-12 col-sm-6 service_{{$service->id}} custom-border">
-                            
-                        @include('partials.ajax.service')
-                    </div>
-                    @if($j%2==0)
-                        <div class="clearfix"></div>
-                    @endif
-                    @php
-                     $j++
-                    @endphp
-                    @endforeach
+                    
                    
                     <div class="clearfix"></div>
 
@@ -254,8 +276,7 @@ option.separator {
                     </div>
                    
                 </div>
-            </div>
-        </div>
+            
     </div>
 </div>
 </div>
