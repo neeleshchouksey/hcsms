@@ -20,6 +20,7 @@
                             @endauth
                         </ul>
                     </div>
+                    <div id="google_translate_element" class="pull-right"></div>
                 </div>
             </div>
         </div>

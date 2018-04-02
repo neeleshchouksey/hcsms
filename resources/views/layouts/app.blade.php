@@ -45,15 +45,7 @@
     <link href="{{ asset('css/fullcalendar.print.css') }}" rel="stylesheet" media="print">
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     
-<style type="text/css">
-div.goog-te-gadget {
-    color:#fff;
-    padding-top:12px; 
-    }
-    .skiptranslate div{
-        color: #000;
-        }
-        .skiptranslate span{display: none}</style>
+
 
 </head>
 <body>

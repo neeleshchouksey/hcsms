@@ -2641,6 +2641,18 @@ color: #777777;
 	float:left;
 	font-size:14px;
 }
+div.goog-te-gadget {
+    color:transparent;
+    padding-top:12px; 
+    }
+.skiptranslate div{
+    color: #000;
+}
+.skiptranslate span{display: none}
+#google_translate_element{
+  margin-bottom: -15px;
+  margin-right: 20px;
+}
 .footer_box_add ul li{
 	float:left;
 	width:100%;
