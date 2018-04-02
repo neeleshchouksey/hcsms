@@ -1827,6 +1827,9 @@ color: #777777;
 	float:left;
 	width:100%;
 }
+.event_slider_wrapper a {
+  cursor: pointer;
+}
 .img_section{
 	width:100%;
 	float:left;
