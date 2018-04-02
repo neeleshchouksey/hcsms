@@ -147,7 +147,7 @@ class PatientController extends Controller
 
             $services   =   Service::whereIn('id',explode(',',$value->services))->pluck('name')->toArray();
             $editBtn    =   "<a href='".url("patient/$value->id/edit")."' class='btn btn-info'>Edit</a> ";
-            $delteBtn   =   "<a href='".route("patient.destroy",['id'=>$value->id])."' data-method='delete' class='btn btn-danger delete_patient' value='".$value->id."'>Delete</a>";
+           // $delteBtn   =   "<a href='".route("patient.destroy",['id'=>$value->id])."' data-method='delete' class='btn btn-danger delete_patient' value='".$value->id."'>Delete</a>";
 
            
             $records[$i]['code']        =   $value->code;
