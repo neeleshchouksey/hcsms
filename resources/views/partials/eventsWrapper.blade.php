@@ -19,7 +19,7 @@
                                             </div>
                                             <div class="img_wrapper1">
 
-                                                <img src="images/event_1.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/SMS-reminder.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Appointment Reminders</a></h2>
@@ -58,7 +58,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_3.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/bp-reminder.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Blood Pressure Monitoring</a></h2>
@@ -76,7 +76,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_4.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/aa-icon.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Dental Reminders</a></h2>
@@ -98,7 +98,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_1.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/BS-icon.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#"> Blood Sugar Monitoring</a></h2>
