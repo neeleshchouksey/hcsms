@@ -157,7 +157,7 @@
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
                                                 </ul> -->
-                                                <p>Coming soon is our post service where you can sent letters to one or many patients easy.  Simply select patients, choose a letter template and press send.  We then send the letter in both English and the patients preferred language automatically.  In test this has proven to be very popular with patients</p>
+                                                <p>Our upcoming post service sends letters to one or many patients easy.  Simply select patients, choose a letter template and press send.  We then send the letter in English and the patients preferred language.</p>
                                             </div>
                                         </div>
                                     </div>
