@@ -133,7 +133,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_3.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/group-sms.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Group SMS </a></h2>
