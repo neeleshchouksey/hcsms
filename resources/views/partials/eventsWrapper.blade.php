@@ -114,7 +114,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_2.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/direct-sms.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Direct SMS Chat</a></h2>
@@ -149,7 +149,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="{{asset('images/IMG_02042018_235605_0.png')}}" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/hello-in-languages.jpg')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Dual lingual letters</a></h2>

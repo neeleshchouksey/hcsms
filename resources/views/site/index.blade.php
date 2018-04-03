@@ -78,7 +78,7 @@
         @include('partials.aboutWrap')
     <!--about us wrapper end-->
     <!--appoint wrapper start-->
-        @include('partials.contactSupportWrap')
+     
     <!--appoint wrapper end-->
      <!--event wrapper start-->
         @include('partials.eventsWrapper')

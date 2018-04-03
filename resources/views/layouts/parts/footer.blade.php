@@ -1,7 +1,7 @@
   
     <!--news wrapper start-->
     @guest
-    <div class="newsletter_wrapper med_toppadder80 med_bottompadder70">
+    <!-- <div class="newsletter_wrapper med_toppadder80 med_bottompadder70">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     @endguest
     <!--news wrapper end-->
   <div class="footer_wrapper">
