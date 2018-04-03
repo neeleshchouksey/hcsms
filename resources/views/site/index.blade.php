@@ -80,6 +80,9 @@
     <!--appoint wrapper start-->
         @include('partials.contactSupportWrap')
     <!--appoint wrapper end-->
+     <!--event wrapper start-->
+        @include('partials.eventsWrapper')
+    <!-- event wrapper end-->
     <!--choose wrapper start-->
         @include('partials.whyWeChooseWrap')
     <!--choose wrapper end-->
@@ -108,9 +111,6 @@
         </div>
     </div>
     <!--vedio wrapper end-->
-    <!--event wrapper start-->
-        @include('partials.eventsWrapper')
-    <!-- event wrapper end-->
     <!-- counter wrapper start-->
         @include('partials.counterWrap')
     <!-- counter wrapper end-->

@@ -23,11 +23,11 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Appointment Reminders</a></h2>
-                                                <ul>
+                                                <!-- <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>
                                                     ,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p> Well timed reminders sent in the patients preferred language is proven to improve appointment attendance levels.  If you would like to try this out free to see how effective this is, please, email sales@mediccomms.com.</p>
                                             </div>
                                         </div>
@@ -40,13 +40,13 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Diabetes Support</a></h2>
-                                                <ul>
+                                               <!--  <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
                                                    
-                                                </ul>
+                                                </ul> -->
                                                 <p>
-                                                    Fighting diabetes is a genuine challenge and by speaking with patients and GPs we have added a suite of health reminders that may help.  This includes reminderd to check BP, mmol/L, weight and the easy, food diary.  Email diabetes@mediccomms.com for more details.
+                                                    By speaking with patients and GPs we have added a suite of health reminders.  This includes reminders to check BP, mmol/L, weight and dietary consumption.
                                                 </p>
 
                                             </div>
@@ -62,10 +62,10 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Blood Pressure Monitoring</a></h2>
-                                                <ul>
+                                                <!-- <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p>
                                                     We have made this easy, a simple SMS reminder to ask the patient to check their BP and then to reply with the reading.  Readings are added to instantly charts and reports for you to view.
                                                 </p>
@@ -80,10 +80,10 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Dental Reminders</a></h2>
-                                                <ul>
+                                               <!--  <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p>We have created a great service to prompt patients to adjust their aligners.  This not only saves time and improves results, but is a great log for patient care.</p>
                                             </div>
                                         </div>
@@ -102,10 +102,10 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#"> Blood Sugar Monitoring</a></h2>
-                                                <ul>
+                                               <!--  <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p>Encourage diabetics to check their mmol/L regularly helps them get into a routines and serves as a polite reminder to encourage them to be healthier. </p>
                                             </div>
                                         </div>
@@ -118,10 +118,10 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Direct SMS Chat</a></h2>
-                                                <ul>
+                                                <!-- <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p>You can message your patients via SMS directly from our dashboard.  So much quicker than a phone call and cheaper than a letter.  Simply send a quick text and have the replies delivered directly to your email or read the messages in screen.</p>
 
                                             </div>
@@ -137,10 +137,10 @@
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Group SMS </a></h2>
-                                                <ul>
+                                                <!-- <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
+                                                </ul> -->
                                                 <p>You can update all or some of your patients almost instantly.  Select the patients, type a message and hit send.  Fantastic for emergencies, closures. delays and alerts.</p>
                                             </div>
                                         </div>
@@ -149,15 +149,15 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="images/event_4.jpg" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/IMG_02042018_235605_0.png')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Dual lingual letters</a></h2>
-                                                <ul>
+                                               <!--  <ul>
                                                     <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i>California,UK</a></li>
                                                     <li><i class="fa fa-calendar-o" aria-hidden="true"></i>24 Nov, 2017</li>
-                                                </ul>
-                                                <p>Coming soon is our post service where you can sent letters to one or many patients easy.  Simply select patients, choose a letter template and press send.  We then send the letter in both English and the patients preferred language automatically.  In test this has proven to be very popular with patients.</p>
+                                                </ul> -->
+                                                <p>Coming soon is our post service where you can sent letters to one or many patients easy.  Simply select patients, choose a letter template and press send.  We then send the letter in both English and the patients preferred language automatically.  In test this has proven to be very popular with patients</p>
                                             </div>
                                         </div>
                                     </div>
