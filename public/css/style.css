@@ -1999,7 +1999,7 @@ color: #777777;
 	text-align:center;
  }
 .counter_overlay{
-	background:rgba(245, 245, 245, 0.8);
+	background:rgba(245, 245, 245, 0);
 	padding-bottom:113px;	
  }
 .counter_section .count-description{
