@@ -1823,12 +1823,24 @@ color: #777777;
 	width:100%;
 	background-color:white;
 }
+.med_tittle_section.dashboard_med-title{
+  background: url('../images/dashboard-top-image.jpg');
+}
 .event_slider_wrapper{
 	float:left;
 	width:100%;
 }
+.position-relative{
+  position: relative;
+}
 .event_slider_wrapper a {
   cursor: pointer;
+}
+.event_bottom_wrapper{
+  position: absolute;
+    bottom: 5%;
+    right: 0;
+    width: 55%;
 }
 .img_section{
 	width:100%;
@@ -1973,7 +1985,7 @@ color: #777777;
 }
 /*********----------counter wrapper--------***********/
 .counter_section{
-	background: url('../images/IMG_01042018_135246_0.png') 50% 0 repeat-y;
+	background: url('../images/IMG_02042018_235605_0.png') 50% 0 repeat-y;
     top: 0;
     left: 0;
     width: 100%;

@@ -1,5 +1,5 @@
 @if($service->id<4)
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+   
         <div class="img_section hidden-xs hidden-sm">
             <div class="icon_wrapper_event">
                 <i class="fa fa-star-o" aria-hidden="true"></i>
@@ -97,12 +97,12 @@
                 </p>
             </div>
         </div>
-    </div>
+   
     
    
 @else
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div class="img_section hidden-xs hidden-sm">
+    
+        <div class="img_section hidden-xs hidden-sm position-relative">
             <div class="icon_wrapper_event">
                 <i class="fa fa-star-o" aria-hidden="true"></i>
             </div>
@@ -116,11 +116,15 @@
                     <button class="btn btn-success pull-right med_rightmargin20 manageService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Manage</button>
                 </h2>
                <p> Upcomming events</p>
-                <p><i class="fa fa-calendar-o" aria-hidden="true"></i></p>
-                <p><i class="fa fa-calendar-o" aria-hidden="true"></i></p>
-                <p><i class="fa fa-calendar-o" aria-hidden="true"></i></p>
-
+                @foreach($patient->appointments()->where('status',1)->limit(4)->get() as $appointment)
+                    <p><i class="fa fa-calendar-o" aria-hidden="true"></i> {{$appointment->appt_date}} with {{$appointment->with}}</p>
+                @endforeach
+               
             </div>
+             <div class="event_bottom_wrapper">
+                   <span>{{$patient->appointments()->where('status',1)->count()}} Appointments Due</span>
+                                                <a href="#" class="pull-right">View All <i class="fa fa-long-arrow-right"></i></a>
+                                                </div>
         </div>
-    </div>
+    
 @endif

@@ -194,7 +194,7 @@ option.separator {
                     <div class="choose_heading_wrapper">
                         <h1 class="med_bottompadder20">Patient Reminders</h1>
                         <img src="{{url('images/line.png')}}" alt="title" class="med_bottompadder20">
-                        <h4 class="med_bottompadder20">Reminders will be  sent in language name</h4>
+                        <h4 class="med_bottompadder20">Reminders will be  sent in {{$patient->language->title}}</h4>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -207,9 +207,9 @@ option.separator {
                      @endphp
 
                      @foreach(Helper::serviceBasedOnPracticeType() as $service)
-                     
+                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 service_{{$service->id}}">
                         @include('partials.ajax.service')
-                   
+                   </div>
                     @if($j%2==0)
                         <div class="clearfix"></div>
                     @endif

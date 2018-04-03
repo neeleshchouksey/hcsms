@@ -579,6 +579,8 @@ class PatientServiceController extends Controller
     }
     public function getPatientHistory($id){
         $patientService     =   PatientService::where('token',$id)->first();
+        if(empty($patientService))
+            return redirect('/');
         $getHistory         =   Helper::getServiceHistory($patientService);
         return view('history.index',compact('getHistory'));
     }
