@@ -1826,6 +1826,13 @@ color: #777777;
 .med_tittle_section.dashboard_med-title{
   background: url('../images/dashboard-top-image.jpg');
 }
+.med_tittle_section.patient_home_title{
+  background: url('../images/Medic-Comms.jpg');
+}
+
+.med_tittle_section.about_page_title{
+  background: url('../images/top-banner-2.jpg');
+}
 .event_slider_wrapper{
 	float:left;
 	width:100%;

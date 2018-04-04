@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="med_tittle_section">
+  <div class="med_tittle_section patient_home_title">
         <div class="med_img_overlay"></div>
         <div class="container">
             <div class="row">

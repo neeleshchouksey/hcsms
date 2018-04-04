@@ -2,7 +2,7 @@
 
 @section('content')
      <!--med_tittle_section-->
-    <div class="med_tittle_section" style="background:url({{asset('images/IMG_01042018_134758_0.png')}})">
+    <div class="med_tittle_section patient_home_title" >
         <div class="med_img_overlay"></div>
         <div class="container">
             <div class="row">
@@ -11,7 +11,7 @@
                         <div class="med_tittle_cont">
                             <h1>about us </h1>
                             <ol class="breadcrumb">
-                                <li><a href="index.html">Home</a>
+                                <li><a href="{{url('/')}}">Home</a>
                                 </li>
                                 <li>about us</li>
                             </ol>
