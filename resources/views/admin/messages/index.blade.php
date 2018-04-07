@@ -47,7 +47,11 @@
                             <th>Language</th>
                             <th>Message</th>
                            
-                            
+                            <th>Country</th>
+                            <th>Message Parts</th>
+                            <th>Message Fees</th>
+                             
+ 
                             <th>Action</th>
                         </tr>
                     </thead>

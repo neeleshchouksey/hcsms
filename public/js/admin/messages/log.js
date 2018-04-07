@@ -27,7 +27,9 @@ function showPatients(curl='') {
             { data: 'status' },
             { data: 'language' },
             { data: 'message' },
-            
+            { data: 'country' },
+            { data: 'mparts' },
+            { data: 'mfees' },
             { data: 'action'}
         ]
       

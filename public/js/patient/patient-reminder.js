@@ -569,8 +569,8 @@ patient();
           { data: 'message' },
           { data: 'service' },
           { data: 'country' },
-          { data: 'mparts' },
-          { data: 'mfees' },
+          { data: 'message' },
+          { data: 'service' },
          
          
       ],

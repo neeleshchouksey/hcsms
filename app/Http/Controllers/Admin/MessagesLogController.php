@@ -167,6 +167,12 @@ class MessagesLogController extends Controller
                 if($getmessage->parentService->patient):
 
                     /**
+                     * assign patient name to patient varible
+                     *
+                     * @var        <type>
+                     */
+                    $getPatient    =     $getmessage->parentService->patient;
+                    /**
                      * assign patient id to patientid varible
                      *
                      * @var        <type>
@@ -210,6 +216,8 @@ class MessagesLogController extends Controller
                  * or not 
                  */
                 if($getmessage->parentAppt->patient):
+
+                    $getPatient         =   $getmessage->parentAppt->patient;
                     /**
                      * assign patient id to patientid varible
                      *
@@ -244,6 +252,42 @@ class MessagesLogController extends Controller
             $smsLabel   =   '';
             if($getmessage->parentSmsType()->exists())
                 $smsLabel   = $getmessage->parentSmsType->label;
+
+            $country                    =       $getPatient->doctor->getCountry->full_name;
+
+            $countryCode                =       $getPatient->doctor->getCountry->iso_3166_2;
+
+            $ch2 = curl_init();
+
+            curl_setopt($ch2, CURLOPT_URL, "https://rest.clicksend.com/v3/pricing/".$countryCode);
+
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, TRUE);
+            
+            curl_setopt($ch2, CURLOPT_HEADER, FALSE);
+
+            $response2 = curl_exec($ch2);
+            
+            curl_close($ch2);
+            
+            $response2 = json_decode($response2);
+
+            if(isset($response2->data) && !empty($response2->data)):
+            
+                $smscost   =    $response2->data->sms->price_rate_0;
+            
+                $smsFees   =    $smscost*2;  
+            
+            else:
+            
+                $smscost   =    'Not available';
+            
+                $smsFees   =    0;
+            
+            endif;
+
+            $messageParts               =       \Helper::getSmsLength($message->body);
+            
+            $messageFees                =       $messageParts*$smsFees;
             /**
              * assigning values for record array
              */
@@ -257,6 +301,11 @@ class MessagesLogController extends Controller
 
             $records[$i]['status']      =   $message->type;
 
+            $records[$i]['country']     =       $country;
+
+            $records[$i]['mparts']      =       $messageParts;
+
+            $records[$i]['mfees']       =       '$ '.$messageFees;
            
             $records[$i]['language']    =   $language;
     

@@ -58,14 +58,16 @@ class SmsCostingController extends Controller
             $response2 = json_decode($response2);
             if(isset($response2->data) && !empty($response2->data)):
                 $smscost   = $response2->data->sms->price_rate_0;
-                $smsFees   = $smscost*2;  
+                $smsFees   = $smscost*2; 
+                $smscost   = '$ '.$smscost;
+                $smsFees   = '$ '.$smsFees; 
             else:
                 $smscost   =     'Not available';
                 $smsFees   =    'Not available';
             endif;
             $records[$i]['country']     =   $country->value;
-            $records[$i]['smscost']     =   '$ '.$smscost;
-            $records[$i]['smsfee']      =   '$ '.$smsFees;
+            $records[$i]['smscost']     =   $smscost;
+            $records[$i]['smsfee']      =   $smsFees;
             $i++;
         }
          /**
