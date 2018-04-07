@@ -131,6 +131,13 @@ return [
             'label_color' => 'success',
         ],
         [
+            'text'        => 'Sms Cost',
+            'url'         => 'admin/sms-costing',
+            'icon'        => 'money',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
+        [
             'text'        => 'Customers',
             'url'         => 'admin/customers',
             'icon'        => 'user',
