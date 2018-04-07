@@ -1740,43 +1740,74 @@ class Helpers
     }
     function recurringEvents($type, $interval, $date) {
 
-     $startdate = date('Y-m-d', strtotime($date));
-     $day = explode('-', $startdate);
-     $datetotime = mktime(0,0,0,$day[1], $day[2], $day[0]);
+         $startdate = date('Y-m-d', strtotime($date));
+         $day = explode('-', $startdate);
+         $datetotime = mktime(0,0,0,$day[1], $day[2], $day[0]);
 
-     $dates = array();
-     
-     //If interval type is daily
-     if($type == 'D') {
-          for($i=1;$i<$interval-1;$i++) {
-               $newdate = '+ '. $i .' day';
-               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
-          }
-     }
-     
-     //If interval type is weekly
-     if($type == 'W') {
-          for($i=1;$i<$interval;$i++) {
-               $newdate = '+ '. $i .' week';               
-               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
-          }          
-     }
-     
-     //If interval type is monthly
-     if($type == 'M') {
-          for($i=1;$i<$interval;$i++) {
-               $newdate = '+ '. $i .' month';               
-               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
-          }
-     }
-     
-     //If interval type is yearly
-     if($type == 'Y') {
-          for($i=1;$i<$interval;$i++) {
-               $newdate = '+ '. $i .' year';               
-               $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
-          }          
-     }
-     return $dates;     
-}
+         $dates = array();
+         
+         //If interval type is daily
+         if($type == 'D') {
+              for($i=1;$i<$interval-1;$i++) {
+                   $newdate = '+ '. $i .' day';
+                   $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+              }
+         }
+         
+         //If interval type is weekly
+         if($type == 'W') {
+              for($i=1;$i<$interval;$i++) {
+                   $newdate = '+ '. $i .' week';               
+                   $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+              }          
+         }
+         
+         //If interval type is monthly
+         if($type == 'M') {
+              for($i=1;$i<$interval;$i++) {
+                   $newdate = '+ '. $i .' month';               
+                   $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+              }
+         }
+         
+         //If interval type is yearly
+         if($type == 'Y') {
+              for($i=1;$i<$interval;$i++) {
+                   $newdate = '+ '. $i .' year';               
+                   $dates[] = date('Y-m-d', strtotime($newdate, $datetotime));
+              }          
+         }
+         return $dates;     
+    }
+    public static function getSmsLength($message){
+
+        $getMessageLength   =   strlen($message);
+        if($getMessageLength<=160){
+            return 1;
+        }
+        elseif($getMessageLength<=306){
+            return 2;
+        }
+        elseif($getMessageLength<=459){
+            return 3;
+        }
+        elseif($getMessageLength<=612){
+            return 4;
+        }
+        elseif($getMessageLength<=765){
+            return 5;
+        }
+        elseif($getMessageLength<=918){
+            return 6;
+        }
+        elseif($getMessageLength<=1071){
+            return 7;
+        }
+        elseif($getMessageLength<=1224){
+            return 8;
+        }
+        
+
+
+    }
 }

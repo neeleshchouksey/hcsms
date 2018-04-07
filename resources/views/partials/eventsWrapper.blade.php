@@ -149,7 +149,7 @@
                                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                                             </div>
                                             <div class="img_wrapper1">
-                                                <img src="{{asset('images/hello-in-languages.jpg')}}" alt="img" class="img-responsive">
+                                                <img src="{{asset('images/lanhuages.gif')}}" alt="img" class="img-responsive">
                                             </div>
                                             <div class="event_icon1">
                                                 <h2><a href="#">Dual lingual letters</a></h2>

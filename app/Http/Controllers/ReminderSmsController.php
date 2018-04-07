@@ -182,21 +182,46 @@ class ReminderSmsController extends Controller
         endif;
        /* echo "<pre>";
         print_r($reminderSms);die;*/
-
+        $patient            =       \App\Patient::find($id);
         $records            =       array();
 
         $i = 0;
 
+        $country                    =       $patient->doctor->getCountry->full_name;
+        $countryCode                =       $patient->doctor->getCountry->iso_3166_2;
+        $ch2 = curl_init();
+
+        curl_setopt($ch2, CURLOPT_URL, "https://rest.clicksend.com/v3/pricing/".$countryCode);
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch2, CURLOPT_HEADER, FALSE);
+
+        $response2 = curl_exec($ch2);
+        curl_close($ch2);
+        $response2 = json_decode($response2);
+
+        if(isset($response2->data) && !empty($response2->data)):
+            $smscost   =    $response2->data->sms->price_rate_0;
+            $smsFees   =    $smscost*2;  
+        else:
+            $smscost   =    'Not available';
+            $smsFees   =    0;
+        endif;
+
         foreach ($reminderSms as $sms) {
-            
+
             $message                    =       \Helper::getOriginalMessage($sms->message_id);
-            $smsLabel   =   '';
+            $messageParts               =       \Helper::getSmsLength($sms->body);
+            $messageFees                =       $messageParts*$smsFees;
+            $smsLabel                   =       '';
             if($message->parentSmsType()->exists())
                 $smsLabel   = $message->parentSmsType->label;
             $records[$i]['day']         =       $sms->created_at->format('H:i d/m/Y').' '. $sms->created_at->format('D');;
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
+            $records[$i]['country']     =       $country;
+            $records[$i]['mparts']      =       $messageParts;
+            $records[$i]['mfees']       =       '$ '.$messageFees;
             if($message->patient_id && $message->patient!=null)
                 $records[$i]['service']     =      $smsLabel;
             elseif($message->parentService)

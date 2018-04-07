@@ -263,7 +263,9 @@ option.separator {
                                     <th>From</th>
                                     <th>Message</th>
                                     <th>Service</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Country</th>
+                                    <th>Message Parts</th>
+                                    <th>Message Fees</th>
                              
                                 </tr>
                             </thead>

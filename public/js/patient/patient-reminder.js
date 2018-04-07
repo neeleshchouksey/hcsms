@@ -568,6 +568,9 @@ patient();
           { data: 'from' },
           { data: 'message' },
           { data: 'service' },
+          { data: 'country' },
+          { data: 'mparts' },
+          { data: 'mfees' },
          
          
       ],
