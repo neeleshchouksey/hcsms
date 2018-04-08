@@ -1529,7 +1529,17 @@ class Helpers
         /**
          * return all send and receive messages
          */
-        return  $reminderSms->get();
+        if(request()->query('start')!==null):
+             $totalRecords   =  $reminderSms->get();
+            $records    =  $reminderSms->offset(request()->query('start'))
+                    ->limit(request()->query('length'))->get();
+           
+
+            return array('messages'=>$records,'total'=>count($totalRecords));
+        else:
+            return $reminderSms->get();
+        endif;
+
     }
     /**
      * Gets the active reminders.

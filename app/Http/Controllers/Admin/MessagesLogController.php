@@ -101,7 +101,9 @@ class MessagesLogController extends Controller
          *
          * @var        <type>
          */
-        $messages     =   Helper::getAllMessageLogs($query);
+        $getData     =   Helper::getAllMessageLogs($query);
+
+        $messages   =   $getData['messages'];
 
         /**
          * initialize empty array records
@@ -315,10 +317,18 @@ class MessagesLogController extends Controller
             
             $i++;
         }
+        $totalData      =   $getData['total'];
         /**
          * Return json response of customer records
          */
-        return \Response::json($records);
+        $json_data = array(
+            "draw"            => intval( $query['draw'] ),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw. 
+            "recordsTotal"    => intval( $totalData ),  // total number of records
+            "recordsFiltered" => intval( $totalData ), // total number of records after searching, if there is no searching then totalFiltered = totalData
+            "data"            => $records   // total data array
+            );
+
+        return \Response::json($json_data);
 
     }
 }
