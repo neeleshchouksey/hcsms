@@ -11,10 +11,14 @@ function showPatients(curl='') {
         curl=url;
     $("#customer_list_table").DataTable({
         destroy:true,
+        "processing": true,
+        "serverSide": true,
         "ajax": {
             "url":curl,
-            "dataSrc": "",
-            "type": 'GET',
+           
+            "type": 'get',
+
+       
         },
       
        "ordering": false,
