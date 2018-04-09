@@ -13,6 +13,7 @@ function showPatients(curl='') {
         destroy:true,
         "processing": true,
         "serverSide": true,
+        "searching": false,
         "ajax": {
             "url":curl,
            
