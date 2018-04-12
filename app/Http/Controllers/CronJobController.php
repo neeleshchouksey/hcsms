@@ -8,6 +8,8 @@ use App\User;
 use App\PatientService;
 use Helper;
 use Carbon\Carbon;
+use App\SmsCostCharges;
+use App\ClickSendCurrency;
 
 class CronJobController extends Controller
 {
@@ -436,5 +438,78 @@ class CronJobController extends Controller
             
 
         endforeach;
+    }
+    /**
+     * Saves a click send sms price.
+     */
+    public function saveClickSendSmsPrice(){
+
+        $countries      =   SmsCostCharges::all();
+
+         foreach ($countries as $country) {
+
+                $ch2 = curl_init();
+
+                curl_setopt($ch2, CURLOPT_URL, "https://rest.clicksend.com/v3/pricing/".$country->country_code."?currency=".$country->getCurrency->code);
+                curl_setopt($ch2, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch2, CURLOPT_HEADER, FALSE);
+
+                $response2 = curl_exec($ch2);
+                curl_close($ch2);
+                $response2 = json_decode($response2);
+
+                if(isset($response2->data) && !empty($response2->data)):
+
+                    $country->cost  =   $response2->data->sms->price_rate_0;
+
+                    $country->save();     
+
+                endif;
+
+               
+            }
+       
+    }
+    /**
+     * Saves click send countries.
+     */
+    public function saveClickSendCountries(){
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://rest.clicksend.com/v3/countries");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+        $response = curl_exec($ch);
+        
+        curl_close($ch);
+      
+        $response = json_decode($response);
+
+        $currencies     =   ClickSendCurrency::all();
+
+        foreach ($currencies as $currency) {
+
+        
+            foreach ($response->data as $country) {
+
+                $costCharges                =       new SmsCostCharges;
+
+                $costCharges->country       =       $country->value;
+
+                $costCharges->country_code  =       $country->code;
+
+                $costCharges->currency      =       $currency->id;
+
+                $costCharges->save();     
+
+
+               
+            }
+
+        }
     }
 }

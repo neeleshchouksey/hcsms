@@ -28,6 +28,9 @@
                     <thead>
                         <tr>
                             <th>Country Name</th>
+                            <th>Country Code</th>
+                            <th>Currency Name</th>
+                            <th>Currency Code</th>
                             <th>Sms Cost</th>
                             <th>Sms Fee</th>
                             

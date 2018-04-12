@@ -11,18 +11,20 @@ function smscost(curl='') {
         curl=paurl;
     $("#sms_cost_table").DataTable({
         destroy:true,
-        "processing": true,
-        "serverSide": true,
+        
         "searching": false,
         "ajax": {
             "url":curl,
-            
+            "dataSrc": "",
             "type": 'GET',
         },
       
         
         columns: [
             { data: 'country' },
+            { data: 'ccode' },
+            { data: 'currencyname' },
+            { data: 'currency' },
             { data: 'smscost' },
             { data: 'smsfee' },
                      

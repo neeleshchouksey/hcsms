@@ -25,6 +25,10 @@ Route::get('/send-message', 'CronJobController@sendMessage')->name('send-message
 
 Route::get('/send-message-test', 'CronJobController@sendMessageTest')->name('send-message-test');
 
+Route::get('/save-country', 'CronJobController@saveClickSendCountries');
+
+Route::get('/sms-cost-charges', 'CronJobController@saveClickSendSmsPrice');
+
 Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->name('end-reminder');
 
 Route::get('/update-send-messge', 'CronJobController@checkUpdateservice')->name('update-send-messge');
