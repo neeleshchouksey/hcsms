@@ -444,7 +444,7 @@ class CronJobController extends Controller
      */
     public function saveClickSendSmsPrice(){
 
-        $countries      =   SmsCostCharges::all();
+        $countries      =   SmsCostCharges::whereDate('updated_at','<',Carbon::today())->get();
 
          foreach ($countries as $country) {
 
