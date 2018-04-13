@@ -512,4 +512,47 @@ class CronJobController extends Controller
 
         }
     }
+    public function updateMessagePrice(){
+
+        $messagesLogs       =   \App\ReminderSms::all();
+
+        foreach ($messagesLogs as $message) {
+
+            if($message->parentAppt){
+
+                $patient    =   $message->parentAppt->patient;
+
+            }
+
+            elseif($message->parentService){
+
+                $patient    = $message->parentService->patient;
+
+            }
+            else{
+
+                $patient    =   $message->patient;
+
+            }
+            if(!empty($patient)):
+            $messageCost              =   \App\SmsCostCharges::where('country_code',$patient->doctor->getCountry->iso_3166_2)->where('currency',2)->first();
+
+            $parts                    =   \Helper::getSmsLength($message->body);
+           
+            if(!empty($messageCost) && isset($messageCost->cost)):
+
+               $cost                     =   $parts['parts'] * $messageCost->cost;
+
+                $fees                     =   $cost * 2;
+                
+                $message->message_cost    =   $cost;
+
+                $message->message_fee     =   $fees;
+
+                $message->save();
+
+            endif;
+        endif;
+        }
+    }
 }

@@ -210,8 +210,7 @@ class ReminderSmsController extends Controller
         foreach ($reminderSms as $sms) {
 
             $message                    =       \Helper::getOriginalMessage($sms->message_id);
-            $messageParts               =       \Helper::getSmsLength($sms->body);
-            $messageFees                =       $messageParts*$smsFees;
+   
             $smsLabel                   =       '';
             if($message->parentSmsType()->exists())
                 $smsLabel   = $message->parentSmsType->label;
@@ -219,9 +218,6 @@ class ReminderSmsController extends Controller
             $records[$i]['to']          =       $sms->to;
             $records[$i]['from']        =       $sms->from;
             $records[$i]['message']     =       $sms->body;
-            $records[$i]['country']     =       $country;
-            $records[$i]['mparts']      =       $messageParts;
-            $records[$i]['mfees']       =       '$ '.$messageFees;
             if($message->patient_id && $message->patient!=null)
                 $records[$i]['service']     =      $smsLabel;
             elseif($message->parentService)

@@ -564,6 +564,17 @@ class Helpers
                 else
                 $reminderSms->patient_service_id   =       $patientService->id;
 
+                $messageCost              =   \App\SmsCostCharges::where('country_code',$patientService->patient->doctor->getCountry->iso_3166_2)->where('currency',2)->first();
+
+                $parts                    =   \Helper::getSmsLength($message->body);
+               
+                $cost                     =   $parts['parts'] * $messageCost->cost;
+
+                $fees                     =   $cost * 2;
+                    
+                $reminderSms->message_cost    =   $cost;
+
+                $reminderSms->message_fee     =   $fees;
                 /**
                 * Save reminder sms object
                 */
@@ -727,7 +738,17 @@ class Helpers
                 */
                 $reminderSms->custom_string          =       $message->custom_string;
 
+                $messageCost              =   \App\SmsCostCharges::where('country_code',$patient->doctor->getCountry->iso_3166_2)->where('currency',2)->first();
 
+                $parts                    =   \Helper::getSmsLength($message->body);
+           
+                $cost                     =   $parts['parts'] * $messageCost->cost;
+
+                $fees                     =   $cost * 2;
+                
+                $reminderSms->message_cost    =   $cost;
+
+                $reminderSms->message_fee     =   $fees;
                 /**
                 * assign user_id for ReminderSms user_id
                 */
@@ -1452,6 +1473,20 @@ class Helpers
                                                                 });
 
                                                         }
+                                                    )
+                                                    ->orWhereHas('patient',
+                                                        function($q1) use($query){
+                                                          
+                                                                    
+                                                                    if(!empty($query['languages']))
+                                                                        $q1->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))   
+                                                                        $q1->where('user_id',$query['practices']);
+                                                               
+                                                                
+
+                                                        }
                                                     );
                                                 endif;
                                             })
@@ -1517,6 +1552,20 @@ class Helpers
                                                                     if(!empty($query['practices']))    
                                                                         $q2->where('user_id',$query['practices']);
                                                                 });
+
+                                                        }
+                                                    )
+                                                    ->orWhereHas('patient',
+                                                        function($q1) use($query){
+                                                          
+                                                                    
+                                                                    if(!empty($query['languages']))
+                                                                        $q1->where('language_id',$query['languages']);
+                                                                        
+                                                                    if(!empty($query['practices']))   
+                                                                        $q1->where('user_id',$query['practices']);
+                                                               
+                                                                
 
                                                         }
                                                     );
@@ -1792,32 +1841,33 @@ class Helpers
     public static function getSmsLength($message){
 
         $getMessageLength   =   strlen($message);
+        $messageParts       =   0;
         if($getMessageLength<=160){
-            return 1;
+            $messageParts   =   1;
         }
         elseif($getMessageLength<=306){
-            return 2;
+            $messageParts   =   2;
         }
         elseif($getMessageLength<=459){
-            return 3;
+            $messageParts   =   3;
         }
         elseif($getMessageLength<=612){
-            return 4;
+            $messageParts   =   4;
         }
         elseif($getMessageLength<=765){
-            return 5;
+            $messageParts   =   5;
         }
         elseif($getMessageLength<=918){
-            return 6;
+            $messageParts   =   6;
         }
         elseif($getMessageLength<=1071){
-            return 7;
+            $messageParts   =   7;
         }
         elseif($getMessageLength<=1224){
-            return 8;
+            $messageParts   =   8;
         }
         
 
-
+        return array('length'=>$getMessageLength,'parts'=>$messageParts);
     }
 }

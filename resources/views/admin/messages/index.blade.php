@@ -48,7 +48,7 @@
                             <th>Message</th>
                            
                             <th>Country</th>
-                            <th>Message Parts</th>
+                            <th>Message Length</th>
                             <th>Message Fees</th>
                              
  

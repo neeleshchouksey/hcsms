@@ -29,6 +29,8 @@ Route::get('/save-country', 'CronJobController@saveClickSendCountries');
 
 Route::get('/sms-cost-charges', 'CronJobController@saveClickSendSmsPrice');
 
+Route::get('/update-sms-price', 'CronJobController@updateMessagePrice');
+
 Route::get('/end-message-reminder', 'CronJobController@endServiceReminder')->name('end-reminder');
 
 Route::get('/update-send-messge', 'CronJobController@checkUpdateservice')->name('update-send-messge');

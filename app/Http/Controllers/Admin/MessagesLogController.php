@@ -101,9 +101,9 @@ class MessagesLogController extends Controller
          *
          * @var        <type>
          */
-        $getData     =   Helper::getAllMessageLogs($query);
+        $messages     =   Helper::getAllMessageLogs($query);
 
-        $messages   =   $getData['messages'];
+        
 
         /**
          * initialize empty array records
@@ -251,6 +251,38 @@ class MessagesLogController extends Controller
                     $serviceAbbr =      $getmessage->parentAppt->serviceData->data;
                 endif;
             }
+            else{
+                 $getPatient         =   $getmessage->patient;
+                    /**
+                     * assign patient id to patientid varible
+                     *
+                     * @var        <type>
+                     */
+                    $patientid    =     $getmessage->patient->id;
+                    /**
+                     * assign patient name to patient varible
+                     *
+                     * @var        <type>
+                     */
+                    $patient    =     $getmessage->patient->name;
+
+                    /**
+                     * assign patient's doctor name as practice name
+                     *
+                     * @var        <type>
+                     */
+
+                    $practice   =     $getmessage->patient->doctor->name;
+                    
+                    /**
+                     * assign patient's language  to language variable
+                     *
+                     * @var        <type>
+                     */
+                    $language   =     $getmessage->patient->language->title;
+
+                    $serviceAbbr =     '';
+            }
             $smsLabel   =   '';
             if($getmessage->parentSmsType()->exists())
                 $smsLabel   = $getmessage->parentSmsType->label;
@@ -259,37 +291,8 @@ class MessagesLogController extends Controller
 
             $countryCode                =       $getPatient->doctor->getCountry->iso_3166_2;
 
-            $ch2 = curl_init();
-
-            curl_setopt($ch2, CURLOPT_URL, "https://rest.clicksend.com/v3/pricing/".$countryCode);
-
-            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, TRUE);
-            
-            curl_setopt($ch2, CURLOPT_HEADER, FALSE);
-
-            $response2 = curl_exec($ch2);
-            
-            curl_close($ch2);
-            
-            $response2 = json_decode($response2);
-
-            if(isset($response2->data) && !empty($response2->data)):
-            
-                $smscost   =    $response2->data->sms->price_rate_0;
-            
-                $smsFees   =    $smscost*2;  
-            
-            else:
-            
-                $smscost   =    'Not available';
-            
-                $smsFees   =    0;
-            
-            endif;
-
             $messageParts               =       \Helper::getSmsLength($message->body);
             
-            $messageFees                =       $messageParts*$smsFees;
             /**
              * assigning values for record array
              */
@@ -303,11 +306,11 @@ class MessagesLogController extends Controller
 
             $records[$i]['status']      =   $message->type;
 
-            $records[$i]['country']     =       $country;
+            $records[$i]['country']     =   $country;
 
-            $records[$i]['mparts']      =       $messageParts;
+            $records[$i]['mparts']      =   $messageParts['length'].' ('.$messageParts['parts'].' SMS)';
 
-            $records[$i]['mfees']       =       '$ '.$messageFees;
+            $records[$i]['mfees']       =   $getmessage->message_fee;
            
             $records[$i]['language']    =   $language;
     
@@ -317,18 +320,10 @@ class MessagesLogController extends Controller
             
             $i++;
         }
-        $totalData      =   $getData['total'];
-        /**
+/**
          * Return json response of customer records
          */
-        $json_data = array(
-            "draw"            => intval( $query['draw'] ),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw. 
-            "recordsTotal"    => intval( $totalData ),  // total number of records
-            "recordsFiltered" => intval( $totalData ), // total number of records after searching, if there is no searching then totalFiltered = totalData
-            "data"            => $records   // total data array
-            );
-
-        return \Response::json($json_data);
+        return \Response::json($records);
 
     }
 }

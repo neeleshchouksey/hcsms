@@ -12,7 +12,7 @@ function smscost(curl='') {
     $("#sms_cost_table").DataTable({
         destroy:true,
         
-        "searching": false,
+        
         "ajax": {
             "url":curl,
             "dataSrc": "",
