@@ -564,7 +564,7 @@ class Helpers
                 else
                 $reminderSms->patient_service_id   =       $patientService->id;
 
-                $messageCost              =   \App\SmsCostCharges::where('country_code',$patientService->patient->doctor->getCountry->iso_3166_2)->where('currency',2)->first();
+                $messageCost              =   \App\SmsCostCharges::where('country_code',$message->country)->where('currency',2)->first();
 
                 $parts                    =   \Helper::getSmsLength($message->body);
                
@@ -738,7 +738,7 @@ class Helpers
                 */
                 $reminderSms->custom_string          =       $message->custom_string;
 
-                $messageCost              =   \App\SmsCostCharges::where('country_code',$patient->doctor->getCountry->iso_3166_2)->where('currency',2)->first();
+                $messageCost              =   \App\SmsCostCharges::where('country_code',$message->country)->where('currency',2)->first();
 
                 $parts                    =   \Helper::getSmsLength($message->body);
            
