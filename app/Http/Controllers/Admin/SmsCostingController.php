@@ -70,5 +70,14 @@ class SmsCostingController extends Controller
 
 
     }
+    public function exportCsv(){
+        $csvExporter = new \Laracsv\Export();
+        $users = SmsCostCharges::all();
+
+        
+
+        $csvExporter->build($users, ['country', 'cost']);
+        $csvExporter->download();
+    }
 
 }

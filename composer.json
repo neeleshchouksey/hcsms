@@ -14,6 +14,7 @@
         "laravel/tinker": "~1.0",
         "plummer/calendarful": "^0.2.1",
         "propaganistas/laravel-phone": "^3.0",
+        "usmanhalalit/laracsv": "1.*@dev",
         "webpatser/laravel-countries": "dev-master"
     },
     "require-dev": {

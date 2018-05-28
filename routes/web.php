@@ -185,6 +185,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
         Route::get('sms-costing/ajax','SmsCostingController@ajaxLoad');
 
+        Route::get('sms-costing/export','SmsCostingController@exportCsv');
+
         Route::get('messages-log/ajax/load','MessagesLogController@ajaxLoad');
 
         Route::resource('reminders','ActiveRemindersController');
