@@ -44,6 +44,84 @@
              <td> {{$averages->lastThirDays}}</td>
         </tr>
     </table>
+    @if($patientService->service_id==1)
+
+      <table id="" class="table table-bordered table-striped">
+         <thead>
+            <tr>
+                <th>Date </th>
+                <th>Morning</th>
+                <th>Evening</th>
+                <th>Average</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($patientService->receiveMessage()->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as cdate"))->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))->get() as $minmax)
+                @php
+                  $morningReading     =   $patientService->receiveMessage()
+                                          ->select(DB::raw('(min(bg_number)+min(sm_number)) as reading,body,bg_number,sm_number'))
+                                          ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"),$minmax->cdate)
+
+                                          ->whereHas('remindMessage',function($q){
+                                              $q->where('time_id','<=',6);
+                                          })
+                                          ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))->first();
+
+                  $eveningReading          =   $patientService->receiveMessage()
+                                          ->select(DB::raw('(min(bg_number)+min(sm_number)) as reading,body,bg_number,sm_number'))
+                                          ->where(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"),$minmax->cdate)
+                                          
+                                          ->whereHas('remindMessage',function($q){
+                                              $q->where('time_id','>',6);
+                                          })
+                                          ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d')"))->first();
+                  $mreading     = '';
+                  $ereading     = '';
+                  if($morningReading){
+                    $mreading = $morningReading->body;
+
+                  } 
+                  else{
+                    $mreading   = "";
+                  }
+                  if($eveningReading){
+                    $ereading = $eveningReading->body;
+                    
+                  } 
+                  else{
+                    $ereading   = "";
+                  }
+                  if($morningReading && $eveningReading){
+                    $baverageReading = ceil(($morningReading->bg_number+$eveningReading->bg_number)/2);
+                    $saverageReading =  ceil(($morningReading->sm_number+$eveningReading->sm_number)/2);
+                    $averageReading   = $baverageReading.' '.$saverageReading;
+
+
+                  }
+                  else if($morningReading){
+                    $baverageReading = ($morningReading->bg_number);
+                    $saverageReading = ($morningReading->sm_number);
+                    $averageReading   = $baverageReading.' '.$saverageReading;
+                  }
+                  else if($eveningReading){
+                    $baverageReading = ($eveningReading->bg_number);
+                    $saverageReading = ($eveningReading->sm_number);
+                    $averageReading   = $baverageReading.' '.$saverageReading;
+                  }
+                  else{
+                    $averageReading = "";
+                  }
+                @endphp
+                <tr>
+                  <td>{{date('D d-m',strtotime($minmax->cdate))}}</td>
+                  <td>{{$mreading}}</td>
+                  <td>{{$ereading}}</td>
+                  <td>{{ $averageReading}}</td>
+                </tr>
+              @endforeach
+            </tbody>
+      </table>
+    @endif
     <table id="serviceHistoryTable" class="table table-bordered table-striped">
         <thead>
             <tr>
