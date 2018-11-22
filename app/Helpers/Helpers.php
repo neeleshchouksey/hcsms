@@ -272,6 +272,7 @@ class Helpers
             $message        =   str_replace('@DATE', $receiveMessage->created_at->timezone($timezone)->format('d-m-Y'), $message);
             $message        =   str_replace('@TIME', $receiveMessage->created_at->timezone($timezone)->format('H:i'), $message);
             $message        =   str_replace('@BSREADING',  $receiveMessage->body, $message);
+            $message        =   str_replace('@shared-number-email',  $receiveMessage->body, $message);
 
       
         endif;
@@ -293,7 +294,7 @@ class Helpers
  
   }
 
-    public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id=''){
+    public static function  sendSmsMessage($patientService,$action,$day_id='',$time_id='',$phoneNumber=''){
         /**
          * check patient service send has sms types or not
          */
@@ -441,12 +442,15 @@ class Helpers
                 *
                 * @var        array
                 */
+                if($phoneNumber==''){
+                    $phoneNumber    =    $patientService->patient->mobile;
+                }
                 $messages =  [
                   [
                       "source" => "php",
                       "from" => $senderId,
                       "body" => $textMessage,
-                      "to" => $patientService->patient->mobile,
+                      "to" =>$phoneNumber,
                       //"schedule" => 1536874701,
                       "custom_string" => "this is a test"
                   ]

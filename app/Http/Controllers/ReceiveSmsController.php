@@ -21,41 +21,28 @@ class ReceiveSmsController extends Controller
         //
        // $originalMessage                    =       ReceiveSms::where('original_message_id','8E1646D9-2DAE-4D79-819E-27F73FD47108')->first();
         $originalMessage    =       ReminderSms::where('message_id','B9188247-6A96-44C9-BC3E-AAC026655AF7')->first();
-        echo $reading    =   "9.2hu";
+          $parentService = $originalMessage->parentService;
+         
+         echo "<pre>";
+         print_r($parentMessageAc);
+        echo $reading    =   "989392";
         echo "<br>";
-        //echo is_float($reading);
+      echo  is_numeric($reading);
+      echo strlen($reading);
+        if(is_numeric($reading)==1 && strlen($reading)>10)
+            die('test');
+            die();
         echo Helper::checkReceiveMessageFormat($reading);
         echo "<pre>";
-        //print_r($originalMessage->remindMessage->parentService);
+       
         $history         =    'average';
         if($originalMessage->parentService->service_id==1)
           $parentService = $originalMessage->parentService;
         else
             $parentService = $originalMessage->parentService->patient->reminderService->where('service_id',1)->first();
-       // $parentService = \App\PatientService::find(5);
-       // \Helper::sendSmsMessage($parentService,$history);
-        //print_r($parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first());
         $ServiceSmsTypes            =   ServiceSmsTypes::where('name','bphistory')->first();
         print_r($ServiceSmsTypes);
-      //  $tar_bg_number          =   $originalMessage->remindMessage->parentService->bg_number;
-      //  $tar_sm_number          =   $originalMessage->remindMessage->parentService->sm_number;
-      // echo  $bpBigPercentage        =   (($originalMessage->bg_number-$tar_bg_number)/$tar_bg_number)*100;
-      // echo "<br>";
-      // echo  $bpSmPercentage        =   (($originalMessage->sm_number-$tar_sm_number)/$tar_sm_number)*100;
-        
-      //   $parentService          =$originalMessage->remindMessage->parentService;
-      //   if($bpSmPercentage>$parentService->very_high_alert || $bpBigPercentage>$parentService->very_high_alert){
-      //       echo "very alert high";
-      //   }
-      //   elseif($bpSmPercentage>$parentService->high_alert || $bpBigPercentage>$parentService->high_alert){
-      //       echo "alert high";
-      //   }
-      //   if($bpSmPercentage<(-$parentService->very_low_alert) || $bpBigPercentage<(-$parentService->very_low_alert)){
-      //       echo "very alert low";
-      //   }
-      //   elseif($bpSmPercentage<(-$parentService->low_alert) || $bpBigPercentage<(-$parentService->low_alert)){
-      //       echo "alert low";
-      //   }
+
 
 
     }
@@ -96,6 +83,9 @@ class ReceiveSmsController extends Controller
          * @var        callable
          */
         $action            =       trim(strtolower($request->body));
+         if(is_numeric($reading)==1 && strlen($reading)>10){
+            $action = 'share';
+         }
 
         /**
          * Assign bp service id  for service_id variable
@@ -217,6 +207,38 @@ class ReceiveSmsController extends Controller
                   * save receive message object
                   */
                 $receiveSms->save();
+
+            break;
+        case 'share':
+            # code...
+
+                $parentService = $originalMessage->parentService;
+                $receiveSms                         =       new ReceiveSms;
+
+                $receiveSms->sms_time               =       $request->timestamp;
+                $receiveSms->to                     =       $request->to;
+                $receiveSms->from                   =       $request->from;
+                $receiveSms->body                   =       $request->body;
+                /**
+                 * assign recieve message data to receive message object
+                 */
+                $receiveSms->original_body          =       $request->original_body;
+                $receiveSms->message_id             =       $request->message_id;
+                
+                $receiveSms->custom_string          =       $request->custom_string;
+                $receiveSms->user_id                =       $request->user_id;
+
+                /**
+                 * save receive sms object
+                 */
+                $receiveSms->save();
+
+                $parentMessageAc    =   $parentService->serviceData->smsTypes()->where('label','SHARED')->first();
+                $parentMessageAc2   =   $parentService->serviceData->smsTypes()->where('label','SHARED OTHER')->first();
+
+                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
+                \Helper::sendSmsMessage($parentService,$parentMessageAc2->name,$receiveSms,'',$request->body);
+
 
             break;
             
