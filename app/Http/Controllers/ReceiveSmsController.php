@@ -83,7 +83,7 @@ class ReceiveSmsController extends Controller
          * @var        callable
          */
         $action            =       trim(strtolower($request->body));
-         if(is_numeric($reading)==1 && strlen($reading)>10){
+         if(is_numeric($action)==1 && strlen($action)>10){
             $action = 'share';
          }
 
