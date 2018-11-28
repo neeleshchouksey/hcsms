@@ -661,7 +661,9 @@ function manageService(service,patient){
         $('#start_date').datepicker({format: 'dd/mm/yyyy'});
        
         $("#start_date").datepicker("setDate", new Date());
-        $('#appointment_log_table').DataTable();
+        $('#appointment_log_table').DataTable({
+        "order": [[ 0, "desc" ]]
+    } );
         $('.appt-toggle').bootstrapToggle();   
          $('#end_date').datetimepicker({format: 'HH:mm',disabledTimeIntervals: [
       [moment().hour(0).minutes(0), moment().hour(8).minutes(0)],

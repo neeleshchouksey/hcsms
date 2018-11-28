@@ -26,5 +26,8 @@ class PatientAppointment extends Model
     public function reminderMessage(){
         return $this->hasMany('App\ReminderSms','patient_appt_id');
     }
-       
+    public function getNewApptDateAttribute() {
+           $date = \DateTime::createFromFormat('d/m/Y', $this->appt_date);
+            return $date->format('Y-m-d');
+    }   
 }

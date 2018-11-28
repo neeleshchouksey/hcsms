@@ -103,6 +103,7 @@
     <table id="appointment_log_table" class="table table-bordered table-striped">
         <thead>
             <tr>
+                 <th style="display: none;"></th>
                 <th width="12%">Date </th>
                 <th>Time</th>
                 <th>With</th>
@@ -123,10 +124,18 @@
                 $apptStatus     =   '';    
                 if($appointment->status==1)
                     $apptStatus = "checked";
+                
+                $date = DateTime::createFromFormat('d/m/Y', $appointment->appt_date);
+                
+                $date1=date_create(date('Y-m-d'));
+                $date2=date_create($date->format('Y-m-d'));
+                $diff=date_diff($date1,$date2);
+                $daydiff = $diff->format("%R%a days");
             @endphp
             <tr>
+                <td style="display: none;">{{$date->format('Ymd')}}</td>
                 <td width="12%">{{$appointment->appt_date}}</td>
-                <td>{{$appointment->appt_time}}</td>
+                <td>{{$appointment->appt_time}}{{$appointment}}</td>
                 <td>{{$appointment->with}}</td>
                 <td>{{$appointment->location}}</td>
                 @foreach($appointment->apptReminders as $serviceReminders)
@@ -139,9 +148,11 @@
                     <td>{!!$serviceReminders->statusData->icon!!}</td>
                 @endforeach
                 <td>
-                    <a href="javascript:void(0);" class="editAppointment" action="{{url('patient-appointment/'.$appointment->id.'/edit')}}">Edit</a> | 
-                    <a href="javascript:void(0);" class="viewapptlog" action="{{url('patient-appointment-change/'.$appointment->id)}}">View log</a> | 
-                    <input type="checkbox" class="appt-toggle" action="{{url('patient-appointment-change/'.$appointment->id)}}" {{$apptStatus}} data-toggle="toggle">
+                    @if($daydiff>=0)
+                        <a href="javascript:void(0);" class="editAppointment" action="{{url('patient-appointment/'.$appointment->id.'/edit')}}">Edit</a> | 
+                        <a href="javascript:void(0);" class="viewapptlog" action="{{url('patient-appointment-change/'.$appointment->id)}}">View log</a> | 
+                        <input type="checkbox" class="appt-toggle" action="{{url('patient-appointment-change/'.$appointment->id)}}" {{$apptStatus}} data-toggle="toggle">
+                    @endif
                 </td>
          
             </tr>

@@ -116,13 +116,13 @@
                     <button class="btn btn-success pull-right med_rightmargin20 manageService" data-toggle="modal" service="{{$service->id}}" patient="{{$patient->id}}" >Manage</button>
                 </h2>
                <p> Upcomming events</p>
-                @foreach($patient->appointments()->where('status',1)->limit(4)->get() as $appointment)
+                @foreach($patient->appointments()->where('status',1)->get()->where('new_appt_date','>=',date('Y-m-d'))->sortByDesc('new_appt_date')->take(4) as $appointment)
                     <p><i class="fa fa-calendar-o" aria-hidden="true"></i> {{$appointment->appt_date}} with {{$appointment->with}}</p>
                 @endforeach
                
             </div>
              <div class="event_bottom_wrapper">
-                   <span>{{$patient->appointments()->where('status',1)->count()}} Appointments Due</span>
+                   <span>{{$patient->appointments()->where('status',1)->get()->where('new_appt_date','>=',date('Y-m-d'))->count()}} Appointments Due</span>
                                                 <a href="#" class="pull-right">View All <i class="fa fa-long-arrow-right"></i></a>
                                                 </div>
         </div>
