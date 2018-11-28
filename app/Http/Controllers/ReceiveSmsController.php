@@ -114,6 +114,7 @@ echo "$emailErr";
             case 'bphelp':
             case 'bpaverage':
             case 'bpshare':
+            case 'wshare':
             case 'bshelp':
             case 'advice':
             case 'bshistory':
