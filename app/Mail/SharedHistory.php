@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SharedHistory extends Mailable
 {
     use Queueable, SerializesModels;
-    public $textMessage
+    public $textMessage;
     /**
      * Create a new message instance.
      *
