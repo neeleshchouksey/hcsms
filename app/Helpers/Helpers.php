@@ -20,6 +20,9 @@ use App\PatientService;
 use App\PatientAppointment;
 use App\AdminStatus;
 use App\AdminPermissions;
+use Mail;
+use App\Mail\SharedHistory;
+
 
 class Helpers
 {
@@ -592,6 +595,109 @@ class Helpers
                 print_r($e->getResponseBody());
 
             }
+        endif;
+    }
+     public static function  sendEmailMessage($patientService,$action,$day_id='',$time_id='',$email=''){
+        /**
+         * check patient service send has sms types or not
+         */
+        if($patientService->serviceData->smsTypes()->exists()):
+
+          /**
+           *  call try function for send sms api function
+         
+                /**
+                * find patient selected language
+                *
+                * @var        <type>
+                */
+                $language_id          =   $patientService->patient->language_id;
+
+                /**
+                * Check sms message is exist in selected language or not
+                *
+                * @var        <type>
+                */
+                $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+                /**
+                * if sms message is not exists in 
+                * patient preffered language
+                * then find english language message
+                * for send sms
+                */
+                if(empty($smsTypesMessage)){
+                  /**
+                   * Initialize ennglish language id for 
+                   * language_id variable
+                   *
+                   * @var        integer
+                   */
+                  $language_id  =1;
+                  /**
+                   * get english langeuage sms type object for database
+                   *
+                   * @var        <type>
+                   */
+                  $smsTypesMessage    =   $patientService->serviceData->smsTypes()->where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+                }
+                /**
+                * get message object of preferred language
+                *
+                * @var        <type>
+                */
+               
+                $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+                /**
+                * Chack reminder type of service sms type
+                * if reminder type 2 then pass 
+                * language message, patientService,receive sms and action
+                * in change message variable function
+                * day_id = recieve_sms object
+                */
+                if($smsTypesMessage->is_reminder==2):
+
+                    /**
+                     * call change message variables function
+                     * to change dyanamic values of messages
+                     * @var        <type>
+                     */
+                    $textMessage = self::change_message_variables($smsMessage->message,$patientService,$day_id,$action);
+                /**
+                * if message reminder type of servics sms type 
+                * is not equal to 2  then pass
+                * language message, patient service and action
+                * in change msssage variable function
+                * 
+                */
+                else:
+
+                     /**
+                     * call change message variables function
+                     * to change dyanamic values of messages
+                     * @var        <type>
+                     */
+                    $textMessage = self::change_message_variables($smsMessage->message,$patientService,'',$action);
+
+                endif;
+
+               
+              
+                /**
+                * set message variable
+                * to send sms to patient
+                * mobile number
+                *
+                * @var        array
+                */
+              
+               
+                  
+              Mail::to($email)->send(new SharedHistory($textMessage));
+                  
+         
         endif;
     }
     public static function  sendSimpleSmsMessage($message,$patient){

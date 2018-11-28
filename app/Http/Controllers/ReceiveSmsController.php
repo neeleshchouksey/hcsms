@@ -24,11 +24,18 @@ class ReceiveSmsController extends Controller
           $parentService = $originalMessage->parentService;
          
          echo "<pre>";
-         print_r($parentMessageAc);
-        echo $reading    =   "989392";
+   
+        echo $reading    =   "989392@4.b";
         echo "<br>";
-      echo  is_numeric($reading);
-      echo strlen($reading);
+      
+      
+      if (filter_var($reading, FILTER_VALIDATE_EMAIL)) {
+  $emailErr = "valid email format"; 
+}
+else{
+    $emailErr ="Invalid email format";
+}
+echo "$emailErr";
         if(is_numeric($reading)==1 && strlen($reading)>10)
             die('test');
             die();
@@ -85,6 +92,9 @@ class ReceiveSmsController extends Controller
         $action            =       trim(strtolower($request->body));
          if(is_numeric($action)==1 && strlen($action)>10){
             $action = 'share';
+         }
+         else if (filter_var($action, FILTER_VALIDATE_EMAIL)) {
+            $action = 'emailshare';
          }
 
         /**
@@ -234,13 +244,45 @@ class ReceiveSmsController extends Controller
                 $receiveSms->save();
 
                 $parentMessageAc    =   $parentService->serviceData->smsTypes()->where('label','SHARED')->first();
+                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
                 $parentMessageAc2   =   $parentService->serviceData->smsTypes()->where('label','SHARED OTHER')->first();
 
-                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
+              
                 \Helper::sendSmsMessage($parentService,$parentMessageAc2->name,$receiveSms,'',$request->body);
 
 
             break;
+        case 'emailshare':
+                
+                $parentService = $originalMessage->parentService;
+                $receiveSms                         =       new ReceiveSms;
+
+                $receiveSms->sms_time               =       $request->timestamp;
+                $receiveSms->to                     =       $request->to;
+                $receiveSms->from                   =       $request->from;
+                $receiveSms->body                   =       $request->body;
+                /**
+                 * assign recieve message data to receive message object
+                 */
+                $receiveSms->original_body          =       $request->original_body;
+                $receiveSms->message_id             =       $request->message_id;
+                
+                $receiveSms->custom_string          =       $request->custom_string;
+                $receiveSms->user_id                =       $request->user_id;
+
+                /**
+                 * save receive sms object
+                 */
+                $receiveSms->save();
+
+                $parentMessageAc    =   $parentService->serviceData->smsTypes()->where('label','SHARED')->first();
+                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
+
+                $parentMessageAc2   =   $parentService->serviceData->smsTypes()->where('label','SHARED OTHER')->first();
+
+                \Helper::sendEmailMessage($parentService,$parentMessageAc2->name,$receiveSms,'',$request->body);
+
+        break;
             
         default: 
 
