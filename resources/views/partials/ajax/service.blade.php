@@ -1,4 +1,4 @@
-@if($service->id<4)
+@if($service->practice_id!=0)
    
         <div class="img_section hidden-xs hidden-sm">
             <div class="icon_wrapper_event">
