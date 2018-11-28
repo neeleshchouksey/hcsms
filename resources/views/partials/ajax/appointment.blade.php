@@ -135,7 +135,7 @@
             <tr>
                 <td style="display: none;">{{$date->format('Ymd')}}</td>
                 <td width="12%">{{$appointment->appt_date}}</td>
-                <td>{{$appointment->appt_time}}{{$appointment}}</td>
+                <td>{{$appointment->appt_time}}</td>
                 <td>{{$appointment->with}}</td>
                 <td>{{$appointment->location}}</td>
                 @foreach($appointment->apptReminders as $serviceReminders)
