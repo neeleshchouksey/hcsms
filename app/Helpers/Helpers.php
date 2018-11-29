@@ -956,19 +956,24 @@ class Helpers
 
 
         }
+
+
         /**
         * check message match with blood sugar 
         * reading format or not
         */
-        elseif(preg_match('/^[+-]?([0-9]*[.])?[0-9]+$/', $message)==1 ){
-        /**
-         * if receive message format match
-         * with blood sugar reading message 
-         * format then return two
-         */
-        return 2;
+        elseif(preg_match('/^[+-]?([0-9]*[.])?[0-9]+$/', $message)==1 && $message<=30){
+            /**
+             * if receive message format match
+             * with blood sugar reading message 
+             * format then return two
+             */
+            return 2;
         }
-
+        elseif (strpos($message, 'kgs') !== false || is_numeric($message)==1 && $message>30) {
+            
+            return 5;
+        }
         /**
         * return zero if receive message doesn't
         * match with any service reading format
@@ -1226,6 +1231,127 @@ class Helpers
             * get average of last 30 days average reading
             */
             $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('body'),2);
+
+            /**
+            * { var_description }
+            *
+            * @var        <type>
+            */
+            $latestReading                =     $receiveMessage->first();
+            $averages->latestReading      =     $latestReading->body;
+        elseif($patientService->service_id==5):
+            /**
+            * Get all time averages of bs readings
+            */
+            $currentReading             =       $receiveMessage->first();
+            $averages->current          =       $currentReading->value('body');
+            $averages->targetweight     =       $currentReading->parentService->wtarget;
+            $heightinmeter              =       $currentReading->parentService->wheight/100;
+            $averages->bmi              =       round(($currentReading->parentService->wtarget)/($heightinmeter*$heightinmeter),2);
+
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 5 days and last 5 records of bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     5;
+
+            /**
+            * Get average of last 5 records of 
+            * received bs readings
+            * 
+            */
+            $averages->lastFiveReading    =     round($receiveMessage->take($offset)->avg('bg_number'),2);
+
+            /**
+            * Get 5 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get avarage of last 5 days rececived readings
+            */
+            $averages->lastFiveDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2);
+
+            /**
+            * Inialiatize offset value for get averages of 
+            * last 10 days and last 10 records of bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     10;
+
+            /**
+            * Get average of last 10 records  
+            * received bs readings
+            * 
+            */
+            $averages->lastTenReading     =     round($receiveMessage->take($offset)->avg('bg_number'),2);
+
+            /**
+            * Get 10 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get avarage of last 10 days rececived readings
+            */
+            $averages->lastTenDays        =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2);
+
+            /**
+            * Initialize offset for get avarages of 
+            * last 20 records and last 20 days records
+            *
+            * @var        integer
+            */
+            $offset                       =     20;
+
+            /**
+            * Get averages of last 20 days bs readings
+            */
+            $averages->lastTwenReading    =     round($receiveMessage->take($offset)->avg('bg_number'),2);
+
+            /**
+            * get   20 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get averages of last 20 days bs readings
+            */
+            $averages->lastTwenDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2);
+
+            /**
+            * Initialize for get averages of
+            * last 30 and last 30 days bs readings
+            *
+            * @var        integer
+            */
+            $offset                       =     30;
+
+            /**
+            * Get averages of last 30  bs readings
+            */
+            $averages->lastThirReading    =     round($receiveMessage->take($offset)->avg('bg_number'),2);
+
+            /**
+            * get 30 days before date
+            *
+            * @var        <type>
+            */
+            $getdays                      =     Carbon::now()->subDay($offset);
+
+            /**
+            * get average of last 30 days average reading
+            */
+            $averages->lastThirDays       =     round($receiveMessage->where('created_at','>=',$getdays)->avg('bg_number'),2);
 
             /**
             * { var_description }

@@ -16,6 +16,27 @@
           </tr>
           
         </table>
+    @else
+        <table class="table table-bordered">
+          <tr>
+              <td>Current Weight</td>
+              <td>{{$averages->current}}</td>
+              
+          </tr>
+          <tr>
+              <td>Target Weight</td>
+              <td>{{$averages->targetweight}}</td>
+              
+          </tr>
+          <tr>
+              <td>BMI</td>
+              <td>{{$averages->bmi}}</td>
+              
+          </tr>
+          
+        </table>
+
+    @endif
 
         <h5>Averages</h5>
 
@@ -45,6 +66,7 @@
                <td> {{$averages->lastThirDays}}</td>
           </tr>
         </table>
+
         @if($patientService->service_id==1)
 
         <table id="" class="table table-bordered table-striped">
@@ -210,22 +232,7 @@
           </tbody>
           
         </table>
-    @else
-        <table class="table table-bordered">
-          <tr>
-              <td>Summary Table</td>
-              <td>{{$averages->allTimeAverage}}</td>
-              <td> </td>
-          </tr>
-          <tr>
-              <td>Latest Reading</td>
-              <td>{{$averages->latestReading}}</td>
-              <td>{{$latestReading->created_at->format('d-m-Y H:i')}}</td>
-          </tr>
-          
-        </table>
-
-    @endif
+    
 
    
 </div>

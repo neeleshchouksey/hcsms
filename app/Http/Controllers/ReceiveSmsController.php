@@ -25,9 +25,16 @@ class ReceiveSmsController extends Controller
          
          echo "<pre>";
    
-        echo $reading    =   "989392@4.b";
+        echo $reading    =   "9890kgs";
         echo "<br>";
-      
+        if (strpos($reading, 'kgs') !== false) {
+    echo 'true';
+}
+else{
+    echo "false";
+}
+        echo "<br>";
+      //echo is_integer($reading);
       
       if (filter_var($reading, FILTER_VALIDATE_EMAIL)) {
   $emailErr = "valid email format"; 
@@ -36,7 +43,7 @@ else{
     $emailErr ="Invalid email format";
 }
 echo "$emailErr";
-        if(is_numeric($reading)==1 && strlen($reading)>10)
+        if(is_integer($reading)==1)
             die('test');
             die();
         echo Helper::checkReceiveMessageFormat($reading);
@@ -81,6 +88,7 @@ echo "$emailErr";
          */
 
         $originalMessage    =       ReminderSms::where('message_id',$request->original_message_id)->first();
+
 
         /**
          * here we get message body and remove spaces using trim function
@@ -309,6 +317,7 @@ echo "$emailErr";
              * then function return 1
              */
             $service_id     =   Helper::checkReceiveMessageFormat($request->body);
+           
             if($service_id > 0):
 
                 /**
@@ -331,6 +340,7 @@ echo "$emailErr";
                  */
 
                 $parentMessageAc = $parentService->reminderMessage()->whereHas('parentSmsType',function($q){ $q->where('is_sender',1);})->latest()->first();
+                
 
                 if($service_id==1):    
                     /**
@@ -383,7 +393,10 @@ echo "$emailErr";
                     $receiveSms->sm_number            =   end($readingData);
 
                 endif;
+               if($service_id==5):
+                     $receiveSms->bg_number     =   (float)$request->body;
 
+                endif;
                 /**
                  * assign patient bp service id as service id of reply message
                  */
