@@ -207,7 +207,7 @@
      <div class="clearfix"></div>
      <div class="form-group">
        
-         <h5 for="" class="col-md-6">How often to send reminders: <br>Send every X WEEKS</h5>
+         <h5 for="" class="col-md-6 mc-new-heading-class">How often to send reminders: <br>Send every X WEEKS</h5>
 
             <div class="col-md-6">
                 <input id="perweek" type="text" class="form-control perweek" name="perweek" value="{{$patientService->perweek}}" required >
