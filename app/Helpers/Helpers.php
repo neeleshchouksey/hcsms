@@ -1245,9 +1245,15 @@ class Helpers
             */
             $currentReading             =       $receiveMessage->first();
             $averages->current          =       $currentReading->value('body');
-            $averages->targetweight     =       $currentReading->parentService->wtarget;
-            $heightinmeter              =       $currentReading->parentService->wheight/100;
-            $averages->bmi              =       round(($currentReading->parentService->wtarget)/($heightinmeter*$heightinmeter),2);
+             $averages->targetweight     =       $currentReading->parentService->wtarget;
+            if($currentReading->parentService->wtarget!='' && $currentReading->parentService->wheight!=''):
+               
+                $heightinmeter              =       $currentReading->parentService->wheight/100;
+                $averages->bmi              =       round(($currentReading->parentService->wtarget)/($heightinmeter*$heightinmeter),2);
+            else:
+                
+                $averages->bmi              =   '';
+            endif;
 
             /**
             * Inialiatize offset value for get averages of 
