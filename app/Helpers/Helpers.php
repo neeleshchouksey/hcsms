@@ -164,6 +164,8 @@ class Helpers
         $message = str_replace('@PATIENTBPHISTORYLINK', $bphistoryurl, $message);
         
         $message = str_replace('@PATIENTBSHISTORYLINK', $bphistoryurl, $message);
+
+        $message = str_replace('@PATIENTWSHISTORYLINK', $bphistoryurl, $message);
         
         $message = str_replace('@WEBSITE', $site_url, $message);
 
@@ -1115,7 +1117,7 @@ class Helpers
             */
             $latestReading                =     $receiveMessage->first();
             $averages->latestReading      =     $latestReading->bg_number.'/'.$latestReading->sm_number;
-        else:
+        elseif($patientService->service_id==2):
             /**
             * Get all time averages of bs readings
             */

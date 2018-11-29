@@ -52,7 +52,7 @@
         </div>
 
     @endif
-     @if($patientService->service_id==2)
+    @if($patientService->service_id==2)
         <div class="form-group">
 
             <label class="col-xs-7"> Taget Bs  Number</label>
@@ -89,6 +89,25 @@
                 <input type="text" class="form-control input-sm bsveryhighalert" name="veryhighalert" placeholder="eg:20" value="{{$patientService->bs_very_high_alert}}">
             </div>
         </div>
+
+    @endif
+     @if($patientService->service_id==5)
+        <div class="form-group">
+
+            <label class="col-xs-7"> Target Weight</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm wtarget" name="maxbp" placeholder="eg:80" value="{{$patientService->wtarget}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-xs-7"> Add Height In Cm</label>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-sm wheight" name="wheight"  placeholder="eg:155" value="{{$patientService->wheight}}">
+            </div>
+        </div>
+       
 
     @endif
             <!-- </div> -->

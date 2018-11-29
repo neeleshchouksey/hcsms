@@ -336,6 +336,16 @@ class PatientServiceController extends Controller
              */
             elseif(isset($request->target)):
                 $patientService->target       =   $request->target;
+             /**
+             * update wheight if wheight set in post value
+             */
+            elseif(isset($request->wheight)):
+                $patientService->wheight       =   $request->wheight;
+             /**
+             * update wtarget if wtarget set in post value
+             */
+            elseif(isset($request->wtarget)):
+                $patientService->wtarget       =   $request->wtarget;
 
             /**
              * update bs_low_alert if bslowalert set in post value

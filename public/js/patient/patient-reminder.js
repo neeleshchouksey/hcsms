@@ -361,6 +361,40 @@ $(document).on('change','.target',function(){
         });
     
  });
+$(document).on('change','.wtarget',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          wtarget  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
+$(document).on('change','.wheight',function(){
+
+        $.post({
+          type: 'post',
+          url: url
+        },
+        {
+          service        :   $('.service').val(),
+          patient        :   $('.patient').val(),
+          wheight  :   $(this).val(),
+          action:'update'    
+        }).done(function (data) {
+          $('.ongoing').removeClass('btn-success');
+          
+        });
+    
+ });
 
 $(document).on('change','.bslowalert',function(){
 
