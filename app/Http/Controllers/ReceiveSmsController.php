@@ -235,7 +235,7 @@ echo "$emailErr";
                  */
                 $receiveSms->original_body          =       $request->original_body;
                 $receiveSms->message_id             =       $request->message_id;
-                
+                $receiveSms->original_message_id    =       $parentService->message_id;
                 $receiveSms->custom_string          =       $request->custom_string;
                 $receiveSms->user_id                =       $request->user_id;
 
@@ -257,7 +257,7 @@ echo "$emailErr";
                 
                 $parentService = $originalMessage->parentService;
                 $receiveSms                         =       new ReceiveSms;
-
+                $receiveSms->original_message_id    =       $parentService->message_id;
                 $receiveSms->sms_time               =       $request->timestamp;
                 $receiveSms->to                     =       $request->to;
                 $receiveSms->from                   =       $request->from;

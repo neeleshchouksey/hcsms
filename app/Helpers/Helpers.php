@@ -77,7 +77,7 @@ class Helpers
     }
     public static function serviceBasedOnPracticeType(){
     
-        $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->orWhere('practice_id',0)->orderBy('id','desc')->get();
+        $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->orWhere('practice_id',0)->orderBy('sort_by','asc')->get();
         return $services;
     }
     public static function ReminderDays(){
@@ -695,7 +695,7 @@ class Helpers
               
                
                   
-              Mail::to($email)->send(new SharedHistory($textMessage));
+              Mail::to($email)->send(new SharedHistory($textMessage,$patientService));
                   
          
         endif;
