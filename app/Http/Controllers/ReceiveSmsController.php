@@ -90,6 +90,7 @@ echo "$emailErr";
         $originalMessage    =       ReminderSms::where('message_id',$request->original_message_id)->first();
 
 
+
         /**
          * here we get message body and remove spaces using trim function
          * and change all message to lower chase and assigned to action key word
@@ -99,7 +100,7 @@ echo "$emailErr";
          */
         $action            =       trim(strtolower($request->body));
          if(is_numeric($action)==1 && strlen($action)>10){
-            $action = 'share';
+            $action = 'phoneshare';
          }
          else if (filter_var($action, FILTER_VALIDATE_EMAIL)) {
             $action = 'emailshare';
@@ -121,7 +122,9 @@ echo "$emailErr";
             case 'bphistory':
             case 'bphelp':
             case 'bpaverage':
+            
             case 'bpshare':
+            case 'bsshare':
             case 'wshare':
             case 'bshelp':
             case 'advice':
@@ -229,8 +232,34 @@ echo "$emailErr";
 
             break;
         case 'share':
-            # code...
+            
+                $patient        = $originalMessage->parentService->patient;
+                $parentService  = $originalMessage->parentService;
+                $receiveSms                         =       new ReceiveSms;
 
+                $receiveSms->sms_time               =       $request->timestamp;
+                $receiveSms->to                     =       $request->to;
+                $receiveSms->from                   =       $request->from;
+                $receiveSms->body                   =       $request->body;
+                /**
+                 * assign recieve message data to receive message object
+                 */
+                $receiveSms->original_body          =       $request->original_body;
+                $receiveSms->message_id             =       $request->message_id;
+                $receiveSms->original_message_id    =       $parentService->message_id;
+                $receiveSms->custom_string          =       $request->custom_string;
+                $receiveSms->user_id                =       $request->user_id;
+
+                /**
+                 * save receive sms object
+                 */
+                $receiveSms->save();
+            \Helper::sendSmsCommonMessage($action,$parentService);
+           
+        break;
+        case 'phoneshare':
+            # code...
+        ///die('test');
                 $parentService = $originalMessage->parentService;
                 $receiveSms                         =       new ReceiveSms;
 
@@ -251,13 +280,13 @@ echo "$emailErr";
                  * save receive sms object
                  */
                 $receiveSms->save();
-
-                $parentMessageAc    =   $parentService->serviceData->smsTypes()->where('label','SHARED')->first();
-                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
-                $parentMessageAc2   =   $parentService->serviceData->smsTypes()->where('label','SHARED OTHER')->first();
+                 $parentMessageAc2   =   $parentService->serviceData->smsTypes()->where('label','SHARED OTHER')->first();
 
               
                 \Helper::sendSmsMessage($parentService,$parentMessageAc2->name,$receiveSms,'',$request->body);
+                $parentMessageAc    =   $parentService->serviceData->smsTypes()->where('label','SHARED')->first();
+                \Helper::sendSmsMessage($parentService,$parentMessageAc->name,$receiveSms);
+               
 
 
             break;

@@ -18,6 +18,7 @@ use App\User;
 use App\Patient;
 use App\PatientService;
 use App\PatientAppointment;
+use App\ServiceSmsTypes;
 use App\AdminStatus;
 use App\AdminPermissions;
 use Mail;
@@ -77,7 +78,10 @@ class Helpers
     }
     public static function serviceBasedOnPracticeType(){
     
-        $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))->orWhere('practice_id',0)->orderBy('sort_by','asc')->get();
+        $services = Service::whereIn('practice_id',explode(',',Auth::user()->practice_id))
+                            ->orWhere('practice_id',0)
+                            ->where('sort_by','>',0)
+                            ->orderBy('sort_by','asc')->get();
         return $services;
     }
     public static function ReminderDays(){
@@ -599,7 +603,7 @@ class Helpers
             }
         endif;
     }
-     public static function  sendEmailMessage($patientService,$action,$day_id='',$time_id='',$email=''){
+    public static function  sendEmailMessage($patientService,$action,$day_id='',$time_id='',$email=''){
         /**
          * check patient service send has sms types or not
          */
@@ -702,7 +706,236 @@ class Helpers
          
         endif;
     }
-    public static function  sendSimpleSmsMessage($message,$patient){
+    public static function  sendSmsCommonMessage($action,$patientService){
+        /**
+         * check patient service send has sms types or not
+         */
+       
+
+          /**
+           *  call try function for send sms api function
+           */
+            try {
+
+                /***
+                * Prepare ClickSend client.
+                */
+                $client = new \ClickSendLib\ClickSendClient(env('CLICK_SEND_USER'),env('CLICK_SEND_KEY'));
+
+                // Get SMS instance.
+                $sms = $client->getSMS();
+
+                /**
+                * find patient selected language
+                *
+                * @var        <type>
+                */
+               $language_id          =    $patientService->patient->language_id;
+
+                /**
+                * Check sms message is exist in selected language or not
+                *
+                * @var        <type>
+                */
+                $smsTypesMessage    =   ServiceSmsTypes::where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+                /**
+                * if sms message is not exists in 
+                * patient preffered language
+                * then find english language message
+                * for send sms
+                */
+                if(empty($smsTypesMessage)){
+                  /**
+                   * Initialize ennglish language id for 
+                   * language_id variable
+                   *
+                   * @var        integer
+                   */
+                  $language_id  =1;
+                  /**
+                   * get english langeuage sms type object for database
+                   *
+                   * @var        <type>
+                   */
+                  $smsTypesMessage    =    ServiceSmsTypes::where('name',$action)->whereHas('languageMessage',function($q) use($language_id){ $q->where('language_id',$language_id);})->first();
+
+                }
+                /**
+                * get message object of preferred language
+                *
+                * @var        <type>
+                */
+               
+                $smsMessage  = $smsTypesMessage->languageMessage()->where('language_id',$language_id)->first();
+
+                /**
+                * Chack reminder type of service sms type
+                * if reminder type 2 then pass 
+                * language message, patientService,receive sms and action
+                * in change message variable function
+                * day_id = recieve_sms object
+                */
+                $textMessage = $smsMessage->message;
+
+                /**
+                 * initialize empty sender id
+                 *
+                 * @var        string
+                 */
+                $senderId='';
+                /**
+                * check  if reminder for appointment 
+                * then find docton apppointment sender id
+                */
+                $senderId    =  $patientService->patient->doctor->sender_id;
+           
+                /**
+                * if sender id is empty then
+                * assign default sender id
+                * to sender id varible
+                */
+                if (empty($senderId)) {
+                    /**
+                    * assign defualt id
+                    *
+                    * @var        string
+                    */
+                    $senderId   =   '+447520619101';
+
+                } 
+
+                /**
+                * set message variable
+                * to send sms to patient
+                * mobile number
+                *
+                * @var        array
+                */
+                $phoneNumber    =     $patientService->patient->mobile;
+                $messages =  [
+                  [
+                      "source" => "php",
+                      "from" => $senderId,
+                      "body" => $textMessage,
+                      "to" =>$phoneNumber,
+                      //"schedule" => 1536874701,
+                      "custom_string" => "this is a test"
+                  ]
+                  
+                ];
+                  
+                /**
+                * Call Api function to send
+                * sms and get sms response
+                * and store in response variable
+                *
+                * @var        <type>
+                */
+                $response   =   $sms->sendSms(['messages' => $messages]);
+
+                /**
+                * Get Send message data from api response
+                *
+                * @var        <type>
+                */
+                $message    =   $response->data->messages[0];
+
+                /**
+                * Initialize send reminder object
+                *
+                * @var        ReminderSms
+                */
+                $reminderSms                         =       new ReminderSms;
+
+                /**
+                * assign sms date for ReminderSms sms_time
+                */
+                $reminderSms->sms_time               =       $message->date;
+
+                /**
+                * assign sms to for ReminderSms to
+                */
+                $reminderSms->to                     =       $message->to;
+
+                /**
+                * assign sms from for ReminderSms from
+                */
+                $reminderSms->from                   =       $message->from;
+
+                /**
+                * assign sms body for ReminderSms body
+                */ 
+                $reminderSms->body                   =       $message->body;
+
+                /**
+                * assign sms message_id for ReminderSms message_id
+                */
+                $reminderSms->message_id             =       $message->message_id;
+
+                /**
+                * assign sms type id for ReminderSms sms_type_id
+                */
+                $reminderSms->sms_type_id            =       $smsTypesMessage->id;
+
+                $reminderSms->patient_service_id      =       $patientService->id;
+             
+                /**
+                * assign custom_string for ReminderSms custom_string
+                */
+                $reminderSms->custom_string          =       $message->custom_string;
+
+                /**
+                * Check if action equals to test
+                * then save is live equals to 
+                * zero in database
+                */
+                if($action=='test')
+                /**
+                 * assign zero for ReminderSms islive
+                 */
+                $reminderSms->islive                 =       0;
+
+                /**
+                * assign user_id for ReminderSms user_id
+                */
+                $reminderSms->user_id                =       $message->user_id;
+
+                /**
+                * check day id equals to appointment
+                * then save patientService id in
+                * patient_appt_id 
+                */
+             
+
+                $messageCost              =   \App\SmsCostCharges::where('country_code',$message->country)->where('currency',2)->first();
+
+                $parts                    =   \Helper::getSmsLength($message->body);
+               
+                $cost                     =   $parts['parts'] * $messageCost->cost;
+
+                $fees                     =   $cost * 2;
+                    
+                $reminderSms->message_cost    =   $cost;
+
+                $reminderSms->message_fee     =   $fees;
+                /**
+                * Save reminder sms object
+                */
+                $reminderSms->save();
+                  
+            } catch(\ClickSendLib\APIException $e) {
+                /**
+                * print exception if any issue 
+                * in sending sms
+                */
+                print_r($e->getResponseBody());
+
+            }
+       
+    }
+
+    public static function  sendSimpleSmsMessage($message,$patient,$smsTypesMessage    =   42){
         
 
           /**
@@ -730,7 +963,7 @@ class Helpers
                 *
                 * @var        <type>
                 */
-                $smsTypesMessage    =   42;
+                
 
                 /**
                 * get message object of preferred language
