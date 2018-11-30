@@ -14,7 +14,8 @@ Best regards<br><br>
 
 
 
-{{env('APP_NAME')}}
+{{env('APP_NAME')}}<br><br>
+Please do not reply to this email as it is not a monitored account.
 <br><br>
 </body>
 </html>
